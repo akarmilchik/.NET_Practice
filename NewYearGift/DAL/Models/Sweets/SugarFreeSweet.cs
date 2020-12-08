@@ -7,14 +7,13 @@ using System.Text.Json.Serialization;
 
 namespace NewYearGift.DAL.Models.Sweets
 {
-    public class AlcoholicSweet : Sweet
+
+    class SugarFreeSweet : Sweet
     {
-        public int AlcoholDegree { get; private set; }
-        
-        public AlcoholicSweet(int sweetTypeId, string name, int weight, int kkal, Filling filling, Shape shape, int alcoholDegree)
+        public SugarFreeSweet(int sweetTypeId, string name, int weight, int kkal, Filling filling, Shape shape)
             : base(sweetTypeId, name, weight, kkal, filling, shape)
         {
-            this.AlcoholDegree = alcoholDegree;
+
         }
     }
 }

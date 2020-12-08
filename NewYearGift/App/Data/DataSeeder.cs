@@ -1,26 +1,36 @@
-﻿using Newtonsoft.Json;
-using NewYearGift.App.Constants;
+﻿using NewYearGift.App.Constants;
 using NewYearGift.DAL.Models.Sweets;
 using NewYearGift.DAL.Models.Sweets.Parameters;
 using NewYearGift.Models.Gifts;
 using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Text;
 
-namespace NewYearGift.Core.Services
+namespace NewYearGift.App.Data
 {
-    public static class DataService
+    public class DataSeeder
     {
-        
-        public static Gift GetLocalData()
+        public DataModel GetData()
         {
-            Gift resultGift = new Gift()
-            {
-                BelongToPresentee = Presentee.Children,
-                Weight = 35,
-                Kkal = 55,
-                CountOfSweets = 14,
-                Sweets = new List<Sweet>
+            var FillingTypes = new List<FillingType>
+                {
+                    new FillingType { Name = "Fudge" },
+                    new FillingType { Name = "Chocolate" },
+                    new FillingType { Name = "Nuts" },
+                    new FillingType { Name = "Lollipop caramel" },
+                    new FillingType { Name = "Jelly" },
+                    new FillingType { Name = "Liquor" },
+                    new FillingType { Name = "Whiskey" }
+                };
+            var ShapeTypes = new List<ShapeType>
+                {
+                    new ShapeType { Name = "Square" },
+                    new ShapeType { Name = "Circle" },
+                    new ShapeType { Name = "Oval" },
+                    new ShapeType { Name = "Bottle" },
+                    new ShapeType { Name = "Pyramid" }
+                };
+            var Sweets = new List<Sweet>
                 {
                     new SugarFreeSweet(1, "Korivka", 10, 15, new Filling { Type = new FillingType { Name = "Fudge" } }, new Shape { Type = new ShapeType { Name = "Square" } }),
                     new SugarFreeSweet(1, "Romashka", 8, 9, new Filling { Type = new FillingType { Name = "Chocolate" } }, new Shape { Type = new ShapeType { Name = "Square" } }),
@@ -36,68 +46,23 @@ namespace NewYearGift.Core.Services
                     new AlcoholicSweet(3, "Liqueur Alcohol", 10, 15, new Filling { Type = new FillingType { Name = "Liquor" } }, new Shape { Type = new ShapeType { Name = "Square" } }, 20),
                     new AlcoholicSweet(3, "Whiskey Bottle Alcohole", 8, 9, new Filling { Type = new FillingType { Name = "Whiskey" } }, new Shape { Type = new ShapeType { Name = "Bottle" } }, 40),
                     new AlcoholicSugarSweet(4, "Pyramid Alcohol Sugar", 10, 15, new Filling { Type = new FillingType { Name = "Liquor" } }, new Shape { Type = new ShapeType { Name = "Pyramid" } }, 14, 20)
+                };
+
+            var resultModel = new DataModel
+            {
+                FillingTypes = FillingTypes,
+                ShapeTypes = ShapeTypes,
+                Sweets = Sweets,
+                Gift = new Gift
+                {
+                    BelongToPresentee = Presentee.Children,
+                    Weight = 35,
+                    Kkal = 55,
+                    CountOfSweets = 14,
+                    Sweets = Sweets
                 }
             };
-
-            return resultGift;
+            return resultModel;
         }
-
-        public static string GetDataPath()
-        {
-            var path = System.Reflection.Assembly.GetExecutingAssembly().Location;
-
-                path = path.Remove(path.IndexOf("bin")) + "App\\Data\\data.json";
-
-            return path;
-        }
-
-        public static void SaveData(Gift gift)
-        {
-            string dataPath = GetDataPath();
-
-            dataPath = dataPath.Remove(dataPath.IndexOf("data"));
-
-            string res = JsonConvert.SerializeObject(gift);
-
-            File.WriteAllText(dataPath, res);
-
-            Console.WriteLine("Data has been saved to file");
-            
-        }
-
-        public static Gift ReadData()
-        {
-            string dataPath = GetDataPath();
-
-            Gift restoredGift;
-
-            string json = File.ReadAllText(dataPath);
-
-            restoredGift = JsonConvert.DeserializeObject<Gift>(json);
-
-            return restoredGift;
-        }
-
-        public static IEnumerable<Sweet> ReadData2()
-        {
-            string dataPath = GetDataPath();
-            dataPath = dataPath.Remove(dataPath.IndexOf("data")) + "sweets.json";
-
-            IEnumerable<Sweet> sweets;
-
-            string json = File.ReadAllText(dataPath);
-
-            var settings = new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.Auto,
-                Formatting = Formatting.Indented
-            };
-
-            sweets = JsonConvert.DeserializeObject<IEnumerable<Sweet>>(json, settings);
-
-            return sweets;
-        }
-
-
     }
 }

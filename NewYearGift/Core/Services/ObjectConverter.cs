@@ -21,7 +21,7 @@ namespace NewYearGift.Core.Services
             switch (jo["SweetTypeId"].Value<int>())
             {
                 case 1:
-                    return JsonConvert.DeserializeObject<Sweet>(jo.ToString(), SpecifiedSubclassConversion);
+                    return JsonConvert.DeserializeObject<SugarFreeSweet>(jo.ToString(), SpecifiedSubclassConversion);
                 case 2:
                     return JsonConvert.DeserializeObject<SugarSweet>(jo.ToString(), SpecifiedSubclassConversion);
                 case 3:

@@ -8,26 +8,27 @@ namespace NewYearGift.App
     {
         static void Main(string[] args)
         {
-            int i = 0;
 
-            Regex regex = new Regex(@"[0-9]");
+            int i = 0;
+            int menuCheck = -1;
 
             Console.WriteLine("Welcome to New Year gift packing, please choose what you would like to do!");
 
-
-            var data = DataService.ReadData();
+            var data = DataService.ReadData2();
 
             while (i == 0)
             {
-                Console.WriteLine("\n\nActions:\n 1. Show current gift \n 2. Make new gift from sweets\n 3. Calculate weight of gift \n 4. Sort sweets in gift by parameter \n 5. Find sweets in gift by parameter \n 0. Close");
-                Console.Write("Input: ");
+                Extensions.PrintMenu();
+
                 var res = Console.ReadKey();
 
-                bool sd =  regex.IsMatch(res.ToString());
+                var isNumber = Extensions.CheckInputForNumber(res.KeyChar.ToString());
 
-                if (regex.IsMatch(res.ToString()) && i == 0)
+                if (isNumber && Convert.ToInt32(res) == 0)
+                {
                     i = 1;
-
+                }
+                
 
             }
         }

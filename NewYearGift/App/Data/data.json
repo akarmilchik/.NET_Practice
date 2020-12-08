@@ -2,9 +2,10 @@
   "Id": 1,
   "Weight": 35,
   "Kkal": 55,
-  "CountOfSweets": 3,
+  "CountOfSweets": 14,
   "Sweets": [
     {
+      "$type": "ChildClass",
       "Name": "Korivka",
       "Weight": 10,
       "Kkal": 15,
@@ -13,10 +14,10 @@
       },
       "Shape": {
         "Type": "Square"
-      },
-      "SweetTypeId": 1
+      }
     },
     {
+      "$type": "ChildClass",
       "Name": "Romashka",
       "Weight": 8,
       "Kkal": 9,
@@ -25,10 +26,10 @@
       },
       "Shape": {
         "Type": "Square"
-      },
-      "SweetTypeId": 1
+      }
     },
     {
+      "$type": "ChildClass",
       "Name": "Brittle",
       "Weight": 14,
       "Kkal": 18,
@@ -37,10 +38,10 @@
       },
       "Shape": {
         "Type": "Square"
-      },
-      "SweetTypeId": 1
+      }
     },
     {
+      "$type": "ChildClass",
       "Name": "Lollipop",
       "Weight": 6,
       "Kkal": 9,
@@ -49,10 +50,10 @@
       },
       "Shape": {
         "Type": "Circle"
-      },
-      "SweetTypeId": 1
+      }
     },
     {
+      "$type": "ChildClass",
       "Name": "Milky",
       "Weight": 11,
       "Kkal": 22,
@@ -64,6 +65,7 @@
       }
     },
     {
+      "$type": "ChildClass",
       "Name": "JellyBelly",
       "Weight": 11,
       "Kkal": 18,
@@ -72,10 +74,10 @@
       },
       "Shape": {
         "Type": "Square"
-      },
-      "SweetTypeId": 1
+      }
     },
     {
+      "$type": "ChildClass",
       "Name": "Korivka Sugar",
       "Weight": 10,
       "Kkal": 15,
@@ -85,10 +87,10 @@
       },
       "Shape": {
         "Type": "Square"
-      },
-      "SweetTypeId": 2
+      }
     },
     {
+      "$type": "ChildClass",
       "Name": "Romashka Sugar",
       "Weight": 8,
       "Kkal": 9,
@@ -98,10 +100,10 @@
       },
       "Shape": {
         "Type": "Square"
-      },
-      "SweetTypeId": 2
+      }
     },
     {
+      "$type": "ChildClass",
       "Name": "Brittle sugar",
       "Weight": 14,
       "Kkal": 18,
@@ -111,10 +113,10 @@
       },
       "Shape": {
         "Type": "Square"
-      },
-      "SweetTypeId": 2
+      }
     },
     {
+      "$type": "ChildClass",
       "Name": "Lollipop sugar",
       "Weight": 6,
       "Kkal": 9,
@@ -124,10 +126,10 @@
       },
       "Shape": {
         "Type": "Circle"
-      },
-      "SweetTypeId": 2
+      }
     },
     {
+      "$type": "ChildClass",
       "Name": "Milky sugar",
       "Weight": 11,
       "Kkal": 22,
@@ -137,10 +139,10 @@
       },
       "Shape": {
         "Type": "Oval"
-      },
-      "SweetTypeId": 2
+      }
     },
     {
+      "$type": "ChildClass",
       "Name": "Liqueur Alcohol",
       "Weight": 10,
       "Kkal": 15,
@@ -150,10 +152,10 @@
       },
       "Shape": {
         "Type": "Square"
-      },
-      "SweetTypeId": 3
+      }
     },
     {
+      "$type": "ChildClass",
       "Name": "Whiskey Bottle Alcohole",
       "Weight": 8,
       "Kkal": 9,
@@ -163,10 +165,10 @@
       },
       "Shape": {
         "Type": "Bottle"
-      },
-      "SweetTypeId": 3
+      }
     },
     {
+      "$type": "ChildClass",
       "Name": "Pyramid Alcohol Sugar",
       "Weight": 10,
       "Kkal": 15,
@@ -177,8 +179,7 @@
       },
       "Shape": {
         "Type": "Pyramid"
-      },
-      "SweetTypeId": 4
+      }
     }
   ]
 }

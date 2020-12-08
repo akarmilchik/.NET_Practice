@@ -1,12 +1,22 @@
-﻿using System;
+﻿using JsonKnownTypes;
+using NewYearGift.DAL.Models.Sweets.Parameters;
+using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace NewYearGift.DAL.Models.Sweets
 {
     public class AlcoholicSugarSweet : Sweet
     {
-        public int SugarWeight { get; set; }
-        public int AlcoholDegree { get; set; }
+        public int SugarWeight { get; private set; }
+        public int AlcoholDegree { get; private set; }
+        
+        public AlcoholicSugarSweet(int sweetTypeId, string name, int weight, int kkal, Filling filling, Shape shape, int sugarWeight, int alcoholDegree)
+            : base(sweetTypeId, name, weight, kkal, filling, shape)
+        {
+            this.SugarWeight = sugarWeight;
+            this.AlcoholDegree = alcoholDegree;
+        }
     }
 }

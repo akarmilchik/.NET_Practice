@@ -2,8 +2,6 @@
 using Newtonsoft.Json.Serialization;
 using NewYearGift.DAL.Models.Sweets;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace NewYearGift.Core.Services
 {
@@ -12,7 +10,10 @@ namespace NewYearGift.Core.Services
         protected override JsonConverter ResolveContractConverter(Type objectType)
         {
             if (typeof(Sweet).IsAssignableFrom(objectType) && !objectType.IsAbstract)
-                return null; // pretend TableSortRuleConvert is not specified (thus avoiding a stack overflow)
+            {
+                return null;
+            }
+
             return base.ResolveContractConverter(objectType);
         }
     }
