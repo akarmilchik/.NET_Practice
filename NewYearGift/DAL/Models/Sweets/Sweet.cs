@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace NewYearGift.DAL.Models.Sweets
 {
-    abstract class Sweet
+    public abstract class Sweet
     {
         public int Id { get; set; }
         public string Name { get; set; }

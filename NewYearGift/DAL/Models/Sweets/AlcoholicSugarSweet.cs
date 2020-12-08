@@ -1,12 +1,12 @@
-﻿using NewYearGift.App.Constants;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace NewYearGift.DAL.Models.Sweets
 {
-    class SugarSweet : Sweet
+    class AlcoholicSugarSweet
     {
         public int SugarWeight { get; set; }
+        public int AlcoholDegree { get; set; }
     }
 }

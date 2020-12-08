@@ -5,16 +5,14 @@ using System.Linq;
 
 namespace NewYearGift.Models.Gifts
 {
-    class Gift
+    abstract class Gift
     {
         public int Id { get; set; }
         public int Weight { get; set; }
         public int Kkal { get; set; }
         public int CountOfSweets { get; set; }
         public List<Sweet> Sweets { get; set; }
-        public string BelongTo { get; set; }
-
-        
+        public Presentee BelongToPresentee { get; set; }
 
     }
 }
