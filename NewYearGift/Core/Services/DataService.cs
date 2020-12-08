@@ -1,34 +1,51 @@
-﻿using NewYearGift.Models.Gifts;
+﻿using Newtonsoft.Json;
+using NewYearGift.DAL.Models.Sweets;
+using NewYearGift.Models.Gifts;
 using System;
+using System.Collections.Generic;
 using System.IO;
-using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace NewYearGift.Core.Services
 {
-    public class DataService
+    public static class DataService
     {
-
-        static async Task SaveData(Gift gift)
+        public static string GetDataPath()
         {
-            using (FileStream stream = new FileStream("../ user.json", FileMode.OpenOrCreate))
-            {
-                
-                await JsonSerializer.SerializeAsync<Gift>(stream, gift);
-                Console.WriteLine("Data has been saved to file");
-            }
+            var path = System.Reflection.Assembly.GetExecutingAssembly().Location;
+
+                path = path.Remove(path.IndexOf("bin")) + "App\\Data\\data.json";
+
+
+            return path;
         }
 
-        static async Task<Gift> ReadData()
+        public static void SaveData(Gift gift)
         {
+            string dataPath = GetDataPath();
+
+            dataPath = dataPath.Remove(dataPath.IndexOf("data"));
+
+            string res = JsonConvert.SerializeObject(gift);
+
+            File.WriteAllText(dataPath, res);
+
+            Console.WriteLine("Data has been saved to file");
+            
+        }
+
+        public static Gift ReadData()
+        {
+            string dataPath = GetDataPath();
+
             Gift restoredGift;
 
-            using (FileStream stream = new FileStream("user.json", FileMode.OpenOrCreate))
-            {
-                restoredGift = await JsonSerializer.DeserializeAsync<Gift>(stream);
-            }
+            string json = File.ReadAllText(dataPath);
+
+            restoredGift = JsonConvert.DeserializeObject<Gift>(json);
 
             return restoredGift;
         }
+
+
     }
 }

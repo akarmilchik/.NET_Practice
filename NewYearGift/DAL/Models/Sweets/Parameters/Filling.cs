@@ -4,9 +4,9 @@ using System.Text;
 
 namespace NewYearGift.DAL.Models.Sweets.Parameters
 {
-    class Filling
+    public class Filling
     {
-        public int Id { get; set; }
         public string Name { get; set; }
+        FillingType Type{ get; set; }
     }
 }

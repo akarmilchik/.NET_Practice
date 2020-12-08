@@ -4,7 +4,7 @@ using System.Text;
 
 namespace NewYearGift.DAL.Models.Sweets
 {
-    class AlcoholicSugarSweet
+    public class AlcoholicSugarSweet : Sweet
     {
         public int SugarWeight { get; set; }
         public int AlcoholDegree { get; set; }

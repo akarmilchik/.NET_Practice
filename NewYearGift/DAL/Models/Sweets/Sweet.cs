@@ -1,14 +1,18 @@
-﻿using NewYearGift.App.Constants;
-using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using NewYearGift.Core.Services;
+using NewYearGift.DAL.Models.Sweets.Parameters;
+
 
 namespace NewYearGift.DAL.Models.Sweets
 {
+    [JsonConverter(typeof(ObjectConverter))]
     public abstract class Sweet
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public int Weight { get; set; }
-        public int Kkal { get; set; }
-        public List<SweetParameter> SweetParameters { get; set; }
+        public string Name { get; private set; }
+        public int Weight { get; private set; }
+        public int Kkal { get; private set; }
+        public Filling Filling { get; set; }
+        public Shape Shape { get; set; }
+        public int SweetTypeId { get; set; }
     }
 }

@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace NewYearGift.DAL.Models
 {
-    class GiftMaker
+    public class GiftMaker
     {
         public int CalculateGiftWeight(Gift gift)
         {
@@ -18,20 +18,6 @@ namespace NewYearGift.DAL.Models
             }
 
             return weight;
-        }
-
-        public List<Sweet> SortSweetsById(List<Sweet> sweets, SortOrder sortOrder)
-        {
-            if (sortOrder == SortOrder.Ascending)
-            {
-                sweets = sweets.OrderBy(s => s.Id).ToList();
-            }
-            else
-            {
-                sweets = sweets.OrderByDescending(s => s.Id).ToList();
-            }
-
-            return sweets;
         }
 
         public List<Sweet> SortSweetsByName(ref List<Sweet> sweets, SortOrder sortOrder)
@@ -63,20 +49,34 @@ namespace NewYearGift.DAL.Models
             return sweets;
         }
 
-        public List<Sweet> SortSweetsByOtherParameter(List<Sweet> sweets, SortOrder sortOrder, SweetParameter sweetParameter)
+        public List<Sweet> SortSweetsByShape(List<Sweet> sweets, SortOrder sortOrder)
         {
             if (sortOrder == SortOrder.Ascending)
             {
-                sweets = sweets.OrderBy(s => s.SweetParameters.Where(sp => sp.Id == sweetParameter.Id)).ToList();  
+                sweets = sweets.OrderBy(s => s.Shape).ToList();
             }
             else
             {
-                sweets = sweets.OrderByDescending(s => sweetParameter).ToList();
+                sweets = sweets.OrderByDescending(s => s.Shape).ToList();
             }
 
             return sweets;
         }
 
+
+        public List<Sweet> SortSweetsByFilling(List<Sweet> sweets, SortOrder sortOrder)
+        {
+            if (sortOrder == SortOrder.Ascending)
+            {
+                sweets = sweets.OrderBy(s => s.Filling).ToList();
+            }
+            else
+            {
+                sweets = sweets.OrderByDescending(s => s.Filling).ToList();
+            }
+
+            return sweets;
+        }
 
         public List<SugarSweet> FindSugarSweetsFromAllSweets(List<Sweet> sweets)
         {
@@ -91,6 +91,21 @@ namespace NewYearGift.DAL.Models
             sweets = sweets.Where(s => s.SugarWeight >= firstRangeValue && s.SugarWeight <= lastRangeValue).Select(s => s).ToList();
 
             return sweets;
+        }
+
+        public Gift MakeGiftFromSweets(List<Sweet> sweets, Presentee belongTo)
+        {
+            Gift newGift = new Gift();
+
+            newGift.Sweets = sweets;
+
+            sweets.ForEach(s => newGift.Weight += s.Weight);
+
+            newGift.CountOfSweets = sweets.Count();
+
+            newGift.BelongToPresentee = belongTo;
+
+            return newGift;
         }
     }
 }

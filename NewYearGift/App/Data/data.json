@@ -1,0 +1,184 @@
+{
+  "Id": 1,
+  "Weight": 35,
+  "Kkal": 55,
+  "CountOfSweets": 3,
+  "Sweets": [
+    {
+      "Name": "Korivka",
+      "Weight": 10,
+      "Kkal": 15,
+      "Filling": {
+        "Type": "Fudge"
+      },
+      "Shape": {
+        "Type": "Square"
+      },
+      "SweetTypeId": 1
+    },
+    {
+      "Name": "Romashka",
+      "Weight": 8,
+      "Kkal": 9,
+      "Filling": {
+        "Type": "Chocolate"
+      },
+      "Shape": {
+        "Type": "Square"
+      },
+      "SweetTypeId": 1
+    },
+    {
+      "Name": "Brittle",
+      "Weight": 14,
+      "Kkal": 18,
+      "Filling": {
+        "Type": "Nuts"
+      },
+      "Shape": {
+        "Type": "Square"
+      },
+      "SweetTypeId": 1
+    },
+    {
+      "Name": "Lollipop",
+      "Weight": 6,
+      "Kkal": 9,
+      "Filling": {
+        "Type": "Lollipop caramel"
+      },
+      "Shape": {
+        "Type": "Circle"
+      },
+      "SweetTypeId": 1
+    },
+    {
+      "Name": "Milky",
+      "Weight": 11,
+      "Kkal": 22,
+      "Filling": {
+        "Type": "Fudge"
+      },
+      "Shape": {
+        "Type": "Oval"
+      }
+    },
+    {
+      "Name": "JellyBelly",
+      "Weight": 11,
+      "Kkal": 18,
+      "Filling": {
+        "Type": "Jelly"
+      },
+      "Shape": {
+        "Type": "Square"
+      },
+      "SweetTypeId": 1
+    },
+    {
+      "Name": "Korivka Sugar",
+      "Weight": 10,
+      "Kkal": 15,
+      "SugarWeight": 3,
+      "Filling": {
+        "Type": "Fudge"
+      },
+      "Shape": {
+        "Type": "Square"
+      },
+      "SweetTypeId": 2
+    },
+    {
+      "Name": "Romashka Sugar",
+      "Weight": 8,
+      "Kkal": 9,
+      "SugarWeight": 4,
+      "Filling": {
+        "Type": "Chocolate"
+      },
+      "Shape": {
+        "Type": "Square"
+      },
+      "SweetTypeId": 2
+    },
+    {
+      "Name": "Brittle sugar",
+      "Weight": 14,
+      "Kkal": 18,
+      "SugarWeight": 2,
+      "Filling": {
+        "Type": "Nuts"
+      },
+      "Shape": {
+        "Type": "Square"
+      },
+      "SweetTypeId": 2
+    },
+    {
+      "Name": "Lollipop sugar",
+      "Weight": 6,
+      "Kkal": 9,
+      "SugarWeight": 8,
+      "Filling": {
+        "Type": "Lollipop caramel"
+      },
+      "Shape": {
+        "Type": "Circle"
+      },
+      "SweetTypeId": 2
+    },
+    {
+      "Name": "Milky sugar",
+      "Weight": 11,
+      "Kkal": 22,
+      "SugarWeight": 6,
+      "Filling": {
+        "Type": "Fudge"
+      },
+      "Shape": {
+        "Type": "Oval"
+      },
+      "SweetTypeId": 2
+    },
+    {
+      "Name": "Liqueur Alcohol",
+      "Weight": 10,
+      "Kkal": 15,
+      "AlcoholDegree": 20,
+      "Filling": {
+        "Type": "Liquor"
+      },
+      "Shape": {
+        "Type": "Square"
+      },
+      "SweetTypeId": 3
+    },
+    {
+      "Name": "Whiskey Bottle Alcohole",
+      "Weight": 8,
+      "Kkal": 9,
+      "AlcoholDegree": 40,
+      "Filling": {
+        "Type": "Whiskey"
+      },
+      "Shape": {
+        "Type": "Bottle"
+      },
+      "SweetTypeId": 3
+    },
+    {
+      "Name": "Pyramid Alcohol Sugar",
+      "Weight": 10,
+      "Kkal": 15,
+      "AlcoholDegree": 20,
+      "SugarWeight": 14,
+      "Filling": {
+        "Type": "Liquor"
+      },
+      "Shape": {
+        "Type": "Pyramid"
+      },
+      "SweetTypeId": 4
+    }
+  ]
+}

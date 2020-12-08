@@ -4,9 +4,8 @@ using System.Text;
 
 namespace NewYearGift.DAL.Models.Sweets.Parameters
 {
-    public class Shape
+    class ShapeType
     {
         public string Name { get; set; }
-        ShapeType Type { get; set; }
     }
 }
