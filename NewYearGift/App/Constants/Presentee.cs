@@ -6,7 +6,7 @@ namespace NewYearGift.App.Constants
 {
     public enum  Presentee
     {
-        Children,
+        Children = 1,
         Adult
     }
 }

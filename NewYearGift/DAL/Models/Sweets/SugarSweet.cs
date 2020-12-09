@@ -12,7 +12,7 @@ namespace NewYearGift.DAL.Models.Sweets
     {
         public int SugarWeight { get; private set; }
         
-        public SugarSweet(int sweetTypeId, string name, int weight, int kkal, Filling filling, Shape shape, int sugarWeight) : base(sweetTypeId, name, weight, kkal, filling, shape)
+        public SugarSweet(string name, int weight, int kkal, Filling filling, Shape shape, int sugarWeight) : base(name, weight, kkal, filling, shape)
         {
             this.SugarWeight = sugarWeight;
         }
