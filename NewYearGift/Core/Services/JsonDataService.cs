@@ -1,14 +1,12 @@
 ﻿using Newtonsoft.Json;
 using NewYearGift.App.Data;
-using NewYearGift.Models.Gifts;
 using System;
 using System.IO;
 
 namespace NewYearGift.Core.Services
 {
     public static class JsonDataService
-    {
-        
+    {   
         public static JsonDataModel GetLocalData()
         {
             var result = DataSeeder.GetData();
@@ -20,7 +18,7 @@ namespace NewYearGift.Core.Services
         {
             var path = System.Reflection.Assembly.GetExecutingAssembly().Location;
 
-                path = path.Remove(path.IndexOf("bin")) + "App\\Data\\data.json";
+            path = path.Remove(path.IndexOf("bin")) + "App\\Data\\data.json";
 
             return path;
         }
@@ -29,21 +27,20 @@ namespace NewYearGift.Core.Services
         {
             string dataPath = GetDataPath();
 
-            string res = JsonConvert.SerializeObject(data);
+            string serializedObject = JsonConvert.SerializeObject(data);
 
-            File.WriteAllText(dataPath, res);
+            File.WriteAllText(dataPath, serializedObject);
 
             Console.WriteLine("\nData has been saved to file\n");
             
         }
-
 
         public static JsonDataModel ReadData()
         {
 
             string dataPath = GetDataPath();
 
-            string json = File.ReadAllText(dataPath);
+            string jsonText = File.ReadAllText(dataPath);
 
             var settings = new JsonSerializerSettings
             {
@@ -51,7 +48,7 @@ namespace NewYearGift.Core.Services
                 Formatting = Formatting.Indented
             };
 
-            var deserializedData = JsonConvert.DeserializeObject<JsonDataModel>(json, settings);
+            var deserializedData = JsonConvert.DeserializeObject<JsonDataModel>(jsonText, settings);
 
             return deserializedData;
         }

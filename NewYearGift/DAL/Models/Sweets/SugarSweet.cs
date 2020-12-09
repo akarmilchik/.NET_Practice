@@ -1,13 +1,7 @@
-﻿using JsonKnownTypes;
-using NewYearGift.App.Constants;
-using NewYearGift.DAL.Models.Sweets.Parameters;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Text.Json.Serialization;
+﻿using NewYearGift.DAL.Models.Sweets.Parameters;
 
 namespace NewYearGift.DAL.Models.Sweets
-{ 
+{
     public class SugarSweet : Sweet
     {
         public int SugarWeight { get; private set; }

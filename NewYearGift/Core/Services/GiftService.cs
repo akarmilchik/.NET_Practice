@@ -13,29 +13,12 @@ namespace NewYearGift.Core.Services
         {
             int weight = 0;
 
-            foreach (var sweet in gift.Sweets)
-            {
-                weight += sweet.Weight;
-            }
+            gift.Sweets.ForEach(s => weight += s.Weight);
 
             return weight;
         }
 
-        public static int CheckAndConvertInputToInt(string input)
-        {
-            int result;
-
-            if (int.TryParse(input, out result))
-            {
-                return result;
-            }
-            else
-            {
-                result = -1;
-                return result;
-            }
-
-        }
+       
 
         public static List<Sweet> SortSweetsByName(List<Sweet> sweets, SortOrder sortOrder)
         {
@@ -82,6 +65,7 @@ namespace NewYearGift.Core.Services
         public static List<Sweet> GetSweetsByPresentee(List<Sweet> sweets, Presentee presentee)
         {
             List<Sweet> resultSweets = new List<Sweet>();
+
             foreach (Sweet sweet in sweets)
             {
                 if (presentee == Presentee.Children)
@@ -93,20 +77,20 @@ namespace NewYearGift.Core.Services
                 }
                 else
                 {
-                    resultSweets = sweets;
+                    resultSweets.Add(sweet);
                 }
             }
 
             return resultSweets;
         }
 
-        public static List<Sweet> GetSweetsByIndexRange(List<Sweet> sweets, string[] indexRange)
+        public static List<Sweet> GetSweetsByIndexRange(List<Sweet> sweets, List<int> indexRange)
         {
             List<Sweet> resultSweets = new List<Sweet>();
 
-            foreach (var ch in indexRange)
+            foreach (int index in indexRange)
             {
-                resultSweets.Add(sweets.ElementAt(Convert.ToInt32(ch) - 1));
+                resultSweets.Add(sweets.ElementAt(index - 1));
             }
 
             return resultSweets;
@@ -143,7 +127,9 @@ namespace NewYearGift.Core.Services
         public static List<Sweet> FindSweetsBySugarRange(List<Sweet> sweets, int firstRangeValue, int lastRangeValue)
         {
             List<SugarSweet> sugarSweets = new List<SugarSweet>();
+
             List<AlcoholicSugarSweet> alcoholSugarSweets = new List<AlcoholicSugarSweet>();
+
             List<Sweet> sweetsResult = new List<Sweet>();
 
             foreach (Sweet sweet in sweets)
@@ -178,7 +164,9 @@ namespace NewYearGift.Core.Services
         public static List<Sweet> FindSweetsByAlcoholRange(List<Sweet> sweets, int firstRangeValue, int lastRangeValue)
         {
             List<AlcoholicSweet> alcoholSweets = new List<AlcoholicSweet>();
+
             List<AlcoholicSugarSweet> alcoholSugarSweets = new List<AlcoholicSugarSweet>();
+
             List<Sweet> sweetsResult = new List<Sweet>();
 
             foreach (Sweet sweet in sweets)
@@ -192,6 +180,7 @@ namespace NewYearGift.Core.Services
                     alcoholSugarSweets.Add(sweet as AlcoholicSugarSweet);
                 }
             }
+
             alcoholSweets = alcoholSweets.Where(s => s.AlcoholDegree >= firstRangeValue && s.AlcoholDegree <= lastRangeValue).Select(s => s).ToList();
 
             alcoholSugarSweets = alcoholSugarSweets.Where(s => s.AlcoholDegree >= firstRangeValue && s.AlcoholDegree <= lastRangeValue).Select(s => s).ToList();
@@ -223,20 +212,21 @@ namespace NewYearGift.Core.Services
             return sweets;
         }
 
-        public static Gift MakeGift(List<Sweet> sweets, Presentee belongTo)
+        public static Gift MakeGift(List<Sweet> sweets, Presentee presentee)
         {
-            Gift newGift = new Gift();
+            Gift makedGift = new Gift();
 
-            newGift.Sweets = sweets;
+            makedGift.Sweets = sweets;
 
-            sweets.ForEach(s => newGift.Weight += s.Weight);
-            sweets.ForEach(s => newGift.Kkal += s.Kkal);
+            sweets.ForEach(s => makedGift.Weight += s.Weight);
 
-            newGift.CountOfSweets = sweets.Count();
+            sweets.ForEach(s => makedGift.Kkal += s.Kkal);
 
-            newGift.BelongToPresentee = belongTo;
+            makedGift.CountOfSweets = sweets.Count();
 
-            return newGift;
+            makedGift.BelongToPresentee = presentee;
+
+            return makedGift;
         }
     }
 }

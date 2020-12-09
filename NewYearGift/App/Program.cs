@@ -24,11 +24,11 @@ namespace NewYearGift.App
             {
                 selectedMenuItem = -1;
 
-                Extensions.PrintMenu();
+                PrintService.PrintMainMenu();
 
                 var input = Console.ReadKey();
 
-                selectedMenuItem = GiftService.CheckAndConvertInputToInt(input.KeyChar.ToString());
+                selectedMenuItem = TypeConversionService.CheckAndConvertInputToInt(input.KeyChar.ToString());
 
                 if (selectedMenuItem >= 0)
                 {
@@ -40,7 +40,7 @@ namespace NewYearGift.App
                     // Show gift
                     else if (selectedMenuItem == 1)
                     {
-                        Extensions.PrintGift(localData.Gift);
+                        PrintService.PrintGift(localData.Gift);
                     }
                     // Make new gift
                     else if (selectedMenuItem == 2)
@@ -49,29 +49,31 @@ namespace NewYearGift.App
 
                         List<Sweet> sweets;
 
-                        Extensions.PrintMakeMenu();
+                        PrintService.PrintChoosePresenteeMenu();
 
                         var inputParams = Console.ReadKey();
 
-                        selectedMenuItem = GiftService.CheckAndConvertInputToInt(inputParams.KeyChar.ToString());
+                        selectedMenuItem = TypeConversionService.CheckAndConvertInputToInt(inputParams.KeyChar.ToString());
 
-                        Extensions.PrintSweetsMenu();
+                        PrintService.PrintSweetsMenu();
 
                         sweets = GiftService.GetSweetsByPresentee(localData.AllSweets, (Presentee)selectedMenuItem);
                         
-                        Extensions.PrintSweets(sweets);
+                        PrintService.PrintSweets(sweets);
 
-                        Extensions.PrintInput();
+                        PrintService.PrintInputText();
 
                         sweetsRange  = Console.ReadLine();
 
                         var range = sweetsRange.Split(' ');
 
-                        var resultSweets = GiftService.GetSweetsByIndexRange(sweets, range);
+                        var intRange = TypeConversionService.CheckAndConvertInputArrayToInt(range);
+
+                        var resultSweets = GiftService.GetSweetsByIndexRange(sweets, intRange);
 
                         localData.Gift = GiftService.MakeGift(resultSweets, (Presentee)selectedMenuItem);
 
-                        Extensions.PrintGift(localData.Gift);
+                        PrintService.PrintGift(localData.Gift);
                         
                     }
                     // Calc weight of gift
@@ -79,40 +81,48 @@ namespace NewYearGift.App
                     {
                         int weight = GiftService.CalculateGiftWeight(localData.Gift);
 
-                        Extensions.PrintGiftWeight(weight);
+                        PrintService.PrintGiftWeight(weight);
                     }
                     // Sort sweets in gift by parameter
                     else if (selectedMenuItem == 4)
                     {
-                        Extensions.PrintSweetParametersMenu();
+                        PrintService.PrintSweetParametersMenu();
 
                         var inputParams = Console.ReadKey();
 
-                        selectedMenuItem = GiftService.CheckAndConvertInputToInt(inputParams.KeyChar.ToString());
+                        PrintService.PrintSortingMenu();
+
+                        var inputSorting = Console.ReadKey();
+
+                        var inputSortingInt = TypeConversionService.CheckAndConvertInputToInt(inputSorting.KeyChar.ToString());
+
+                        var sortOrder = (SortOrder)inputSortingInt;
+
+                        selectedMenuItem = TypeConversionService.CheckAndConvertInputToInt(inputParams.KeyChar.ToString());
 
                         List<Sweet> sweets;
 
                         switch (selectedMenuItem)
                         {
                             case 1:
-                                sweets = GiftService.SortSweetsByName(localData.Gift.Sweets, SortOrder.Ascending);
-                                Extensions.PrintSweets(sweets);
+                                sweets = GiftService.SortSweetsByName(localData.Gift.Sweets, sortOrder);
+                                PrintService.PrintSweets(sweets);
                                 break;
                             case 2:
-                                sweets = GiftService.SortSweetsByWeight(localData.Gift.Sweets, SortOrder.Ascending);
-                                Extensions.PrintSweets(sweets);
+                                sweets = GiftService.SortSweetsByWeight(localData.Gift.Sweets, sortOrder);
+                                PrintService.PrintSweets(sweets);
                                 break;
                             case 3:
-                                sweets = GiftService.SortSweetsByKkal(localData.Gift.Sweets, SortOrder.Ascending);
-                                Extensions.PrintSweets(sweets);
+                                sweets = GiftService.SortSweetsByKkal(localData.Gift.Sweets, sortOrder);
+                                PrintService.PrintSweets(sweets);
                                 break;
                             case 4:
-                                sweets = GiftService.SortSweetsByFilling(localData.Gift.Sweets, SortOrder.Ascending);
-                                Extensions.PrintSweets(sweets);
+                                sweets = GiftService.SortSweetsByFilling(localData.Gift.Sweets, sortOrder);
+                                PrintService.PrintSweets(sweets);
                                 break;
                             case 5:
-                                sweets = GiftService.SortSweetsByShape(localData.Gift.Sweets, SortOrder.Ascending);
-                                Extensions.PrintSweets(sweets);
+                                sweets = GiftService.SortSweetsByShape(localData.Gift.Sweets, sortOrder);
+                                PrintService.PrintSweets(sweets);
                                 break;
                         }
                     }
@@ -121,41 +131,41 @@ namespace NewYearGift.App
                     {
                         List<Sweet> findSweets;
 
-                        Extensions.PrintSweetRangeParametersMenu();
+                        PrintService.PrintSweetRangeParametersMenu();
 
                         var inputParams = Console.ReadKey();
 
-                        selectedMenuItem = GiftService.CheckAndConvertInputToInt(inputParams.KeyChar.ToString());
+                        selectedMenuItem = TypeConversionService.CheckAndConvertInputToInt(inputParams.KeyChar.ToString());
 
-                        Extensions.PrintStartRange();
+                        PrintService.PrintStartRangeText();
 
                         var inputRangeValue = Console.ReadLine();
 
-                        var firstRangeValue = GiftService.CheckAndConvertInputToInt(inputRangeValue);
+                        var firstRangeValue = TypeConversionService.CheckAndConvertInputToInt(inputRangeValue);
 
-                        Extensions.PrintEndRange();
+                        PrintService.PrintEndRangeText();
 
                         inputRangeValue = Console.ReadLine();
 
-                        var lastRangeValue = GiftService.CheckAndConvertInputToInt(inputRangeValue);
+                        var lastRangeValue = TypeConversionService.CheckAndConvertInputToInt(inputRangeValue);
 
                         switch (selectedMenuItem)
                         {
                             case 1:
                                 findSweets = GiftService.FindSweetsByWeightRange(localData.Gift.Sweets, firstRangeValue, lastRangeValue);
-                                Extensions.PrintSweets(findSweets);
+                                PrintService.PrintSweets(findSweets);
                                 break;
                             case 2:
                                 findSweets = GiftService.FindSweetsByKkalRange(localData.Gift.Sweets, firstRangeValue, lastRangeValue);
-                                Extensions.PrintSweets(findSweets);
+                                PrintService.PrintSweets(findSweets);
                                 break;
                             case 3:
                                 findSweets = GiftService.FindSweetsBySugarRange(localData.Gift.Sweets, firstRangeValue, lastRangeValue);
-                                Extensions.PrintSweets(findSweets);
+                                PrintService.PrintSweets(findSweets);
                                 break;
                             case 4:
                                 findSweets = GiftService.FindSweetsByAlcoholRange(localData.Gift.Sweets, firstRangeValue, lastRangeValue);
-                                Extensions.PrintSweets(findSweets);
+                                PrintService.PrintSweets(findSweets);
                                 break;
                         }
                     }

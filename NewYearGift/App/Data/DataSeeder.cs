@@ -2,9 +2,7 @@
 using NewYearGift.DAL.Models.Sweets;
 using NewYearGift.DAL.Models.Sweets.Parameters;
 using NewYearGift.Models.Gifts;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace NewYearGift.App.Data
 {
