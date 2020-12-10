@@ -1,4 +1,6 @@
 ﻿using NewYearGift.App.Constants;
+using NewYearGift.Core.Services.Interfaces;
+using NewYearGift.DAL.Models.Interfaces;
 using NewYearGift.DAL.Models.Sweets;
 using NewYearGift.Models.Gifts;
 using System;
@@ -7,84 +9,34 @@ using System.Linq;
 
 namespace NewYearGift.Core.Services
 {
-    public static class GiftService
+    public class GiftService : IGiftService
     {
-        public static int CalculateGiftWeight(Gift gift)
+        public int CalculateGiftWeight(Gift gift)
         {
             int weight = 0;
 
             gift.Sweets.ForEach(s => weight += s.Weight);
+            //gift.Sweets.Sum();
 
             return weight;
         }
 
-       
-
-        public static List<Sweet> SortSweetsByName(List<Sweet> sweets, SortOrder sortOrder)
+        public List<Sweet> SortSweetByString(Func<Sweet, string> keySelector, List<Sweet> sweets, SortOrder sortOrder)
         {
-            if (sortOrder == SortOrder.Ascending)
-            {
-                sweets = sweets.OrderBy(s => s.Name).ToList();
-            }
-            else
-            {
-                sweets = sweets.OrderByDescending(s => s.Name).ToList();
-            }
-
-            return sweets;
+            return sortOrder == SortOrder.Ascending ? sweets.OrderBy(keySelector).ToList() : sweets.OrderByDescending(keySelector).ToList();
         }
 
-        public static List<Sweet> SortSweetsByWeight(List<Sweet> sweets, SortOrder sortOrder)
+        public List<Sweet> SortSweetByInt(Func<Sweet, int> keySelector, List<Sweet> sweets, SortOrder sortOrder)
         {
-            if (sortOrder == SortOrder.Ascending)
-            {
-                sweets = sweets.OrderBy(s => s.Weight).ToList();
-            }
-            else
-            {
-                sweets = sweets.OrderByDescending(s => s.Weight).ToList();
-            }
-
-            return sweets;
+            return sortOrder == SortOrder.Ascending ? sweets.OrderBy(keySelector).ToList() : sweets.OrderByDescending(keySelector).ToList();
         }
 
-        public static List<Sweet> SortSweetsByKkal(List<Sweet> sweets, SortOrder sortOrder)
+        public List<Sweet> GetSweetsByPresentee(List<Sweet> sweets, Presentee presentee)
         {
-            if (sortOrder == SortOrder.Ascending)
-            {
-                sweets = sweets.OrderBy(s => s.Kkal).ToList();
-            }
-            else
-            {
-                sweets = sweets.OrderByDescending(s => s.Kkal).ToList();
-            }
-
-            return sweets;
+            return sweets.Where(s => !((presentee == Presentee.Children) && !(s is IAlcoholicSweet))).ToList();
         }
 
-        public static List<Sweet> GetSweetsByPresentee(List<Sweet> sweets, Presentee presentee)
-        {
-            List<Sweet> resultSweets = new List<Sweet>();
-
-            foreach (Sweet sweet in sweets)
-            {
-                if (presentee == Presentee.Children)
-                {
-                    if ((sweet is SugarSweet) || (sweet is SugarFreeSweet))
-                    {
-                        resultSweets.Add(sweet);
-                    }
-                }
-                else
-                {
-                    resultSweets.Add(sweet);
-                }
-            }
-
-            return resultSweets;
-        }
-
-        public static List<Sweet> GetSweetsByIndexRange(List<Sweet> sweets, List<int> indexRange)
+        public List<Sweet> GetSweetsByIndexRange(List<Sweet> sweets, List<int> indexRange)
         {
             List<Sweet> resultSweets = new List<Sweet>();
 
@@ -96,35 +48,13 @@ namespace NewYearGift.Core.Services
             return resultSweets;
         }
 
-        public static List<Sweet> SortSweetsByShape(List<Sweet> sweets, SortOrder sortOrder)
+        public List<Sweet> GetSweetsByParameterRange(Func<Sweet, bool> keySelector, List<Sweet> sweets, int firstRangeValue, int lastRangeValue)
         {
-            if (sortOrder == SortOrder.Ascending)
-            {
-                sweets = sweets.OrderBy(s => s.Shape.Name).ToList();
-            }
-            else
-            {
-                sweets = sweets.OrderByDescending(s => s.Shape.Name).ToList();
-            }
-
-            return sweets;
+            return sweets.Where(s => sweets. >= firstRangeValue && s.Equals());
         }
 
-        public static List<Sweet> SortSweetsByFilling(List<Sweet> sweets, SortOrder sortOrder)
-        {
-            if (sortOrder == SortOrder.Ascending)
-            {
-                sweets = sweets.OrderBy(s => s.Filling.Name).ToList();
-            }
-            else
-            {
-                sweets = sweets.OrderByDescending(s => s.Filling.Name).ToList();
-            }
 
-            return sweets;
-        }
-
-        public static List<Sweet> FindSweetsBySugarRange(List<Sweet> sweets, int firstRangeValue, int lastRangeValue)
+        public List<Sweet> GetSweetsBySugarRange(List<Sweet> sweets, int firstRangeValue, int lastRangeValue)
         {
             List<SugarSweet> sugarSweets = new List<SugarSweet>();
 
@@ -161,7 +91,7 @@ namespace NewYearGift.Core.Services
             return sweetsResult;
         }
 
-        public static List<Sweet> FindSweetsByAlcoholRange(List<Sweet> sweets, int firstRangeValue, int lastRangeValue)
+        public List<Sweet> GetSweetsByAlcoholRange(List<Sweet> sweets, int firstRangeValue, int lastRangeValue)
         {
             List<AlcoholicSweet> alcoholSweets = new List<AlcoholicSweet>();
 
@@ -187,32 +117,32 @@ namespace NewYearGift.Core.Services
 
             foreach (AlcoholicSweet alcoholSweet in alcoholSweets)
             {
-                sweetsResult.Add(alcoholSweet as Sweet);
+                sweetsResult.Add(alcoholSweet);
             }
 
             foreach (AlcoholicSugarSweet alcoholSweet in alcoholSugarSweets)
             {
-                sweetsResult.Add(alcoholSweet as Sweet);
+                sweetsResult.Add(alcoholSweet);
             }
 
             return sweetsResult;
         }
 
-        public static List<Sweet> FindSweetsByWeightRange(List<Sweet> sweets, int firstRangeValue, int lastRangeValue)
+        public List<Sweet> GetSweetsByWeightRange(List<Sweet> sweets, int firstRangeValue, int lastRangeValue)
         {
             sweets = sweets.Where(s => s.Weight >= firstRangeValue && s.Weight <= lastRangeValue).Select(s => s).ToList();
 
             return sweets;
         }
 
-        public static List<Sweet> FindSweetsByKkalRange(List<Sweet> sweets, int firstRangeValue, int lastRangeValue)
+        public List<Sweet> GetSweetsByKkalRange(List<Sweet> sweets, int firstRangeValue, int lastRangeValue)
         {
             sweets = sweets.Where(s => s.Kkal >= firstRangeValue && s.Kkal <= lastRangeValue).Select(s => s).ToList();
 
             return sweets;
         }
 
-        public static Gift MakeGift(List<Sweet> sweets, Presentee presentee)
+        public Gift MakeGift(List<Sweet> sweets, Presentee presentee)
         {
             Gift makedGift = new Gift();
 

@@ -1,10 +1,11 @@
 ﻿using NewYearGift.App.Constants;
+using NewYearGift.App.Interfaces;
 using NewYearGift.DAL.Models.Sweets;
 using System.Collections.Generic;
 
-namespace NewYearGift.Models.Gifts
+namespace NewYearGift.Models.Gifts 
 {
-    public class Gift
+    public class Gift : IGift
     {
         public int Weight { get; set; }
         public int Kkal { get; set; }

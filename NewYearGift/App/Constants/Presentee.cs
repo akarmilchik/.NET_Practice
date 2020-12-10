@@ -2,7 +2,8 @@
 {
     public enum  Presentee
     {
-        Children = 1,
+        Unknown,
+        Children,
         Adult
     }
 }

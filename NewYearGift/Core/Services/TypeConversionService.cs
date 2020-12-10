@@ -1,12 +1,13 @@
-﻿using System;
+﻿using NewYearGift.Core.Services.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace NewYearGift.Core.Services
 {
-    public static class TypeConversionService
+    public class TypeConversionService : ITypeConversionService
     {
-        public static int CheckAndConvertInputToInt(string input)
+        public int CheckAndConvertInputToInt(string input)
         {
             int resultInt;
 
@@ -21,9 +22,10 @@ namespace NewYearGift.Core.Services
             }
         }
 
-        public static List<int> CheckAndConvertInputArrayToInt(string[] inputArray)
+        public List<int> CheckAndConvertInputArrayToInt(string[] inputArray)
         {
             int intItem;
+
             List<int> resultIntArray = new List<int>();
 
             foreach (string item in inputArray)

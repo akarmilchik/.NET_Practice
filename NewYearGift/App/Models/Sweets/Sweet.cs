@@ -1,7 +1,8 @@
 ﻿using JsonKnownTypes;
 using Newtonsoft.Json;
 using NewYearGift.DAL.Models.Sweets.Parameters;
-
+using System;
+using System.Collections.Generic;
 
 namespace NewYearGift.DAL.Models.Sweets
 {
@@ -19,16 +20,29 @@ namespace NewYearGift.DAL.Models.Sweets
         public int Kkal { get; private set; }
         public Filling Filling { get; private set; }
         public Shape Shape { get; private set; }
-        
-        public Sweet(string name, int weight, int kkal, Filling filling, Shape shape)
+
+        protected Sweet(string name, int weight, int kkal, Filling filling, Shape shape)
         {
             this.Name = name;
             this.Weight = weight;
             this.Kkal = kkal;
             this.Filling = filling;
             this.Shape = shape;
-
         }
-        
+
+        //abstract void
+
+
+        public virtual Dictionary<string, string> ShowData()
+        {
+            return new Dictionary<string, string> 
+            {
+                {"Name", this.Name},
+                { "Weight", this.Weight.ToString() },
+                { "Kkal", this.Kkal.ToString() },
+                { "Filling", this.Filling.Name },
+                { "Shape", this.Shape.Name }
+            };
+        }
     }
 }

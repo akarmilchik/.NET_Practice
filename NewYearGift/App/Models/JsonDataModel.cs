@@ -2,7 +2,7 @@
 using NewYearGift.Models.Gifts;
 using System.Collections.Generic;
 
-namespace NewYearGift.App.Data
+namespace NewYearGift.App.Models
 {
     public class JsonDataModel
     {
