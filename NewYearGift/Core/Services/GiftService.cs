@@ -16,19 +16,19 @@ namespace NewYearGift.Core.Services
             return gift.Sweets.Sum(s => s.Weight);
         }
 
-        public IEnumerable<Sweet> SortSweetByString(Func<Sweet, string> keySelector, IEnumerable<Sweet> sweets, SortOrder sortOrder)
+        public IEnumerable<Sweet> SortSweetBy(Func<Sweet, string> keySelector, IEnumerable<Sweet> sweets, SortOrder sortOrder)
         {
             return sortOrder == SortOrder.Ascending ? sweets.OrderBy(keySelector) : sweets.OrderByDescending(keySelector);
         }
 
-        public IEnumerable<Sweet> SortSweetByInt(Func<Sweet, int> keySelector, IEnumerable<Sweet> sweets, SortOrder sortOrder)
+        public IEnumerable<Sweet> SortSweetBy(Func<Sweet, int> keySelector, IEnumerable<Sweet> sweets, SortOrder sortOrder)
         {
             return sortOrder == SortOrder.Ascending ? sweets.OrderBy(keySelector).ToList() : sweets.OrderByDescending(keySelector).ToList();
         }
 
-        public IEnumerable<Sweet> GetSweetsByPresentee(IEnumerable<Sweet> sweets, Presentee presentee)
+        public IEnumerable<Sweet> GetSweetsByPresentee(IEnumerable<Sweet> sweets, Presentee presentee)  //????????
         {
-            return sweets.Where(s => !((presentee == Presentee.Children) && !(s is IAlcoholicSweet)));
+            return sweets.Where(s => ((presentee == Presentee.Children) && !(s is IAlcoholicSweet)));
         }
 
         public IEnumerable<Sweet> GetSweetsByIndexRange(IEnumerable<Sweet> sweets, IEnumerable<int> indexRange)
@@ -37,13 +37,17 @@ namespace NewYearGift.Core.Services
 
             foreach (int index in indexRange)
             {
-                resultSweets.Add(sweets.ElementAt(index - 1));
+                if (sweets.ElementAt(index) != null)
+                {
+                    resultSweets.Add(sweets.ElementAt(index - 1));
+                }
             }
 
             return resultSweets;
         }
-/*
-        public List<Sweet> GetSweetsByParameterRange(Func<Sweet, string> keySelector, List<Sweet> sweets, int firstRangeValue, int lastRangeValue)
+
+        /*  ??????????
+        public IEnumerable<Sweet> GetSweetsByParameterRange(Func<Sweet, string> keySelector, IEnumerable<Sweet> sweets, int firstRangeValue, int lastRangeValue)
         {
             return 
         }*/
@@ -138,7 +142,7 @@ namespace NewYearGift.Core.Services
 
         public Gift MakeGift(IEnumerable<Sweet> sweets, Presentee presentee)
         {
-            Gift makedGift = new Gift();
+            Gift makedGift = new Gift() { };
 
             makedGift.Sweets = sweets;
 
@@ -152,6 +156,5 @@ namespace NewYearGift.Core.Services
 
             return makedGift;
         }
-
     }
 }

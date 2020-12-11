@@ -1,17 +1,14 @@
 ﻿using Newtonsoft.Json;
 using NewYearGift.App.Models;
-using NewYearGift.DAL.Repositories.Interfaces;
 using System.IO;
 
-namespace NewYearGift.Core.Services
+namespace NewYearGift.DAL.Repositories.Interfaces
 {
     public class JsonDataRepository : IJsonDataRepository
     {
         public string GetDataPath()
         {
-            var path = System.Reflection.Assembly.GetExecutingAssembly().Location;
-
-            path = path.Remove(path.LastIndexOf("\\")) + "\\App\\Data\\data.json";
+            string path = (@".\App\Data\data.json");
 
             return path;
         }
@@ -23,10 +20,8 @@ namespace NewYearGift.Core.Services
             File.WriteAllText(dataPath, serializedObject);
         }
 
-        public JsonDataModel ReadData()
+        public JsonDataModel ReadData(string dataPath)
         {
-            string dataPath = GetDataPath();
-
             string jsonText = File.ReadAllText(dataPath);
 
             var settings = new JsonSerializerSettings

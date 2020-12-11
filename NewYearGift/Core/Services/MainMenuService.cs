@@ -72,6 +72,8 @@ namespace NewYearGift.Core.Services
         {
             IEnumerable<Sweet> sweets;
 
+            SortMenuItems sortMenuItems;
+
             printService.PrintSweetParametersMenu();
 
             var inputParams = Console.ReadKey();
@@ -86,27 +88,32 @@ namespace NewYearGift.Core.Services
 
             selectedMenuItemId = typeConversionService.CheckAndConvertInputToInt(inputParams.KeyChar.ToString());
 
-            switch (selectedMenuItemId)
+            sortMenuItems = (SortMenuItems)selectedMenuItemId;
+
+            switch (sortMenuItems)
             {
-                case 1:
-                    sweets = giftService.SortSweetByString(s => s.Name, data.Gift.Sweets, sortOrder);
+                case SortMenuItems.SortByName:
+                    sweets = giftService.SortSweetBy(s => s.Name, data.Gift.Sweets, sortOrder);
                     printService.PrintSweets(sweets.ToList());
                     break;
-                case 2:
-                    sweets = giftService.SortSweetByInt(s => s.Weight, data.Gift.Sweets, sortOrder);
+                case SortMenuItems.SortByWeight:
+                    sweets = giftService.SortSweetBy(s => s.Weight, data.Gift.Sweets, sortOrder);
                     printService.PrintSweets(sweets.ToList());
                     break;
-                case 3:
-                    sweets = giftService.SortSweetByInt(s => s.Kkal, data.Gift.Sweets, sortOrder);
+                case SortMenuItems.SortByCalorie:
+                    sweets = giftService.SortSweetBy(s => s.Kkal, data.Gift.Sweets, sortOrder);
                     printService.PrintSweets(sweets.ToList());
                     break;
-                case 4:
-                    sweets = giftService.SortSweetByString(s => s.Filling.Name, data.Gift.Sweets, sortOrder);
+                case SortMenuItems.SortByFillingName:
+                    sweets = giftService.SortSweetBy(s => s.Filling.Name, data.Gift.Sweets, sortOrder);
                     printService.PrintSweets(sweets.ToList());
                     break;
-                case 5:
-                    sweets = giftService.SortSweetByString(s => s.Shape.Name, data.Gift.Sweets, sortOrder);
+                case SortMenuItems.SortByShapeName:
+                    sweets = giftService.SortSweetBy(s => s.Shape.Name, data.Gift.Sweets, sortOrder);
                     printService.PrintSweets(sweets.ToList());
+                    break;
+                default:
+                    printService.PrintWrongInput();
                     break;
             }
         }

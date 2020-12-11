@@ -14,9 +14,9 @@ namespace NewYearGift.App.Models.Sweets
             this.SugarWeight = sugarWeight;
         }
 
-        public override int GetCaloriesBySugar(int sugarWeight)
+        protected override string GetCaloriesBySugar(int sugarWeight)
         {
-            return sugarWeight * ConstantValues.CaloriesPerSugarGramm;
+            return (sugarWeight * ConstantValues.CaloriesPerSugarGram).ToString();
         }
 
         public override void PrintData()
@@ -24,12 +24,10 @@ namespace NewYearGift.App.Models.Sweets
             Console.WriteLine($"    Name: {this.Name}");
             Console.WriteLine($"    Weight: {this.Weight.ToString()}");
             Console.WriteLine($"    Calorie: {this.Kkal.ToString()}");
+            Console.WriteLine($"    Calculated calorie: {GetCaloriesBySugar(this.SugarWeight)}");
             Console.WriteLine($"    {this.Filling.ToString()}");
             Console.WriteLine($"    {this.Shape.ToString()}");
             Console.WriteLine($"    Sugar weight: {this.SugarWeight.ToString()}");
         }
-
-
-
     }
 }

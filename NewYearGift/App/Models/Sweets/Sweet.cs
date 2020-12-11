@@ -29,7 +29,7 @@ namespace NewYearGift.App.Models.Sweets
             this.Shape = shape;
         }
 
-        public abstract int GetCaloriesBySugar(int sugarWeight);
+        protected abstract string GetCaloriesBySugar(int sugarWeight);
 
         public virtual void PrintData()
         {

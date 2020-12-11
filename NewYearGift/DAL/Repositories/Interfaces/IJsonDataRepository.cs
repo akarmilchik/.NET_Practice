@@ -6,6 +6,6 @@ namespace NewYearGift.DAL.Repositories.Interfaces
     {
         string GetDataPath();
         void SaveData(JsonDataModel data, string dataPath);
-        JsonDataModel ReadData();
+        JsonDataModel ReadData(string dataPath);
     }
 }

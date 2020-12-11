@@ -2,7 +2,7 @@
 {
     public static class ConstantValues
     {
-        public const int CaloriesPerSugarGramm = 4;
-       
+        public const int CaloriesPerSugarGram = 4;
+        public const int CaloriesPerAlcohol = 2;
     }
 }

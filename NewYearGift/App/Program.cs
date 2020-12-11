@@ -1,6 +1,5 @@
 ﻿using NewYearGift.App.Constants;
 using NewYearGift.Core.Services;
-using NewYearGift.Core.Services.Interfaces;
 using NewYearGift.DAL.Repositories.Interfaces;
 using System;
 
@@ -8,30 +7,13 @@ namespace NewYearGift.App
 {
     class Program
     {
-        private readonly IJsonDataRepository jsonDataRepository;
-        private readonly ITypeConversionService typeConversionService;
-        private readonly IPrintService printService;
-        private readonly IGiftService giftService;
-        private readonly IMainMenuService mainMenuService;
-
-        public Program(IJsonDataRepository jsonDataRepository, ITypeConversionService typeConversionService, IPrintService printService, IGiftService giftService, IMainMenuService mainMenuService)
-        {
-            this.jsonDataRepository = jsonDataRepository;
-            this.typeConversionService = typeConversionService;
-            this.printService = printService;
-            this.giftService = giftService;
-            this.mainMenuService = mainMenuService;
-        }
-
         static void Main(string[] args)
         {
-            int i = 0;
+            bool isWorking = true;
 
             int selectedMenuItemId = -1;
 
             MainMenuItems menuItems;
-
-            Console.WriteLine("Welcome to New Year gift packing, please choose what you would like to do!");
 
             JsonDataRepository jsonDataRepository = new JsonDataRepository();
 
@@ -41,11 +23,15 @@ namespace NewYearGift.App
 
             GiftService giftService = new GiftService();
 
-            var data = jsonDataRepository.ReadData();
+            var path = jsonDataRepository.GetDataPath();
+
+            var data = jsonDataRepository.ReadData(path);
 
             MainMenuService mainMenuService = new MainMenuService(jsonDataRepository, typeConversionService, printService, giftService, data, selectedMenuItemId);
 
-            while (i == 0)
+            printService.PrintWelcome();
+
+            while (isWorking)
             {
                 selectedMenuItemId = -1;
 
@@ -62,7 +48,7 @@ namespace NewYearGift.App
                     switch (menuItems)
                     {
                         case MainMenuItems.CloseApp:
-                            i = 1;
+                            isWorking = false;
                             mainMenuService.CloseApp();
                             break;
                         case MainMenuItems.PrintGift:
@@ -82,7 +68,7 @@ namespace NewYearGift.App
                             mainMenuService.FindGiftSweetsByParameter();
                             break;
                         default:
-                            Console.WriteLine("\n\nPlease choose correct menu item.");
+                            printService.PrintIncorrectChoose();  
                             break;
                     }
                 }

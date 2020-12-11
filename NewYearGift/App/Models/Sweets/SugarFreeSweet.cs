@@ -10,9 +10,10 @@ namespace NewYearGift.App.Models.Sweets
         {
 
         }
-        public override int GetCaloriesBySugar(int sugarWeight)
+
+        protected override string GetCaloriesBySugar(int sugarWeight)
         {
-            throw new NotImplementedException();
+            return "0";
         }
 
         public override void PrintData()

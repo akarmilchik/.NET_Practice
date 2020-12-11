@@ -8,6 +8,5 @@
         CalcWeightOfGift,
         SortGiftSweetsByParameter,
         FindGiftSweetsByParameter
-
     }
 }

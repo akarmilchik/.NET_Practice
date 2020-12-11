@@ -6,6 +6,7 @@ namespace NewYearGift.Core.Services.Interfaces
 {
     public interface IPrintService
     {
+        void PrintWelcome();
         void PrintMainMenu();
         void PrintSweetParametersMenu();
         void PrintSweetRangeParametersMenu();
@@ -18,5 +19,7 @@ namespace NewYearGift.Core.Services.Interfaces
         void PrintGiftWeight(int weight);
         void PrintGift(Gift gift);
         void PrintSweets(List<Sweet> sweets);
+        void PrintWrongInput();
+        void PrintIncorrectChoose();
     }
 }

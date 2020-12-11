@@ -9,8 +9,8 @@ namespace NewYearGift.Core.Services.Interfaces
     public interface IGiftService
     {
         int CalculateGiftWeight(Gift gift);
-        IEnumerable<Sweet> SortSweetByString(Func<Sweet, string> keySelector, IEnumerable<Sweet> sweets, SortOrder sortOrder);
-        IEnumerable<Sweet> SortSweetByInt(Func<Sweet, int> keySelector, IEnumerable<Sweet> sweets, SortOrder sortOrder);
+        IEnumerable<Sweet> SortSweetBy(Func<Sweet, string> keySelector, IEnumerable<Sweet> sweets, SortOrder sortOrder);
+        IEnumerable<Sweet> SortSweetBy(Func<Sweet, int> keySelector, IEnumerable<Sweet> sweets, SortOrder sortOrder);
         IEnumerable<Sweet> GetSweetsByIndexRange(IEnumerable<Sweet> sweets, IEnumerable<int> indexRange);
         IEnumerable<Sweet> GetSweetsBySugarRange(IEnumerable<Sweet> sweets, int firstRangeValue, int lastRangeValue);
         IEnumerable<Sweet> GetSweetsByAlcoholRange(IEnumerable<Sweet> sweets, int firstRangeValue, int lastRangeValue);

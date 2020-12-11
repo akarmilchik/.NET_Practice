@@ -8,6 +8,10 @@ namespace NewYearGift.Core.Services
 {
     public class PrintService : IPrintService
     {
+        public void PrintWelcome()
+        {
+            Console.WriteLine("Welcome to New Year gift packing, please choose what you would like to do!");
+        }
         public void PrintMainMenu()
         {
             Console.WriteLine("\nActions:\n 1. Show current gift \n 2. Make new gift from sweets\n 3. Calculate weight of gift \n 4. Sort sweets in gift by parameter \n 5. Find sweets in gift by parameter \n 0. Close");
@@ -61,7 +65,17 @@ namespace NewYearGift.Core.Services
         }
         public void PrintGiftWeight(int weight)
         {
-            Console.WriteLine("\n\nGift weight: {0} gramms", weight);
+            Console.WriteLine($"\n\nGift weight: {weight} gramms");
+        }
+
+        public void PrintWrongInput()
+        {
+            Console.WriteLine("Wrong input!");
+        }
+
+        public void PrintIncorrectChoose()
+        {
+            Console.WriteLine("\n\nPlease choose correct menu item.");
         }
 
         public void PrintGift(Gift gift)
@@ -82,6 +96,7 @@ namespace NewYearGift.Core.Services
             for(int i = 0; i < sweets.Count; i++)
             {
                 Console.WriteLine($"№{i + 1}");
+
                 sweets[i].PrintData();
 
                 Console.WriteLine("\n");

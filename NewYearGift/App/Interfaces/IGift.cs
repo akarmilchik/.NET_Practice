@@ -12,6 +12,5 @@ namespace NewYearGift.App.Interfaces
         IEnumerable<Sweet> Sweets { get; set; }
         Presentee BelongToPresentee { get; set; }
         void PrintData();
-
     }
 }
