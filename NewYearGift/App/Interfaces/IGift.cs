@@ -1,8 +1,6 @@
 ﻿using NewYearGift.App.Constants;
-using NewYearGift.DAL.Models.Sweets;
-using System;
+using NewYearGift.App.Models.Sweets;
 using System.Collections.Generic;
-using System.Text;
 
 namespace NewYearGift.App.Interfaces
 {
@@ -11,8 +9,9 @@ namespace NewYearGift.App.Interfaces
         int Weight { get; set; }
         int Kkal { get; set; }
         int CountOfSweets { get; set; }
-        List<Sweet> Sweets { get; set; }
+        IEnumerable<Sweet> Sweets { get; set; }
         Presentee BelongToPresentee { get; set; }
+        void PrintData();
 
     }
 }

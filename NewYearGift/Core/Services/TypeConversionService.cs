@@ -1,7 +1,5 @@
 ﻿using NewYearGift.Core.Services.Interfaces;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace NewYearGift.Core.Services
 {
@@ -22,7 +20,7 @@ namespace NewYearGift.Core.Services
             }
         }
 
-        public List<int> CheckAndConvertInputArrayToInt(string[] inputArray)
+        public IEnumerable<int> CheckAndConvertInputArrayToInt(string[] inputArray)
         {
             int intItem;
 

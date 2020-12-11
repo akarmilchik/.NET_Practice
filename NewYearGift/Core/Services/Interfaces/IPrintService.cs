@@ -1,4 +1,4 @@
-﻿using NewYearGift.DAL.Models.Sweets;
+﻿using NewYearGift.App.Models.Sweets;
 using NewYearGift.Models.Gifts;
 using System.Collections.Generic;
 
@@ -17,6 +17,6 @@ namespace NewYearGift.Core.Services.Interfaces
         void PrintSweetsMenu();
         void PrintGiftWeight(int weight);
         void PrintGift(Gift gift);
-        void PrintSweets(List<Sweet> sweets);
+        void PrintSweets(IEnumerable<Sweet> sweets);
     }
 }

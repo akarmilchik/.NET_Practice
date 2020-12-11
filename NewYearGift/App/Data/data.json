@@ -1,1 +1,260 @@
-{"AllSweets":[{"ChildClass":"SugarFreeSweet","Name":"Korivka","Weight":10,"Kkal":15,"Filling":{"Name":"Fudge"},"Shape":{"Name":"Square"}},{"ChildClass":"SugarFreeSweet","Name":"Romashka","Weight":8,"Kkal":9,"Filling":{"Name":"Chocolate"},"Shape":{"Name":"Square"}},{"ChildClass":"SugarFreeSweet","Name":"Brittle","Weight":14,"Kkal":18,"Filling":{"Name":"Nuts"},"Shape":{"Name":"Square"}},{"ChildClass":"SugarFreeSweet","Name":"Lollipop","Weight":6,"Kkal":9,"Filling":{"Name":"Lollipop caramel"},"Shape":{"Name":"Circle"}},{"ChildClass":"SugarFreeSweet","Name":"Milky","Weight":11,"Kkal":22,"Filling":{"Name":"Fudge"},"Shape":{"Name":"Oval"}},{"ChildClass":"SugarFreeSweet","Name":"JellyBelly","Weight":11,"Kkal":18,"Filling":{"Name":"Jelly"},"Shape":{"Name":"Square"}},{"ChildClass":"SugarSweet","SugarWeight":3,"Name":"Korivka Sugar","Weight":10,"Kkal":15,"Filling":{"Name":"Fudge"},"Shape":{"Name":"Square"}},{"ChildClass":"SugarSweet","SugarWeight":4,"Name":"Romashka Sugar","Weight":8,"Kkal":9,"Filling":{"Name":"Chocolate"},"Shape":{"Name":"Square"}},{"ChildClass":"SugarSweet","SugarWeight":2,"Name":"Brittle sugar","Weight":14,"Kkal":18,"Filling":{"Name":"Nuts"},"Shape":{"Name":"Square"}},{"ChildClass":"SugarSweet","SugarWeight":8,"Name":"Lollipop sugar","Weight":6,"Kkal":9,"Filling":{"Name":"Lollipop caramel"},"Shape":{"Name":"Circle"}},{"ChildClass":"SugarSweet","SugarWeight":6,"Name":"Milky sugar","Weight":11,"Kkal":22,"Filling":{"Name":"Fudge"},"Shape":{"Name":"Oval"}},{"ChildClass":"AlcoholicSweet","AlcoholDegree":20,"Name":"Liqueur Alcohol","Weight":10,"Kkal":15,"Filling":{"Name":"Liquor"},"Shape":{"Name":"Square"}},{"ChildClass":"AlcoholicSweet","AlcoholDegree":40,"Name":"Whiskey Bottle Alcohole","Weight":8,"Kkal":9,"Filling":{"Name":"Whiskey"},"Shape":{"Name":"Bottle"}},{"ChildClass":"AlcoholicSugarSweet","SugarWeight":14,"AlcoholDegree":20,"Name":"Pyramid Alcohol Sugar","Weight":10,"Kkal":15,"Filling":{"Name":"Liquor"},"Shape":{"Name":"Pyramid"}}],"Gift":{"Weight":32,"Kkal":55,"CountOfSweets":3,"Sweets":[{"ChildClass":"SugarFreeSweet","Name":"JellyBelly","Weight":11,"Kkal":18,"Filling":{"Name":"Jelly"},"Shape":{"Name":"Square"}},{"ChildClass":"SugarSweet","SugarWeight":3,"Name":"Korivka Sugar","Weight":10,"Kkal":15,"Filling":{"Name":"Fudge"},"Shape":{"Name":"Square"}},{"ChildClass":"SugarSweet","SugarWeight":6,"Name":"Milky sugar","Weight":11,"Kkal":22,"Filling":{"Name":"Fudge"},"Shape":{"Name":"Oval"}}],"BelongToPresentee":1}}
+{
+  "AllSweets": [
+    {
+      "ChildClass": "SugarFreeSweet",
+      "Name": "Korivka",
+      "Weight": 10,
+      "Kkal": 15,
+      "Filling": {
+        "Name": "Fudge",
+        "Consistency": "Viscous"
+      },
+      "Shape": {
+        "Name": "Square",
+        "NumberOfCorners": 4
+      }
+    },
+    {
+      "ChildClass": "SugarFreeSweet",
+      "Name": "Romashka",
+      "Weight": 8,
+      "Kkal": 9,
+      "Filling": {
+        "Name": "Chocolate",
+        "Consistency": "Viscous"
+      },
+      "Shape": {
+        "Name": "Square",
+        "NumberOfCorners": 4
+      }
+    },
+    {
+      "ChildClass": "SugarFreeSweet",
+      "Name": "Brittle",
+      "Weight": 14,
+      "Kkal": 18,
+      "Filling": {
+        "Name": "Nuts",
+        "Consistency": "Solid"
+      },
+      "Shape": {
+        "Name": "Square",
+        "NumberOfCorners": 4
+      }
+    },
+    {
+      "ChildClass": "SugarFreeSweet",
+      "Name": "Lollipop",
+      "Weight": 6,
+      "Kkal": 9,
+      "Filling": {
+        "Name": "Lollipop caramel",
+        "Consistency": "Viscous"
+      },
+      "Shape": {
+        "Name": "Circle",
+        "NumberOfCorners": 0
+      }
+    },
+    {
+      "ChildClass": "SugarFreeSweet",
+      "Name": "Milky",
+      "Weight": 11,
+      "Kkal": 22,
+      "Filling": {
+        "Name": "Fudge",
+        "Consistency": "Viscous"
+      },
+      "Shape": {
+        "Name": "Oval"
+      }
+    },
+    {
+      "ChildClass": "SugarFreeSweet",
+      "Name": "JellyBelly",
+      "Weight": 11,
+      "Kkal": 18,
+      "Filling": {
+        "Name": "Jelly",
+        "Consistency": "Viscous"
+      },
+      "Shape": {
+        "Name": "Square",
+        "NumberOfCorners": 4
+      }
+    },
+    {
+      "ChildClass": "SugarSweet",
+      "SugarWeight": 3,
+      "Name": "Korivka Sugar",
+      "Weight": 10,
+      "Kkal": 15,
+      "Filling": {
+        "Name": "Fudge",
+        "Consistency": "Viscous"
+      },
+      "Shape": {
+        "Name": "Square",
+        "NumberOfCorners": 4
+      }
+    },
+    {
+      "ChildClass": "SugarSweet",
+      "SugarWeight": 4,
+      "Name": "Romashka Sugar",
+      "Weight": 8,
+      "Kkal": 9,
+      "Filling": {
+        "Name": "Chocolate",
+        "Consistency": "Viscous"
+      },
+      "Shape": {
+        "Name": "Square",
+        "NumberOfCorners": 4
+      }
+    },
+    {
+      "ChildClass": "SugarSweet",
+      "SugarWeight": 2,
+      "Name": "Brittle sugar",
+      "Weight": 14,
+      "Kkal": 18,
+      "Filling": {
+        "Name": "Nuts",
+        "Consistency": "Solid"
+      },
+      "Shape": {
+        "Name": "Square",
+        "NumberOfCorners": 4
+      }
+    },
+    {
+      "ChildClass": "SugarSweet",
+      "SugarWeight": 8,
+      "Name": "Lollipop sugar",
+      "Weight": 6,
+      "Kkal": 9,
+      "Filling": {
+        "Name": "Lollipop caramel",
+        "Consistency": "Viscous"
+      },
+      "Shape": {
+        "Name": "Circle",
+        "NumberOfCorners": 0
+      }
+    },
+    {
+      "ChildClass": "SugarSweet",
+      "SugarWeight": 6,
+      "Name": "Milky sugar",
+      "Weight": 11,
+      "Kkal": 22,
+      "Filling": {
+        "Name": "Fudge",
+        "Consistency": "Viscous"
+      },
+      "Shape": {
+        "Name": "Oval",
+        "NumberOfCorners": 0
+      }
+    },
+    {
+      "ChildClass": "AlcoholicSweet",
+      "AlcoholDegree": 20,
+      "Name": "Liqueur Alcohol",
+      "Weight": 10,
+      "Kkal": 15,
+      "Filling": {
+        "Name": "Liquor",
+        "Consistency": "Liquid"
+      },
+      "Shape": {
+        "Name": "Square",
+        "NumberOfCorners": 4
+      }
+    },
+    {
+      "ChildClass": "AlcoholicSweet",
+      "AlcoholDegree": 40,
+      "Name": "Whiskey Bottle Alcohole",
+      "Weight": 8,
+      "Kkal": 9,
+      "Filling": {
+        "Name": "Whiskey",
+        "Consistency": "Liquid"
+      },
+      "Shape": {
+        "Name": "Bottle",
+        "NumberOfCorners": 0
+      }
+    },
+    {
+      "ChildClass": "AlcoholicSugarSweet",
+      "SugarWeight": 14,
+      "AlcoholDegree": 20,
+      "Name": "Pyramid Alcohol Sugar",
+      "Weight": 10,
+      "Kkal": 15,
+      "Filling": {
+        "Name": "Liquor",
+        "Consistency": "Liquid"
+      },
+      "Shape": {
+        "Name": "Pyramid",
+        "NumberOfCorners": 5
+      }
+    }
+  ],
+  "Gift": {
+    "Weight": 32,
+    "Kkal": 55,
+    "CountOfSweets": 3,
+    "Sweets": [
+      {
+        "ChildClass": "SugarFreeSweet",
+        "Name": "JellyBelly",
+        "Weight": 11,
+        "Kkal": 18,
+        "Filling": {
+          "Name": "Jelly",
+          "Consistency": "Viscous"
+        },
+        "Shape": {
+          "Name": "Square",
+          "NumberOfCorners": 4
+        }
+      },
+      {
+        "ChildClass": "SugarSweet",
+        "SugarWeight": 3,
+        "Name": "Korivka Sugar",
+        "Weight": 10,
+        "Kkal": 15,
+        "Filling": {
+          "Name": "Fudge",
+          "Consistency": "Viscous"
+        },
+        "Shape": {
+          "Name": "Square",
+          "NumberOfCorners": 4
+        }
+      },
+      {
+        "ChildClass": "SugarSweet",
+        "SugarWeight": 6,
+        "Name": "Milky sugar",
+        "Weight": 11,
+        "Kkal": 22,
+        "Filling": {
+          "Name": "Fudge",
+          "Consistency": "Viscous"
+        },
+        "Shape": {
+          "Name": "Oval",
+          "NumberOfCorners": 0
+        }
+      }
+    ],
+    "BelongToPresentee": 1
+  }
+}

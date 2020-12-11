@@ -1,4 +1,4 @@
-﻿namespace NewYearGift.DAL.Models.Interfaces
+﻿namespace NewYearGift.App.Interfaces
 {
     interface IAlcoholicSweet
     {

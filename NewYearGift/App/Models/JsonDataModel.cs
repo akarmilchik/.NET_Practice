@@ -1,4 +1,4 @@
-﻿using NewYearGift.DAL.Models.Sweets;
+﻿using NewYearGift.App.Models.Sweets;
 using NewYearGift.Models.Gifts;
 using System.Collections.Generic;
 

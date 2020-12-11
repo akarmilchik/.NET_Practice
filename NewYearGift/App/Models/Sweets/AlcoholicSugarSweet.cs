@@ -1,8 +1,9 @@
-﻿using NewYearGift.DAL.Models.Interfaces;
-using NewYearGift.DAL.Models.Sweets.Parameters;
-using System.Collections.Generic;
+﻿using NewYearGift.App.Constants;
+using NewYearGift.App.Interfaces;
+using NewYearGift.App.Models.Sweets.Parameters;
+using System;
 
-namespace NewYearGift.DAL.Models.Sweets
+namespace NewYearGift.App.Models.Sweets
 {
     public class AlcoholicSugarSweet : Sweet, IAlcoholicSweet, ISugarSweet
     {
@@ -16,18 +17,20 @@ namespace NewYearGift.DAL.Models.Sweets
             this.AlcoholDegree = alcoholDegree;
         }
 
-        public override Dictionary<string, string> ShowData()
+        public override void PrintData()
         {
-            return new Dictionary<string, string>
-            {
-                {"Name", this.Name},
-                { "Weight", this.Weight.ToString() },
-                { "Kkal", this.Kkal.ToString() },
-                { "Filling", this.Filling.Name },
-                { "Shape", this.Shape.Name },
-                { "SugarWeight", this.SugarWeight.ToString() },
-                { "AlcoholDegree", this.AlcoholDegree.ToString() }
-            };
+            Console.WriteLine($"Name: {this.Name}");
+            Console.WriteLine($"Weight: {this.Weight.ToString()}");
+            Console.WriteLine($"Calorie: {this.Kkal.ToString()}");
+            Console.WriteLine(this.Filling.ToString());
+            Console.WriteLine(this.Shape.ToString());
+            Console.WriteLine($"Sugar weight: {this.SugarWeight.ToString()}");
+            Console.WriteLine($"Alcohol degree: {this.AlcoholDegree.ToString()}");
+        }
+
+        public override int GetCaloriesBySugar(int sugarWeight)
+        {
+            return sugarWeight * ConstantValues.CaloriesPerSugarGramm;
         }
     }
 }

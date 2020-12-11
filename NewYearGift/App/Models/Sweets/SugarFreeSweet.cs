@@ -1,9 +1,8 @@
-﻿using NewYearGift.DAL.Models.Sweets.Parameters;
-using System.Collections.Generic;
+﻿using NewYearGift.App.Models.Sweets.Parameters;
+using System;
 
-namespace NewYearGift.DAL.Models.Sweets
+namespace NewYearGift.App.Models.Sweets
 {
-
     class SugarFreeSweet : Sweet
     {
         public SugarFreeSweet(string name, int weight, int kkal, Filling filling, Shape shape)
@@ -11,17 +10,18 @@ namespace NewYearGift.DAL.Models.Sweets
         {
 
         }
-
-        public override Dictionary<string, string> ShowData()
+        public override int GetCaloriesBySugar(int sugarWeight)
         {
-            return new Dictionary<string, string>
-            {
-                {"Name", this.Name},
-                { "Weight", this.Weight.ToString() },
-                { "Kkal", this.Kkal.ToString() },
-                { "Filling", this.Filling.Name },
-                { "Shape", this.Shape.Name }
-            };
+            throw new NotImplementedException();
+        }
+
+        public override void PrintData()
+        {
+            Console.WriteLine($"Name: {this.Name}");
+            Console.WriteLine($"Weight: {this.Weight.ToString()}");
+            Console.WriteLine($"Calorie: {this.Kkal.ToString()}");
+            Console.WriteLine(this.Filling.ToString());
+            Console.WriteLine(this.Shape.ToString());
         }
     }
 }

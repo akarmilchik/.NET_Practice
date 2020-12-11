@@ -11,7 +11,7 @@ namespace NewYearGift.Core.Services
         {
             var path = System.Reflection.Assembly.GetExecutingAssembly().Location;
 
-            path = path.Remove(path.IndexOf("bin")) + "App\\Data\\data.json";
+            path = path.Remove(path.LastIndexOf("\\")) + "\\App\\Data\\data.json";
 
             return path;
         }

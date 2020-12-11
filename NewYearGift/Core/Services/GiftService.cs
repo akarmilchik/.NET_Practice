@@ -1,7 +1,7 @@
 ﻿using NewYearGift.App.Constants;
+using NewYearGift.App.Interfaces;
+using NewYearGift.App.Models.Sweets;
 using NewYearGift.Core.Services.Interfaces;
-using NewYearGift.DAL.Models.Interfaces;
-using NewYearGift.DAL.Models.Sweets;
 using NewYearGift.Models.Gifts;
 using System;
 using System.Collections.Generic;
@@ -13,30 +13,26 @@ namespace NewYearGift.Core.Services
     {
         public int CalculateGiftWeight(Gift gift)
         {
-            int weight = 0;
-
-            gift.Sweets.ForEach(s => weight += s.Weight);
-            //gift.Sweets.Sum();
-
-            return weight;
+            return gift.Sweets.Sum(s => s.Weight);
         }
 
-        public List<Sweet> SortSweetByString(Func<Sweet, string> keySelector, List<Sweet> sweets, SortOrder sortOrder)
+        public IEnumerable<Sweet> SortSweetByString(Func<Sweet, string> keySelector, IEnumerable<Sweet> sweets, SortOrder sortOrder)
         {
             return sortOrder == SortOrder.Ascending ? sweets.OrderBy(keySelector).ToList() : sweets.OrderByDescending(keySelector).ToList();
         }
 
-        public List<Sweet> SortSweetByInt(Func<Sweet, int> keySelector, List<Sweet> sweets, SortOrder sortOrder)
+        public IEnumerable<Sweet> SortSweetByInt(Func<Sweet, int> keySelector, IEnumerable<Sweet> sweets, SortOrder sortOrder)
         {
             return sortOrder == SortOrder.Ascending ? sweets.OrderBy(keySelector).ToList() : sweets.OrderByDescending(keySelector).ToList();
         }
 
-        public List<Sweet> GetSweetsByPresentee(List<Sweet> sweets, Presentee presentee)
+
+        public IEnumerable<Sweet> GetSweetsByPresentee(IEnumerable<Sweet> sweets, Presentee presentee)
         {
             return sweets.Where(s => !((presentee == Presentee.Children) && !(s is IAlcoholicSweet))).ToList();
         }
 
-        public List<Sweet> GetSweetsByIndexRange(List<Sweet> sweets, List<int> indexRange)
+        public IEnumerable<Sweet> GetSweetsByIndexRange(IEnumerable<Sweet> sweets, IEnumerable<int> indexRange)
         {
             List<Sweet> resultSweets = new List<Sweet>();
 
@@ -47,14 +43,14 @@ namespace NewYearGift.Core.Services
 
             return resultSweets;
         }
-
-        public List<Sweet> GetSweetsByParameterRange(Func<Sweet, bool> keySelector, List<Sweet> sweets, int firstRangeValue, int lastRangeValue)
+        /*
+        public List<Sweet> GetSweetsByParameterRange(Func<Sweet, string> keySelector, List<Sweet> sweets, int firstRangeValue, int lastRangeValue)
         {
-            return sweets.Where(s => sweets. >= firstRangeValue && s.Equals());
-        }
+            return sweets.Where(s => sweets.SelectMany(keySelector).Where(s => s.)
 
+        }*/
 
-        public List<Sweet> GetSweetsBySugarRange(List<Sweet> sweets, int firstRangeValue, int lastRangeValue)
+        public IEnumerable<Sweet> GetSweetsBySugarRange(IEnumerable<Sweet> sweets, int firstRangeValue, int lastRangeValue)
         {
             List<SugarSweet> sugarSweets = new List<SugarSweet>();
 
@@ -91,7 +87,7 @@ namespace NewYearGift.Core.Services
             return sweetsResult;
         }
 
-        public List<Sweet> GetSweetsByAlcoholRange(List<Sweet> sweets, int firstRangeValue, int lastRangeValue)
+        public IEnumerable<Sweet> GetSweetsByAlcoholRange(IEnumerable<Sweet> sweets, int firstRangeValue, int lastRangeValue)
         {
             List<AlcoholicSweet> alcoholSweets = new List<AlcoholicSweet>();
 
@@ -128,14 +124,14 @@ namespace NewYearGift.Core.Services
             return sweetsResult;
         }
 
-        public List<Sweet> GetSweetsByWeightRange(List<Sweet> sweets, int firstRangeValue, int lastRangeValue)
+        public IEnumerable<Sweet> GetSweetsByWeightRange(IEnumerable<Sweet> sweets, int firstRangeValue, int lastRangeValue)
         {
             sweets = sweets.Where(s => s.Weight >= firstRangeValue && s.Weight <= lastRangeValue).Select(s => s).ToList();
 
             return sweets;
         }
 
-        public List<Sweet> GetSweetsByKkalRange(List<Sweet> sweets, int firstRangeValue, int lastRangeValue)
+        public IEnumerable<Sweet> GetSweetsByKkalRange(IEnumerable<Sweet> sweets, int firstRangeValue, int lastRangeValue)
         {
             sweets = sweets.Where(s => s.Kkal >= firstRangeValue && s.Kkal <= lastRangeValue).Select(s => s).ToList();
 

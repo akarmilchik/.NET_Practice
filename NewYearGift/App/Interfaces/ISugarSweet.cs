@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace NewYearGift.DAL.Models.Interfaces
+﻿namespace NewYearGift.App.Interfaces
 {
     interface ISugarSweet
     {

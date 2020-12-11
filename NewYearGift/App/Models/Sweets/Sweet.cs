@@ -1,10 +1,9 @@
 ﻿using JsonKnownTypes;
 using Newtonsoft.Json;
-using NewYearGift.DAL.Models.Sweets.Parameters;
+using NewYearGift.App.Models.Sweets.Parameters;
 using System;
-using System.Collections.Generic;
 
-namespace NewYearGift.DAL.Models.Sweets
+namespace NewYearGift.App.Models.Sweets
 {
     [JsonConverter(typeof(JsonKnownTypesConverter<Sweet>))]
     [JsonDiscriminator(Name = "ChildClass")]
@@ -30,19 +29,15 @@ namespace NewYearGift.DAL.Models.Sweets
             this.Shape = shape;
         }
 
-        //abstract void
+        public abstract int GetCaloriesBySugar(int sugarWeight);
 
-
-        public virtual Dictionary<string, string> ShowData()
+        public virtual void PrintData()
         {
-            return new Dictionary<string, string> 
-            {
-                {"Name", this.Name},
-                { "Weight", this.Weight.ToString() },
-                { "Kkal", this.Kkal.ToString() },
-                { "Filling", this.Filling.Name },
-                { "Shape", this.Shape.Name }
-            };
+            Console.WriteLine($"Name: {this.Name}");
+            Console.WriteLine($"Weight: {this.Weight.ToString()}");
+            Console.WriteLine($"Calorie: {this.Kkal.ToString()}");
+            Console.WriteLine(this.Filling.ToString());
+            Console.WriteLine(this.Shape.ToString());
         }
     }
 }

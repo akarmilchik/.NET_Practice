@@ -2,6 +2,7 @@
 {
     public enum SortOrder
     {
+        Undefined,
         Ascending,
         Descending
     }

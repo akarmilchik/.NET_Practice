@@ -1,14 +1,13 @@
-﻿namespace NewYearGift.DAL.Models.Sweets.Parameters
+﻿namespace NewYearGift.App.Models.Sweets.Parameters
 {
     public class Filling
     {
         public string Name { get; set; }
-
-        public string Solid { get; set; }
+        public string Consistency { get; set; }
 
         public override string ToString()
         {
-            return Solid + Name;
+            return $"Filling: {Name} Consistency: {Consistency}";
         }
     }
 }
