@@ -4,25 +4,23 @@ using System.IO;
 
 namespace NewYearGift.DAL.Repositories.Interfaces
 {
-    public class JsonDataRepository : IJsonDataRepository
+    public class JsonDataRepository : IDataRepository
     {
-        public string GetDataPath()
-        {
-            string path = (@".\App\Data\data.json");
+        private const string Path = @".\App\Data\data.json";
 
-            return path;
-        }
-
-        public void SaveData(JsonDataModel data, string dataPath)
+        public void SaveData(JsonDataModel data)
         {     
+
             string serializedObject = JsonConvert.SerializeObject(data);
 
-            File.WriteAllText(dataPath, serializedObject);
+            var res = Path;
+
+            File.WriteAllText(Path, serializedObject);
         }
 
-        public JsonDataModel ReadData(string dataPath)
+        public JsonDataModel ReadData()
         {
-            string jsonText = File.ReadAllText(dataPath);
+            string jsonText = File.ReadAllText(Path);
 
             var settings = new JsonSerializerSettings
             {

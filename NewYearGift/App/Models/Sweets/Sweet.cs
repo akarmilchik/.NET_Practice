@@ -29,15 +29,15 @@ namespace NewYearGift.App.Models.Sweets
             this.Shape = shape;
         }
 
-        protected abstract string GetCaloriesBySugar(int sugarWeight);
+        protected abstract int GetCaloriesBySugar(int sugarWeight);
 
         public virtual void PrintData()
         {
             Console.WriteLine($"    Name: {this.Name}");
-            Console.WriteLine($"    Weight: {this.Weight.ToString()}");
-            Console.WriteLine($"    Calorie: {this.Kkal.ToString()}");
-            Console.WriteLine($"    {this.Filling.ToString()}");
-            Console.WriteLine($"    {this.Shape.ToString()}");
+            Console.WriteLine($"    Weight: {this.Weight}");
+            Console.WriteLine($"    Calorie: {this.Kkal}");
+            Console.WriteLine($"    {this.Filling}");
+            Console.WriteLine($"    {this.Shape}");
         }
     }
 }

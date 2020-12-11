@@ -23,9 +23,7 @@ namespace NewYearGift.App
 
             GiftService giftService = new GiftService();
 
-            var path = jsonDataRepository.GetDataPath();
-
-            var data = jsonDataRepository.ReadData(path);
+            var data = jsonDataRepository.ReadData();
 
             MainMenuService mainMenuService = new MainMenuService(jsonDataRepository, typeConversionService, printService, giftService, data, selectedMenuItemId);
 

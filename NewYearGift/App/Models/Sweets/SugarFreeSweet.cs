@@ -11,9 +11,9 @@ namespace NewYearGift.App.Models.Sweets
 
         }
 
-        protected override string GetCaloriesBySugar(int sugarWeight)
+        protected override int GetCaloriesBySugar(int sugarWeight)
         {
-            return "0";
+            return 0;
         }
 
         public override void PrintData()

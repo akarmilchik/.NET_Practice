@@ -24,9 +24,9 @@ namespace NewYearGift.App.Models.Sweets
             Console.WriteLine($"    Alcohol degree: {this.AlcoholDegree.ToString()}");
         }
 
-        protected override string GetCaloriesBySugar(int sugarWeight)
+        protected override int GetCaloriesBySugar(int sugarWeight)
         {
-            return "0";
+            return 0;
         }
     }
 }

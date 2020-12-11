@@ -1,4 +1,5 @@
 ﻿using NewYearGift.App.Constants;
+using NewYearGift.App.Interfaces;
 using NewYearGift.App.Models;
 using NewYearGift.App.Models.Sweets;
 using NewYearGift.Core.Services.Interfaces;
@@ -11,28 +12,26 @@ namespace NewYearGift.Core.Services
 {
     public class MainMenuService : IMainMenuService
     {
-        private readonly IJsonDataRepository jsonDataRepository;
-        private readonly ITypeConversionService typeConversionService;
-        private readonly IPrintService printService;
-        private readonly IGiftService giftService;
-        private readonly JsonDataModel data;
-        private int selectedMenuItemId;
+        private readonly IDataRepository _jsonDataRepository;
+        private readonly ITypeConversionService _typeConversionService;
+        private readonly IPrintService _printService;
+        private readonly IGiftService _giftService;
+        private readonly JsonDataModel _data;
+        private int _selectedMenuItemId;
 
-        public MainMenuService(IJsonDataRepository jsonDataRepository, ITypeConversionService typeConversionService, IPrintService printService, IGiftService giftService, JsonDataModel data, int selectedMenuItemId)
+        public MainMenuService(IDataRepository jsonDataRepository, ITypeConversionService typeConversionService, IPrintService printService, IGiftService giftService, JsonDataModel data, int selectedMenuItemId)
         {
-            this.jsonDataRepository = jsonDataRepository;
-            this.typeConversionService = typeConversionService;
-            this.printService = printService;
-            this.giftService = giftService;
-            this.data = data;
-            this.selectedMenuItemId = selectedMenuItemId;
+            this._jsonDataRepository = jsonDataRepository;
+            this._typeConversionService = typeConversionService;
+            this._printService = printService;
+            this._giftService = giftService;
+            this._data = data;
+            this._selectedMenuItemId = selectedMenuItemId;
         }
 
         public void CloseApp()
         {
-            var path = jsonDataRepository.GetDataPath();
-
-            jsonDataRepository.SaveData(data, path);
+            _jsonDataRepository.SaveData(_data);
         }
 
         public void MakeNewGift()
@@ -41,31 +40,31 @@ namespace NewYearGift.Core.Services
 
             IEnumerable<Sweet> sweets;
 
-            printService.PrintChoosePresenteeMenu();
+            _printService.PrintChoosePresenteeMenu();
 
             var inputParams = Console.ReadKey();
 
-            selectedMenuItemId = typeConversionService.CheckAndConvertInputToInt(inputParams.KeyChar.ToString());
+            _selectedMenuItemId = _typeConversionService.CheckAndConvertInputToInt(inputParams.KeyChar.ToString());
 
-            printService.PrintSweetsMenu();
+            _printService.PrintSweetsMenu();
 
-            sweets = giftService.GetSweetsByPresentee(data.AllSweets, (Presentee)selectedMenuItemId);
+            sweets = _giftService.GetSweetsByPresentee(_data.AllSweets, (Presentee)_selectedMenuItemId);
 
-            printService.PrintSweets(sweets.ToList());
+            _printService.PrintSweets(sweets.ToList());
 
-            printService.PrintInputText();
+            _printService.PrintInputText();
 
             sweetsRange = Console.ReadLine();
 
             var range = sweetsRange.Split(' ');
 
-            var intRange = typeConversionService.CheckAndConvertInputArrayToInt(range);
+            var intRange = _typeConversionService.CheckAndConvertInputArrayToInt(range);
 
-            var resultSweets = giftService.GetSweetsByIndexRange(sweets, intRange);
+            var resultSweets = _giftService.GetSweetsByIndexRange(sweets, intRange);
 
-            data.Gift = giftService.MakeGift(resultSweets, (Presentee)selectedMenuItemId);
+            _data.Gift = _giftService.MakeGift(resultSweets.ToList(), (Presentee)_selectedMenuItemId);
 
-            printService.PrintGift(data.Gift);
+            _printService.PrintGift(_data.Gift);
         }
 
         public void SortGiftSweetsByParameter()
@@ -74,46 +73,46 @@ namespace NewYearGift.Core.Services
 
             SortMenuItems sortMenuItems;
 
-            printService.PrintSweetParametersMenu();
+            _printService.PrintSweetParametersMenu();
 
             var inputParams = Console.ReadKey();
 
-            printService.PrintSortingMenu();
+            _printService.PrintSortingMenu();
 
             var inputSorting = Console.ReadKey();
 
-            var inputSortingInt = typeConversionService.CheckAndConvertInputToInt(inputSorting.KeyChar.ToString());
+            var inputSortingInt = _typeConversionService.CheckAndConvertInputToInt(inputSorting.KeyChar.ToString());
 
             var sortOrder = (SortOrder)inputSortingInt;
 
-            selectedMenuItemId = typeConversionService.CheckAndConvertInputToInt(inputParams.KeyChar.ToString());
+            _selectedMenuItemId = _typeConversionService.CheckAndConvertInputToInt(inputParams.KeyChar.ToString());
 
-            sortMenuItems = (SortMenuItems)selectedMenuItemId;
+            sortMenuItems = (SortMenuItems)_selectedMenuItemId;
 
             switch (sortMenuItems)
             {
                 case SortMenuItems.SortByName:
-                    sweets = giftService.SortSweetBy(s => s.Name, data.Gift.Sweets, sortOrder);
-                    printService.PrintSweets(sweets.ToList());
+                    sweets = _giftService.SortSweetBy(s => s.Name, _data.Gift.Sweets, sortOrder);
+                    _printService.PrintSweets(sweets.ToList());
                     break;
                 case SortMenuItems.SortByWeight:
-                    sweets = giftService.SortSweetBy(s => s.Weight, data.Gift.Sweets, sortOrder);
-                    printService.PrintSweets(sweets.ToList());
+                    sweets = _giftService.SortSweetBy(s => s.Weight, _data.Gift.Sweets, sortOrder);
+                    _printService.PrintSweets(sweets.ToList());
                     break;
                 case SortMenuItems.SortByCalorie:
-                    sweets = giftService.SortSweetBy(s => s.Kkal, data.Gift.Sweets, sortOrder);
-                    printService.PrintSweets(sweets.ToList());
+                    sweets = _giftService.SortSweetBy(s => s.Kkal, _data.Gift.Sweets, sortOrder);
+                    _printService.PrintSweets(sweets.ToList());
                     break;
                 case SortMenuItems.SortByFillingName:
-                    sweets = giftService.SortSweetBy(s => s.Filling.Name, data.Gift.Sweets, sortOrder);
-                    printService.PrintSweets(sweets.ToList());
+                    sweets = _giftService.SortSweetBy(s => s.Filling.Name, _data.Gift.Sweets, sortOrder);
+                    _printService.PrintSweets(sweets.ToList());
                     break;
                 case SortMenuItems.SortByShapeName:
-                    sweets = giftService.SortSweetBy(s => s.Shape.Name, data.Gift.Sweets, sortOrder);
-                    printService.PrintSweets(sweets.ToList());
+                    sweets = _giftService.SortSweetBy(s => s.Shape.Name, _data.Gift.Sweets, sortOrder);
+                    _printService.PrintSweets(sweets.ToList());
                     break;
                 default:
-                    printService.PrintWrongInput();
+                    _printService.PrintWrongInput();
                     break;
             }
         }
@@ -122,41 +121,33 @@ namespace NewYearGift.Core.Services
         {
             IEnumerable<Sweet> findSweets;
 
-            printService.PrintSweetRangeParametersMenu();
+            _printService.PrintSweetRangeParametersMenu();
 
             var inputParams = Console.ReadKey();
 
-            selectedMenuItemId = typeConversionService.CheckAndConvertInputToInt(inputParams.KeyChar.ToString());
+            _selectedMenuItemId = _typeConversionService.CheckAndConvertInputToInt(inputParams.KeyChar.ToString());
 
-            printService.PrintStartRangeText();
+            _printService.PrintStartRangeText();
 
             var inputRangeValue = Console.ReadLine();
 
-            var firstRangeValue = typeConversionService.CheckAndConvertInputToInt(inputRangeValue);
+            var firstRangeValue = _typeConversionService.CheckAndConvertInputToInt(inputRangeValue);
 
-            printService.PrintEndRangeText();
+            _printService.PrintEndRangeText();
 
             inputRangeValue = Console.ReadLine();
 
-            var lastRangeValue = typeConversionService.CheckAndConvertInputToInt(inputRangeValue);
+            var lastRangeValue = _typeConversionService.CheckAndConvertInputToInt(inputRangeValue);
             
-            switch (selectedMenuItemId)
+            switch (_selectedMenuItemId)
             {
                 case 1:
-                    findSweets = giftService.GetSweetsByWeightRange(data.Gift.Sweets, firstRangeValue, lastRangeValue);
-                    printService.PrintSweets(findSweets.ToList());
+                    findSweets = _giftService.GetSweetsByRange(s => s.Weight ,_data.Gift.Sweets, firstRangeValue, lastRangeValue);
+                    _printService.PrintSweets(findSweets.ToList());
                     break;
                 case 2:
-                    findSweets = giftService.GetSweetsByKkalRange(data.Gift.Sweets, firstRangeValue, lastRangeValue);
-                    printService.PrintSweets(findSweets.ToList());
-                    break;
-                case 3:
-                    findSweets = giftService.GetSweetsBySugarRange(data.Gift.Sweets, firstRangeValue, lastRangeValue);
-                    printService.PrintSweets(findSweets.ToList());
-                    break;
-                case 4:
-                    findSweets = giftService.GetSweetsByAlcoholRange(data.Gift.Sweets, firstRangeValue, lastRangeValue);
-                    printService.PrintSweets(findSweets.ToList());
+                    findSweets = _giftService.GetSweetsByRange(s => s.Kkal, _data.Gift.Sweets, firstRangeValue, lastRangeValue);
+                    _printService.PrintSweets(findSweets.ToList());
                     break;
             }
         }

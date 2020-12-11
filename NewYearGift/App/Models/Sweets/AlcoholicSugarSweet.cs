@@ -20,18 +20,18 @@ namespace NewYearGift.App.Models.Sweets
         public override void PrintData()
         {
             Console.WriteLine($"    Name: {this.Name}");
-            Console.WriteLine($"    Weight: {this.Weight.ToString()}");
-            Console.WriteLine($"    Calorie: {this.Kkal.ToString()}");
+            Console.WriteLine($"    Weight: {this.Weight}");
+            Console.WriteLine($"    Calorie: {this.Kkal}");
             Console.WriteLine($"    Calculated calorie: {GetCaloriesBySugar(this.SugarWeight)}");
-            Console.WriteLine($"    {this.Filling.ToString()}");
-            Console.WriteLine($"    {this.Shape.ToString()}");
-            Console.WriteLine($"    Sugar weight: {this.SugarWeight.ToString()}");
-            Console.WriteLine($"    Alcohol degree: {this.AlcoholDegree.ToString()}");
+            Console.WriteLine($"    {this.Filling}");
+            Console.WriteLine($"    {this.Shape}");
+            Console.WriteLine($"    Sugar weight: {this.SugarWeight}");
+            Console.WriteLine($"    Alcohol degree: {this.AlcoholDegree}");
         }
 
-        protected override string GetCaloriesBySugar(int sugarWeight)
+        protected override int GetCaloriesBySugar(int sugarWeight)
         {
-            return (sugarWeight * ConstantValues.CaloriesPerSugarGram + sugarWeight * ConstantValues.CaloriesPerAlcohol).ToString();
+            return sugarWeight * ConstantValues.CaloriesPerSugarGram + sugarWeight * ConstantValues.CaloriesPerAlcohol;
         }
     }
 }

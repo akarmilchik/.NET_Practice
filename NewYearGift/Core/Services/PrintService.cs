@@ -26,7 +26,7 @@ namespace NewYearGift.Core.Services
 
         public void PrintSweetRangeParametersMenu()
         {
-            Console.WriteLine("\n\nSweet parameters:\n\n 1. Weight \n 2. Calorie \n 3. Sugar weight \n 4. Alcohol degree\n");
+            Console.WriteLine("\n\nSweet parameters:\n\n 1. Weight \n 2. Calorie");
             Console.Write("Input: ");
         }
 
