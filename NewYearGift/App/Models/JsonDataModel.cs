@@ -6,7 +6,7 @@ namespace NewYearGift.App.Models
 {
     public class JsonDataModel
     {
-        public List<Sweet> AllSweets { get; set; }
+        public IEnumerable<Sweet> AllSweets { get; set; }
         public Gift Gift { get; set; }
     }
 }

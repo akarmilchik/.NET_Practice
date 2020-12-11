@@ -17,6 +17,6 @@ namespace NewYearGift.Core.Services.Interfaces
         void PrintSweetsMenu();
         void PrintGiftWeight(int weight);
         void PrintGift(Gift gift);
-        void PrintSweets(IEnumerable<Sweet> sweets);
+        void PrintSweets(List<Sweet> sweets);
     }
 }

@@ -5,6 +5,7 @@ using NewYearGift.Core.Services.Interfaces;
 using NewYearGift.DAL.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NewYearGift.Core.Services
 {
@@ -50,7 +51,7 @@ namespace NewYearGift.Core.Services
 
             sweets = giftService.GetSweetsByPresentee(data.AllSweets, (Presentee)selectedMenuItemId);
 
-            printService.PrintSweets(sweets);
+            printService.PrintSweets(sweets.ToList());
 
             printService.PrintInputText();
 
@@ -89,23 +90,23 @@ namespace NewYearGift.Core.Services
             {
                 case 1:
                     sweets = giftService.SortSweetByString(s => s.Name, data.Gift.Sweets, sortOrder);
-                    printService.PrintSweets(sweets);
+                    printService.PrintSweets(sweets.ToList());
                     break;
                 case 2:
                     sweets = giftService.SortSweetByInt(s => s.Weight, data.Gift.Sweets, sortOrder);
-                    printService.PrintSweets(sweets);
+                    printService.PrintSweets(sweets.ToList());
                     break;
                 case 3:
                     sweets = giftService.SortSweetByInt(s => s.Kkal, data.Gift.Sweets, sortOrder);
-                    printService.PrintSweets(sweets);
+                    printService.PrintSweets(sweets.ToList());
                     break;
                 case 4:
                     sweets = giftService.SortSweetByString(s => s.Filling.Name, data.Gift.Sweets, sortOrder);
-                    printService.PrintSweets(sweets);
+                    printService.PrintSweets(sweets.ToList());
                     break;
                 case 5:
                     sweets = giftService.SortSweetByString(s => s.Shape.Name, data.Gift.Sweets, sortOrder);
-                    printService.PrintSweets(sweets);
+                    printService.PrintSweets(sweets.ToList());
                     break;
             }
         }
@@ -131,26 +132,26 @@ namespace NewYearGift.Core.Services
             inputRangeValue = Console.ReadLine();
 
             var lastRangeValue = typeConversionService.CheckAndConvertInputToInt(inputRangeValue);
-            /*
+            
             switch (selectedMenuItemId)
             {
                 case 1:
                     findSweets = giftService.GetSweetsByWeightRange(data.Gift.Sweets, firstRangeValue, lastRangeValue);
-                    printService.PrintSweets(findSweets);
+                    printService.PrintSweets(findSweets.ToList());
                     break;
                 case 2:
                     findSweets = giftService.GetSweetsByKkalRange(data.Gift.Sweets, firstRangeValue, lastRangeValue);
-                    printService.PrintSweets(findSweets);
+                    printService.PrintSweets(findSweets.ToList());
                     break;
                 case 3:
-                    findSweets = giftService.FindSweetsBySugarRange(data.Gift.Sweets, firstRangeValue, lastRangeValue);
-                    printService.PrintSweets(findSweets);
+                    findSweets = giftService.GetSweetsBySugarRange(data.Gift.Sweets, firstRangeValue, lastRangeValue);
+                    printService.PrintSweets(findSweets.ToList());
                     break;
                 case 4:
-                    findSweets = giftService.FindSweetsByAlcoholRange(data.Gift.Sweets, firstRangeValue, lastRangeValue);
-                    printService.PrintSweets(findSweets);
+                    findSweets = giftService.GetSweetsByAlcoholRange(data.Gift.Sweets, firstRangeValue, lastRangeValue);
+                    printService.PrintSweets(findSweets.ToList());
                     break;
-            }*/
+            }
         }
     }
 }

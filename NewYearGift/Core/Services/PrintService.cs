@@ -75,13 +75,14 @@ namespace NewYearGift.Core.Services
             }
         }
 
-        public void PrintSweets(ICollection<Sweet> sweets)
+        public void PrintSweets(List<Sweet> sweets)
         {
             Console.WriteLine("\n");
 
-            foreach(Sweet sweet in sweets)
+            for(int i = 0; i < sweets.Count; i++)
             {
-                sweet.PrintData();
+                Console.WriteLine($"№{i + 1}");
+                sweets[i].PrintData();
 
                 Console.WriteLine("\n");
             }

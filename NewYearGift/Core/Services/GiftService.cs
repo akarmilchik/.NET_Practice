@@ -18,7 +18,7 @@ namespace NewYearGift.Core.Services
 
         public IEnumerable<Sweet> SortSweetByString(Func<Sweet, string> keySelector, IEnumerable<Sweet> sweets, SortOrder sortOrder)
         {
-            return sortOrder == SortOrder.Ascending ? sweets.OrderBy(keySelector).ToList() : sweets.OrderByDescending(keySelector).ToList();
+            return sortOrder == SortOrder.Ascending ? sweets.OrderBy(keySelector) : sweets.OrderByDescending(keySelector);
         }
 
         public IEnumerable<Sweet> SortSweetByInt(Func<Sweet, int> keySelector, IEnumerable<Sweet> sweets, SortOrder sortOrder)
@@ -26,10 +26,9 @@ namespace NewYearGift.Core.Services
             return sortOrder == SortOrder.Ascending ? sweets.OrderBy(keySelector).ToList() : sweets.OrderByDescending(keySelector).ToList();
         }
 
-
         public IEnumerable<Sweet> GetSweetsByPresentee(IEnumerable<Sweet> sweets, Presentee presentee)
         {
-            return sweets.Where(s => !((presentee == Presentee.Children) && !(s is IAlcoholicSweet))).ToList();
+            return sweets.Where(s => !((presentee == Presentee.Children) && !(s is IAlcoholicSweet)));
         }
 
         public IEnumerable<Sweet> GetSweetsByIndexRange(IEnumerable<Sweet> sweets, IEnumerable<int> indexRange)
@@ -43,11 +42,10 @@ namespace NewYearGift.Core.Services
 
             return resultSweets;
         }
-        /*
+/*
         public List<Sweet> GetSweetsByParameterRange(Func<Sweet, string> keySelector, List<Sweet> sweets, int firstRangeValue, int lastRangeValue)
         {
-            return sweets.Where(s => sweets.SelectMany(keySelector).Where(s => s.)
-
+            return 
         }*/
 
         public IEnumerable<Sweet> GetSweetsBySugarRange(IEnumerable<Sweet> sweets, int firstRangeValue, int lastRangeValue)
@@ -138,15 +136,15 @@ namespace NewYearGift.Core.Services
             return sweets;
         }
 
-        public Gift MakeGift(List<Sweet> sweets, Presentee presentee)
+        public Gift MakeGift(IEnumerable<Sweet> sweets, Presentee presentee)
         {
             Gift makedGift = new Gift();
 
             makedGift.Sweets = sweets;
 
-            sweets.ForEach(s => makedGift.Weight += s.Weight);
+            sweets.ToList().ForEach(s => makedGift.Weight += s.Weight);
 
-            sweets.ForEach(s => makedGift.Kkal += s.Kkal);
+            sweets.ToList().ForEach(s => makedGift.Kkal += s.Kkal);
 
             makedGift.CountOfSweets = sweets.Count();
 
@@ -154,5 +152,6 @@ namespace NewYearGift.Core.Services
 
             return makedGift;
         }
+
     }
 }

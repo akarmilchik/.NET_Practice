@@ -7,7 +7,7 @@
 
         public override string ToString()
         {
-            return $"Filling: {Name} Consistency: {Consistency}";
+            return $"Filling: {Name}, Consistency: {Consistency}";
         }
     }
 }

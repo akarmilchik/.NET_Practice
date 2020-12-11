@@ -17,11 +17,11 @@ namespace NewYearGift.App.Models.Sweets
 
         public override void PrintData()
         {
-            Console.WriteLine($"Name: {this.Name}");
-            Console.WriteLine($"Weight: {this.Weight.ToString()}");
-            Console.WriteLine($"Calorie: {this.Kkal.ToString()}");
-            Console.WriteLine(this.Filling.ToString());
-            Console.WriteLine(this.Shape.ToString());
+            Console.WriteLine($"    Name: {this.Name}");
+            Console.WriteLine($"    Weight: {this.Weight.ToString()}");
+            Console.WriteLine($"    Calorie: {this.Kkal.ToString()}");
+            Console.WriteLine($"    {this.Filling.ToString()}");
+            Console.WriteLine($"    {this.Shape.ToString()}");
         }
     }
 }
