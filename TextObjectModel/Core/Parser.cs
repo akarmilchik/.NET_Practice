@@ -30,7 +30,7 @@ namespace TextObjectModel.Core.Services
             this._internService = internService;
         }
 
-        public Text Parse()
+        public Text Parse(string dataPath)
         {
             _internService.InternSeparators(_punctuationContainer);
 
@@ -46,9 +46,7 @@ namespace TextObjectModel.Core.Services
 
             buffer.Clear();
 
-            string path = _dataRepository.GetDataPath();
-
-            using (StreamReader reader = new StreamReader(path, Encoding.Default))
+            using (StreamReader reader = new StreamReader(dataPath, Encoding.Default))
             {
                 string currentString;
 
