@@ -1,5 +1,6 @@
 ﻿using System;
-using TextObjectModel.App.Models;
+using TextObjectModel.App.Constants;
+using TextObjectModel.Core.Services;
 
 namespace TextObjectModel
 {
@@ -7,18 +8,16 @@ namespace TextObjectModel
     {
         static void Main(string[] args)
         {
+            PunctuationContainer PunctuationContainer = new PunctuationContainer();
 
-            Symbol s = new Symbol("A");
-            string p = s.Chars;
+            Parser parser = new Parser(PunctuationContainer);
 
-            Word w1 = new Word("прывет");
+            parser.Parse();
+                
 
-            foreach (var z in w1)
-            {
-                Console.WriteLine(z.Chars);
-            }
+            Console.WriteLine("Worked done!");
 
-            Console.WriteLine(w1.Chars);
+            Console.ReadKey();
         }
     }
 }

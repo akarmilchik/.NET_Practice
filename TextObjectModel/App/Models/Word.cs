@@ -65,5 +65,9 @@ namespace TextObjectModel.App.Models
             get { return (_symbols != null) ? _symbols.Length : 0; }
         }
 
+        public ICollection<Symbol> Symbols 
+        {
+            get { return this._symbols; }
+        }
     }
 }

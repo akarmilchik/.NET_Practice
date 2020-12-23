@@ -3,10 +3,11 @@ using System.Linq;
 
 namespace TextObjectModel.App.Constants
 {
-    public class SeparatorsContainer
+    public class PunctuationContainer
     {
         private string[] sentenceSeparators = new string[] { "?", "!", ".", "...", "?!" };
-        private string[] wordSeparators = new string[] { " ", " - " };
+        private string[] wordSeparators = new string[] { " ", "-", ","};
+        public string[] badSymbols = new string[] { "  ", "\t" };
 
         public IEnumerable<string> SentenceSeparators()
         {

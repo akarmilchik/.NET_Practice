@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using TextObjectModel.App.Interfaces;
 
 namespace TextObjectModel.App.Models
 {
-    public class Sentence
+    public class Sentence : ISentence
     {
         private ICollection<ISentenceItem> items;
 
@@ -42,6 +43,11 @@ namespace TextObjectModel.App.Models
         }
 
         public IEnumerator<ISentenceItem> GetEnumerator()
+        {
+            throw new NotImplementedException();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
         {
             throw new NotImplementedException();
         }

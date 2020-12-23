@@ -2,7 +2,7 @@
 
 namespace TextObjectModel.DAL.Factories
 {
-    class SentenceItemFactory : ISentenceItemFactory
+    public class SentenceItemFactory : ISentenceItemFactory
     {
         private ISentenceItemFactory punctuationFactory;
         private ISentenceItemFactory wordFactory;

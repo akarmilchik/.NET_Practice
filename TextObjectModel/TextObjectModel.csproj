@@ -7,7 +7,12 @@
   
   <ItemGroup>
     <Folder Include="App\Data\" />
-    <Folder Include="DAL\Repositories\Interfaces\" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <None Update="App\Data\text.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
