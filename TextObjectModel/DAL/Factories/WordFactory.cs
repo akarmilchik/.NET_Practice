@@ -3,7 +3,7 @@ using TextObjectModel.App.Models;
 
 namespace TextObjectModel.DAL.Factories
 {
-    class WordFactory : ISentenceItemFactory
+    public class WordFactory : ISentenceItemFactory
     {
         public ISentenceItem Create(string chars)
         {

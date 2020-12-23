@@ -1,4 +1,5 @@
 ﻿using TextObjectModel.App.Interfaces;
+using TextObjectModel.Core.Interfaces;
 
 namespace TextObjectModel.DAL.Factories
 {
@@ -6,10 +7,14 @@ namespace TextObjectModel.DAL.Factories
     {
         private ISentenceItemFactory punctuationFactory;
         private ISentenceItemFactory wordFactory;
+        private IInternService internService;
 
         public ISentenceItem Create(string chars)
         {
+            internService.InternString(chars);
+
             ISentenceItem result = punctuationFactory.Create(chars);
+
             if (result == null)
             {
                 result = wordFactory.Create(chars);
@@ -17,10 +22,11 @@ namespace TextObjectModel.DAL.Factories
             return result;
         }
 
-        public SentenceItemFactory(ISentenceItemFactory punctuationFactory, ISentenceItemFactory wordFactory)
+        public SentenceItemFactory(ISentenceItemFactory punctuationFactory, ISentenceItemFactory wordFactory, IInternService internService)
         {
             this.punctuationFactory = punctuationFactory;
             this.wordFactory = wordFactory;
+            this.internService = internService;
         }
     }
 }

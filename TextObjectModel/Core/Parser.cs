@@ -18,61 +18,35 @@ namespace TextObjectModel.Core.Services
         private ISentenceItemFactory _punctuationFactory;
         private IDataRepository _dataRepository;
         private SentenceItemFactory _sentenceItemFactory;
+        private InternService _internService;
 
-        public Parser(PunctuationContainer separatorContainer)
+        public Parser(PunctuationContainer punctuationContainer, WordFactory wordFactory, PunctuationFactory punctuationFactory, DataRepository dataRepository, SentenceItemFactory sentenceItemFactory, InternService internService)
         {
-            this.SeparatorContainer = separatorContainer;
-            this.WordFactory = new WordFactory();
-            this.PunctuationFactory = new PunctuationFactory(this._punctuationContainer);
-            this.DataRepository = new DataRepository();
-            this.SentenceItemFactory = new SentenceItemFactory(this._punctuationFactory, this._wordFactory);
-        }
-
-        protected ISentenceItemFactory WordFactory
-        {
-            get { return _wordFactory; }
-            set { _wordFactory = value; }
-        }
-
-        public ISentenceItemFactory PunctuationFactory
-        {
-            get { return _punctuationFactory; }
-            set { _punctuationFactory = value; }
-        }
-
-        protected PunctuationContainer SeparatorContainer
-        {
-            get { return _punctuationContainer; }
-            set { _punctuationContainer = value; }
-        }
-
-        protected IDataRepository DataRepository
-        {
-            get { return _dataRepository; }
-            set { _dataRepository = value; }
-        }
-
-        protected SentenceItemFactory SentenceItemFactory
-        {
-            get { return _sentenceItemFactory; }
-            set { _sentenceItemFactory = value; }
+            this._punctuationContainer = punctuationContainer;
+            this._wordFactory = wordFactory;
+            this._punctuationFactory = punctuationFactory;
+            this._dataRepository = dataRepository;
+            this._sentenceItemFactory = sentenceItemFactory;
+            this._internService = internService;
         }
 
         public Text Parse()
         {
-            var orderedSentenceSeparators = SeparatorContainer.SentenceSeparators().OrderByDescending(x => x.Length);
+            _internService.InternSeparators(_punctuationContainer);
 
-            var wordSeparators = SeparatorContainer.WordSeparators().ToList();
+            var orderedSentenceSeparators = _punctuationContainer.SentenceSeparators().OrderByDescending(x => x.Length);
+
+            var wordSeparators = _punctuationContainer.WordSeparators().ToList();
 
             int bufferlength = 10000;
 
-            Text textResult = new Text();
+            List<ISentence> workedSentences = new List<ISentence>();
 
             StringBuilder buffer = new StringBuilder(bufferlength);
 
             buffer.Clear();
 
-            string path = DataRepository.GetDataPath();
+            string path = _dataRepository.GetDataPath();
 
             using (StreamReader reader = new StreamReader(path, Encoding.Default))
             {
@@ -82,125 +56,212 @@ namespace TextObjectModel.Core.Services
 
                 while ((currentString = reader.ReadLine()) != null)
                 {
-                    int separatorOccurence = -1;
-
-                    int separatorBehindSpaceOccurence = -1;
-
                     currentString = ClearSentenceStringLine(currentString);
 
-                    foreach (var obj in orderedSentenceSeparators)
+                    while (currentString.Length > 0)
                     {
-                        separatorOccurence = currentString.IndexOf(obj);
+                        int separatorOccurence = -1;
 
-                        separatorBehindSpaceOccurence = currentString.IndexOf(obj + wordSeparators[0]);
+                        int separatorOnlyOccurence = -1;
 
-                        if (separatorOccurence >= 0 && (separatorOccurence == (currentString.Length - 1) || separatorBehindSpaceOccurence >= 0))
+                        int separatorFollowedSpaceOccurence = -1;
+
+                        foreach (var obj in orderedSentenceSeparators)
                         {
-                            sentenceSeparator = currentString.ElementAt(separatorOccurence).ToString();
-                            break;
+                            separatorOnlyOccurence = currentString.IndexOf(obj);
+
+                            separatorFollowedSpaceOccurence = currentString.IndexOf(obj + wordSeparators[0]);
+
+                            if (separatorOnlyOccurence > 0 && separatorOnlyOccurence < currentString.Length - 1)
+                            {
+                                separatorOnlyOccurence = CheckSeparatorOccurence(currentString, separatorOnlyOccurence, obj, wordSeparators);
+                            }
+
+                            if (separatorFollowedSpaceOccurence >= 0 && separatorFollowedSpaceOccurence < currentString.Length - 1)
+                            {
+                                sentenceSeparator = currentString.ElementAt(separatorFollowedSpaceOccurence).ToString();
+
+                                separatorOccurence = separatorFollowedSpaceOccurence;
+
+                                break;
+                            }
+                            else if (separatorOnlyOccurence >= 0 && separatorOnlyOccurence == (currentString.Length - 1))
+                            {
+                                sentenceSeparator = currentString.ElementAt(separatorOnlyOccurence).ToString();
+
+                                separatorOccurence = separatorOnlyOccurence;
+
+                                break;
+                            }
+                            
                         }
+
+                        if (sentenceSeparator != "" && sentenceSeparator != null)
+                        {
+                            buffer.Append(currentString.Substring(0, separatorOccurence + sentenceSeparator.Length));
+
+                            var sentence = this.ParseSentence(buffer.ToString(), sentenceSeparator);
+
+                            workedSentences.Add(sentence);
+
+                            buffer.Clear();
+                        }
+                        else
+                        {
+                            buffer.Append(" ");
+
+                            buffer.Append(currentString);
+                        }
+
+                        currentString = currentString.Substring(separatorOccurence + sentenceSeparator.Length);
+
+                        if (currentString.StartsWith(wordSeparators[0]))
+                            currentString = currentString.Substring(wordSeparators[0].Length);
+
                     }
-
-                    if (sentenceSeparator != "" && sentenceSeparator != null)
-                    {
-                        buffer.Append(currentString.Substring(0, separatorOccurence + sentenceSeparator.Length));
-
-                        var sentence = this.ParseSentence(buffer.ToString());
-
-                        textResult.sentences.Add(sentence);
-
-                        buffer.Clear();
-
-                        buffer.Append(currentString.Substring(separatorOccurence + sentenceSeparator.Length + 1, currentString.Length));
-                    }
-                    else
-                    {
-                        buffer.Append(" ");
-
-                        buffer.Append(currentString);
-                    }
-                    currentString = reader.ReadLine();
                 }
             }
+
+            Text textResult = new Text(workedSentences);
 
             return textResult;
         }
 
-
         protected string ClearSentenceStringLine(string stringLine)
         {
-            var wordSeparators = SeparatorContainer.WordSeparators().ToList();
+            var wordSeparators = _punctuationContainer.WordSeparators().ToList();
 
-            foreach (string badSymbol in SeparatorContainer.badSymbols)
+            foreach (string badSymbol in _punctuationContainer.badSymbols)
             {
                 stringLine = stringLine.Replace(badSymbol, wordSeparators[0]);
             }
 
+            if (stringLine.StartsWith(wordSeparators[0]))
+                stringLine = stringLine.Substring(wordSeparators[0].Length);
+
             return stringLine;    
         }
-        
-        protected ISentence ParseSentence(string source)
+
+        protected int CheckSeparatorOccurence(string currentString, int separatorOccurence, string separator, List<string> wordSeparators)
         {
-            var items = ParseSentenceItems(source);
+            var res = currentString.Substring(separatorOccurence, 2);
+
+            while((separatorOccurence != (currentString.Length - 1)) && (res[1].ToString() != wordSeparators[0]))
+            {
+                var cutString = currentString.Substring(separatorOccurence + 1);
+                
+                separatorOccurence = cutString.IndexOf(separator) + separatorOccurence + 1;
+
+                if(separatorOccurence < currentString.Length - 1)
+                    res = currentString.Substring(separatorOccurence, 2);
+            }
+            
+            return separatorOccurence;
+        }
+        
+        protected ISentence ParseSentence(string source, string sentenceSeparator)
+        {
+            var items = ParseSentenceItems(source, sentenceSeparator);
 
             Sentence sentence = new Sentence(items);
 
             return sentence;
         }
 
-        protected ICollection<ISentenceItem> ParseSentenceItems(string sentenceSource)
-        {
+        protected ICollection<ISentenceItem> ParseSentenceItems(string sentenceSource, string sentenceSeparator)
+        { 
+
             List<ISentenceItem> sentenceItems = new List<ISentenceItem>();
 
             int separatorOccurence = -1;
 
             string wordSeparator = "";
 
-            var wordSeparators = SeparatorContainer.WordSeparators().ToList();
+            var wordSeparators = _punctuationContainer.WordSeparators().ToList();
 
             int bufferlength = 10000;
 
             StringBuilder buffer = new StringBuilder(bufferlength);
 
-            buffer.Clear();
-
             while (sentenceSource.Length > 0)
             {
+                buffer.Clear();
+
+                wordSeparator = "";
+
+                separatorOccurence = -1;
 
                 foreach (var obj in wordSeparators)
                 {
-                    separatorOccurence = sentenceSource.IndexOf(obj);
+                    var occurence = sentenceSource.IndexOf(obj);
 
-                    if (separatorOccurence >= 0)
+                    if ((occurence != -1 && separatorOccurence > occurence) || separatorOccurence == -1)
                     {
-                        wordSeparator = sentenceSource.ElementAt(separatorOccurence).ToString();
-                        break;
+                        separatorOccurence = occurence;
                     }
+
+                }
+
+                if (separatorOccurence >= 0)
+                {
+                    wordSeparator = sentenceSource.ElementAt(separatorOccurence).ToString();
                 }
 
                 if (wordSeparator != "" && wordSeparator != null)
                 {
                     buffer.Append(sentenceSource.Substring(0, separatorOccurence));
 
-                    sentenceItems.Add(SentenceItemFactory.Create(buffer.ToString()));
+                    if (buffer.Length > 0)
+                    {
+                        sentenceItems.Add(_sentenceItemFactory.Create(buffer.ToString()));
+                    }
 
                     buffer.Clear();
 
                     buffer.Append(wordSeparator);
 
-                    sentenceItems.Add(SentenceItemFactory.Create(buffer.ToString()));
+                    sentenceItems.Add(_sentenceItemFactory.Create(buffer.ToString()));
 
                     sentenceSource = sentenceSource.Substring(separatorOccurence + wordSeparator.Length);
+
+                    if (sentenceSource.StartsWith(wordSeparators[0]))
+                    {
+                        buffer.Clear();
+
+                        buffer.Append(wordSeparators[0]);
+
+                        sentenceItems.Add(_sentenceItemFactory.Create(buffer.ToString()));
+
+                        sentenceSource = sentenceSource.Substring(wordSeparators[0].Length);
+                    }
+
                 }
                 else
                 {
-                    buffer.Append(wordSeparators[0]);
+                    if (sentenceSource.Length > sentenceSeparator.Length)
+                    {
+                        sentenceSource = sentenceSource.Replace(sentenceSeparator, "");
 
-                    buffer.Append(sentenceSource);
+                        buffer.Append(sentenceSource);
+
+                        sentenceItems.Add(_sentenceItemFactory.Create(buffer.ToString()));
+
+                        sentenceSource = sentenceSource.Replace(sentenceSource, "");
+
+                    }
+                    buffer.Clear();
+
+                    buffer.Append(sentenceSeparator);
+
+                    sentenceItems.Add(_sentenceItemFactory.Create(buffer.ToString()));
+
+                    sentenceSource = sentenceSource.Replace(sentenceSeparator, "");
                 }
             }
 
             return sentenceItems;
         }
+
+        
     }
 }

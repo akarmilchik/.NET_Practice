@@ -5,7 +5,7 @@ using TextObjectModel.App.Models;
 
 namespace TextObjectModel.DAL.Factories
 {
-    class PunctuationFactory : ISentenceItemFactory
+    public class PunctuationFactory : ISentenceItemFactory
     {
         IDictionary<string, ISentenceItem> cachedItems;
 
