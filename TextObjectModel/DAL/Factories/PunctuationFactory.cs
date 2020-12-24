@@ -14,7 +14,7 @@ namespace TextObjectModel.DAL.Factories
             return cachedItems.ContainsKey(chars) ? cachedItems[chars] : null;
         }
 
-        public PunctuationFactory(PunctuationContainer PunctuationContainer)
+        public PunctuationFactory(SymbolsContainer PunctuationContainer)
         {
             this.cachedItems = new Dictionary<string, ISentenceItem>();
             foreach (var c in PunctuationContainer.All())

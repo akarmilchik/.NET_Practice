@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -13,16 +14,16 @@ namespace TextObjectModel.Core.Services
 {
     public class Parser
     {
-        private PunctuationContainer _punctuationContainer;
+        private SymbolsContainer _symbolsContainer;
         private ISentenceItemFactory _wordFactory;
         private ISentenceItemFactory _punctuationFactory;
         private IDataRepository _dataRepository;
         private SentenceItemFactory _sentenceItemFactory;
         private InternService _internService;
 
-        public Parser(PunctuationContainer punctuationContainer, WordFactory wordFactory, PunctuationFactory punctuationFactory, DataRepository dataRepository, SentenceItemFactory sentenceItemFactory, InternService internService)
+        public Parser(SymbolsContainer symbolsContainer, WordFactory wordFactory, PunctuationFactory punctuationFactory, DataRepository dataRepository, SentenceItemFactory sentenceItemFactory, InternService internService)
         {
-            this._punctuationContainer = punctuationContainer;
+            this._symbolsContainer = symbolsContainer;
             this._wordFactory = wordFactory;
             this._punctuationFactory = punctuationFactory;
             this._dataRepository = dataRepository;
@@ -32,11 +33,11 @@ namespace TextObjectModel.Core.Services
 
         public Text Parse(string dataPath)
         {
-            _internService.InternSeparators(_punctuationContainer);
+            _internService.InternSeparators(_symbolsContainer);
 
-            var orderedSentenceSeparators = _punctuationContainer.SentenceSeparators().OrderByDescending(x => x.Length);
+            var orderedSentenceSeparators = _symbolsContainer.SentenceSeparators().OrderByDescending(x => x.Length);
 
-            var wordSeparators = _punctuationContainer.WordSeparators().ToList();
+            var wordSeparators = _symbolsContainer.WordSeparators().ToList();
 
             int bufferlength = 10000;
 
@@ -127,9 +128,9 @@ namespace TextObjectModel.Core.Services
 
         protected string ClearSentenceStringLine(string stringLine)
         {
-            var wordSeparators = _punctuationContainer.WordSeparators().ToList();
+            var wordSeparators = _symbolsContainer.WordSeparators().ToList();
 
-            foreach (string badSymbol in _punctuationContainer.badSymbols)
+            foreach (string badSymbol in _symbolsContainer.BadSymbols())
             {
                 stringLine = stringLine.Replace(badSymbol, wordSeparators[0]);
             }
@@ -183,6 +184,12 @@ namespace TextObjectModel.Core.Services
 
             while (sentenceSource.Length > 0)
             {
+
+                var res = sentenceSource.Split(wordSeparators.ToArray(), StringSplitOptions.RemoveEmptyEntries);
+
+
+
+
                 buffer.Clear();
 
                 wordSeparator = "";

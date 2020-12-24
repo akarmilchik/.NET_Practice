@@ -1,5 +1,6 @@
 ﻿using System;
 using TextObjectModel.App.Constants;
+using TextObjectModel.App.Models;
 using TextObjectModel.Core.Services;
 using TextObjectModel.DAL.Factories;
 using TextObjectModel.DAL.Repositories;
@@ -16,26 +17,33 @@ namespace TextObjectModel
 
             MainMenuItems menuItems;
 
-            PunctuationContainer punctuationContainer = new PunctuationContainer();
+            SymbolsContainer punctuationContainer = new SymbolsContainer();
+
             WordFactory wordFactory = new WordFactory();
+
             PunctuationFactory punctuationFactory = new PunctuationFactory(punctuationContainer);
+
             DataRepository dataRepository = new DataRepository();
+
             InternService internService = new InternService();
+
             SentenceItemFactory sentenceItemFactory = new SentenceItemFactory(punctuationFactory, wordFactory, internService);
-            
+
             PrintService printService = new PrintService();
+
             TypeConversionService typeConversionService = new TypeConversionService();
+
+            ParseService parseService = new ParseService();
 
             Parser parser = new Parser(punctuationContainer, wordFactory, punctuationFactory, dataRepository, sentenceItemFactory, internService);
 
+            Text parsedText = parseService.ParseData(parser, dataRepository);
+
+            var dataObjectModel = dataRepository.ReadData();
+
+            MenuService menuService = new MenuService(dataRepository, typeConversionService, printService, parsedText, selectedMenuItemId, dataObjectModel);
+
             printService.PrintWelcome();
-
-            var path = dataRepository.GetDataPath();
-
-            var parsedText = parser.Parse(path);
-
-            MenuService menuService = new MenuService(dataRepository, typeConversionService, printService, parsedText, selectedMenuItemId);
-
 
             while (isWorking)
             {
@@ -58,13 +66,14 @@ namespace TextObjectModel
                             menuService.CloseApp();
                             break;
                         case MainMenuItems.DisplayAscOfWords:
-                            //printService.PrintGift(data.Gift);
+                            printService.PrintSentencesByOrderOfWords(parsedText);
                             break;
                         case MainMenuItems.FindWordsInInterrogativeSentences:
-                            //menuService.MakeNewGift();
+                            var findWords = menuService.FindWordsInInterrogativeSentences(parsedText);
+                            printService.PrintSentencesItems(findWords);
                             break;
-                        case MainMenuItems.RemoveWordGivenLength:
-                            //int weight = giftService.CalculateGiftWeight(data.Gift);
+                        case MainMenuItems.RemoveWordsGivenLength:
+                            menuService.RemoveWordsGivenLength(parsedText);
                             //printService.PrintGiftWeight(weight);
                             break;
                         case MainMenuItems.ReplaceWordsBySubstring:
@@ -79,9 +88,6 @@ namespace TextObjectModel
                     }
                 }
             }
-            
-
-            Console.ReadKey();
         }
     }
 }

@@ -4,7 +4,7 @@ namespace TextObjectModel.Core.Interfaces
 {
     public interface IInternService
     {
-        void InternSeparators(PunctuationContainer PunctuationContainer);
+        void InternSeparators(SymbolsContainer PunctuationContainer);
         void InternString(string item);
     }
 }

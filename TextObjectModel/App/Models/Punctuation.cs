@@ -4,20 +4,13 @@ namespace TextObjectModel.App.Models
 {
     class Punctuation : IPunctuation
     {
-        private Symbol value;
-        public Symbol Value
-        {
-            get { return this.value; }
-        }
-
-        public string Chars
-        {
-            get { return this.Value.Chars; }
-        }
+        private Symbol _value;
+        public Symbol Value => _value;
+        public string Chars => Value.Chars;
 
         public Punctuation(string chars)
         {
-            this.value = new Symbol(chars);
+            this._value = new Symbol(chars);
         }
     }
 }

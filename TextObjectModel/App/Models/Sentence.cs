@@ -1,55 +1,50 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using TextObjectModel.App.Interfaces;
 
 namespace TextObjectModel.App.Models
 {
     public class Sentence : ISentence
     {
-        private ICollection<ISentenceItem> items;
-
-        //public Sentence()
-        //{
-        //    Items = new List<ISentenceItem>();
-        //}
+        private ICollection<ISentenceItem> _items;
 
         public Sentence(ICollection<ISentenceItem> source)
         {
-            items = source;
+            _items = source;
+        }
+
+        public int Count => _items.Count();
+
+        public ICollection<ISentenceItem> items
+        {
+            get { return _items; }
+            set { _items = value; }
         }
 
         public void Add(ISentenceItem item)
         {
-            if (item != null)
+            if (item == null)
             {
-                items.Add(item);
+                throw new NullReferenceException("Trying to add a null element to a sentence.");
             }
-            else
-            {
-                throw new NullReferenceException("");
-            }
+
+            _items.Add(item);
         }
 
         public bool Remove(ISentenceItem item)
         {
-            throw new NotImplementedException();
+            if (item == null)
+            {
+                throw new NullReferenceException("Trying to remove a null element from a sentence.");
+            }
+
+            return _items.Remove(item);
         }
 
-        public int Count
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public IEnumerator<ISentenceItem> GetEnumerator() => _items.GetEnumerator();
 
-        public IEnumerator<ISentenceItem> GetEnumerator()
-        {
-            throw new NotImplementedException();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            throw new NotImplementedException();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => _items.GetEnumerator();
     }
 }

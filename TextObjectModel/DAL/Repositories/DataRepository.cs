@@ -1,4 +1,8 @@
-﻿using TextObjectModel.DAL.Repositories.Interfaces;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.IO;
+using TextObjectModel.App.Models;
+using TextObjectModel.DAL.Repositories.Interfaces;
 
 namespace TextObjectModel.DAL.Repositories
 {
@@ -11,6 +15,54 @@ namespace TextObjectModel.DAL.Repositories
             path = path.Remove(path.LastIndexOf("\\")) + "\\App\\Data\\text.txt";
 
             return path;
+        }
+
+        public string GetModelPath()
+        {
+            var path = System.Reflection.Assembly.GetExecutingAssembly().Location;
+
+            path = path.Remove(path.LastIndexOf("\\")) + "\\App\\Data\\dataObjectModel.json";
+
+            return path;
+        }
+
+        public void SaveData(DataObjectModel data)
+        {
+            string modelPath = GetModelPath();
+
+            string serializedObject = JsonConvert.SerializeObject(data);
+
+            File.WriteAllText(modelPath, serializedObject);
+
+            JObject dataObject = new JObject(data);
+
+            using StreamWriter file = File.CreateText(modelPath);
+
+            using JsonTextWriter writer = new JsonTextWriter(file);
+            
+            dataObject.WriteTo(writer);
+            
+        }
+
+        public DataObjectModel ReadData()
+        {
+            string jsonText = File.ReadAllText(GetDataPath());
+
+            using StreamReader file = File.OpenText(GetModelPath());
+
+            using JsonTextReader reader = new JsonTextReader(file);
+            
+            JObject jsonTextObject = (JObject)JToken.ReadFrom(reader);
+
+            var settings = new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.Auto,
+                Formatting = Formatting.Indented
+            };
+
+            var deserializedData = JsonConvert.DeserializeObject<DataObjectModel>(jsonText, settings);
+
+            return deserializedData;
         }
     }
 }

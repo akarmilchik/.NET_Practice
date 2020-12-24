@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using TextObjectModel.App.Interfaces;
+using TextObjectModel.App.Models;
 using TextObjectModel.Core.Interfaces;
 
 namespace TextObjectModel.Core.Services
@@ -47,6 +51,35 @@ namespace TextObjectModel.Core.Services
         public void PrintIncorrectChoose()
         {
             Console.WriteLine("\n\nPlease choose correct menu item.");
+        }
+
+        public void PrintSentence(ISentence sentence) 
+        {
+            foreach (var sentenceItem in sentence)
+            {
+                Console.Write(sentenceItem.Chars);
+            }
+
+            Console.Write("\n");
+        }
+
+        public void PrintSentenceItem(ISentenceItem item)
+        {
+            Console.WriteLine(item.Chars);
+        }
+
+        public void PrintSentencesItems(IEnumerable<ISentenceItem> items)
+        {
+            items.ToList().ForEach(i => PrintSentenceItem(i));
+        }
+
+        public void PrintSentencesByOrderOfWords(Text data)
+        {
+            var sentencesList = data.sentences.ToList();
+
+            sentencesList = sentencesList.OrderBy(s => s.items.Count()).ToList();
+
+            sentencesList.ForEach(s => PrintSentence(s));
         }
     }
 }

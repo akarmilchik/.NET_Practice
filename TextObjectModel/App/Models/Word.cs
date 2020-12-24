@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TextObjectModel.App.Interfaces;
@@ -16,58 +18,39 @@ namespace TextObjectModel.App.Models
 
         public Word(string chars)
         {
-            if (chars != null)
+            if (chars == null)
             {
-                this._symbols = chars.Select(x => new Symbol(x)).ToArray();
+                _symbols = null;
+
+                throw new NullReferenceException("Trying to add a null element to the word.");
             }
-            else
-            {
-                this._symbols = null;
-            }
+
+            _symbols = chars.Select(x => new Symbol(x)).ToArray();
         }
 
-        public Symbol this[int index]
-        {
-            get { return this._symbols[index]; }
-        }
+        public Symbol this[int index] => _symbols[index];
 
         public string Chars
         {
             get
             {
                 StringBuilder sb = new StringBuilder();
+
                 foreach (var s in this._symbols)
                 {
                     sb.Append(s.Chars);
                 }
+
                 return sb.ToString();
             }
         }
 
-        public IEnumerator<Symbol> GetEnumerator()
-        {
-            //foreach (var s in symbols)
-            //{
-            //    yield return s;
-            //}
+        public ICollection<Symbol> Symbols => _symbols;
 
-            return _symbols.AsEnumerable().GetEnumerator();
-        }
+        public int Length => _symbols?.Length ?? default;
 
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-        {
-            return this._symbols.GetEnumerator();
-        }
+        public IEnumerator<Symbol> GetEnumerator() => _symbols.AsEnumerable().GetEnumerator();
 
-
-        public int Length
-        {
-            get { return (_symbols != null) ? _symbols.Length : 0; }
-        }
-
-        public ICollection<Symbol> Symbols 
-        {
-            get { return this._symbols; }
-        }
+        IEnumerator IEnumerable.GetEnumerator() => _symbols.GetEnumerator();
     }
 }
