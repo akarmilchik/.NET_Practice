@@ -2,6 +2,6 @@
 {
     public interface ISentenceItem
     {
-        string Chars { get; }
+        string Chars { get; set; }
     }
 }

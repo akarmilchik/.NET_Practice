@@ -6,11 +6,16 @@ namespace TextObjectModel.App.Models
     {
         private Symbol _value;
         public Symbol Value => _value;
-        public string Chars => Value.Chars;
+        public string Chars
+        {
+            get { return Value.Chars; }
+            set { _value = new Symbol(Chars); }
+        }
+     
 
         public Punctuation(string chars)
         {
-            this._value = new Symbol(chars);
+            _value = new Symbol(chars);
         }
     }
 }

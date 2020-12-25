@@ -1,0 +1,45 @@
+{
+  "Text": {
+    "sentences": [
+      {
+        "items": [
+		{
+          "chars": "SomeChars"
+		},
+		{
+          "chars": "SomeChars"
+        },
+		{
+          "chars": "SomeChars"
+        }],
+		"count": 3
+      },
+      {
+        "items": [
+		{
+          "chars": "SomeChars"
+        },
+		{
+         "chars": "SomeChars"
+        },
+		{
+          "chars": "SomeChars"
+        }],
+		"count": 3
+      },
+	  {
+        "items": [
+		{
+          "chars": "SomeChars"
+        },
+		{
+          "chars": "SomeChars"
+        },
+		{
+          "chars": "SomeChars"
+        }],
+		"count": 3
+      },
+    ]
+  }
+}

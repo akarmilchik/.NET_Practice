@@ -6,7 +6,8 @@ namespace TextObjectModel.Core.Interfaces
 {
     public interface IMenuService
     {
-        void FindWordsInInterrogativeSentences(Text data);
-        void PrintSentencesItems(IEnumerable<ISentenceItem> items);
+        IEnumerable<ISentenceItem> FindWordsInInterrogativeSentences(Text data);
+        Text RemoveWordsGivenLengthAndStartsConsonantLetter(Text data);
+        Text ReplaceWordsGivenLengthBySubstring(Text data);
     }
 }

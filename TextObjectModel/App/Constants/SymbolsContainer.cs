@@ -19,12 +19,11 @@ namespace TextObjectModel.App.Constants
       
         public IEnumerable<string> BadSymbols() => _badSymbols.AsEnumerable();
 
-        public IEnumerable<string> ConsonantLetters() => _consonantLetters.AsEnumerable();
+        public IEnumerable<string> ConsonantLetters() => _consonantLetters.Concat(ConsonantLettersToUpper()).AsEnumerable();
 
         public IEnumerable<string> ConsonantLettersToUpper()
         {
-            throw new NotImplementedException();
-            //return _consonantLetters.ToList().ForEach(cl => cl.ToUpper());
+            return _consonantLetters.Select(cl => cl.ToUpper()).ToArray();
         }
     }
 }

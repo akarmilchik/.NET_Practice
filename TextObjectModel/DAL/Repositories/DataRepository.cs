@@ -26,6 +26,8 @@ namespace TextObjectModel.DAL.Repositories
             return path;
         }
 
+        public DataObjectModel UpdateObjectModel(Text data) => new DataObjectModel { Text = data };
+
         public void SaveData(DataObjectModel data)
         {
             string modelPath = GetModelPath();
@@ -46,7 +48,8 @@ namespace TextObjectModel.DAL.Repositories
 
         public DataObjectModel ReadData()
         {
-            string jsonText = File.ReadAllText(GetDataPath());
+            /*
+            string data = File.ReadAllText(GetDataPath());
 
             using StreamReader file = File.OpenText(GetModelPath());
 
@@ -60,9 +63,9 @@ namespace TextObjectModel.DAL.Repositories
                 Formatting = Formatting.Indented
             };
 
-            var deserializedData = JsonConvert.DeserializeObject<DataObjectModel>(jsonText, settings);
+            var deserializedData = JsonConvert.DeserializeObject<DataObjectModel>(data, settings);*/
 
-            return deserializedData;
+            return null;
         }
     }
 }

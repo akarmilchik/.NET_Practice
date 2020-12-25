@@ -36,6 +36,12 @@ namespace TextObjectModel.Core.Services
             Console.Write("Input: ");
         }
 
+        public void PrintNumberOfSentence()
+        {
+            Console.WriteLine("\nInput number of sentence for replace words:");
+            Console.Write("Input: ");
+        }
+
         public void PrintSortingMenu()
         {
             Console.WriteLine("\nChoose sorting order:");
@@ -80,6 +86,11 @@ namespace TextObjectModel.Core.Services
             sentencesList = sentencesList.OrderBy(s => s.items.Count()).ToList();
 
             sentencesList.ForEach(s => PrintSentence(s));
+        }
+
+        public void PrintSentences(Text data)
+        {
+            data.sentences.ToList().ForEach(s => PrintSentence(s));
         }
     }
 }

@@ -41,7 +41,7 @@ namespace TextObjectModel
 
             var dataObjectModel = dataRepository.ReadData();
 
-            MenuService menuService = new MenuService(dataRepository, typeConversionService, printService, parsedText, selectedMenuItemId, dataObjectModel);
+            MenuService menuService = new MenuService(dataRepository, typeConversionService, printService, selectedMenuItemId, dataObjectModel);
 
             printService.PrintWelcome();
 
@@ -72,15 +72,16 @@ namespace TextObjectModel
                             var findWords = menuService.FindWordsInInterrogativeSentences(parsedText);
                             printService.PrintSentencesItems(findWords);
                             break;
-                        case MainMenuItems.RemoveWordsGivenLength:
-                            menuService.RemoveWordsGivenLength(parsedText);
-                            //printService.PrintGiftWeight(weight);
+                        case MainMenuItems.RemoveWords:
+                            Text formattedText = menuService.RemoveWordsGivenLengthAndStartsConsonantLetter(parsedText);
+                            printService.PrintSentences(formattedText);
                             break;
                         case MainMenuItems.ReplaceWordsBySubstring:
-                            //menuService.SortGiftSweetsByParameter();
+                            Text replacedText = menuService.ReplaceWordsGivenLengthBySubstring(parsedText);
                             break;
                         case MainMenuItems.SaveTextObjectModel:
-                            //menuService.FindGiftSweetsByParameter();
+                            dataObjectModel = dataRepository.UpdateObjectModel(parsedText);
+                            dataRepository.SaveData(dataObjectModel);
                             break;
                         default:
                             printService.PrintIncorrectChoose();

@@ -8,5 +8,6 @@ namespace TextObjectModel.DAL.Repositories.Interfaces
         string GetModelPath();
         DataObjectModel ReadData();
         void SaveData(DataObjectModel data);
+        DataObjectModel UpdateObjectModel(Text data);
     }
 }

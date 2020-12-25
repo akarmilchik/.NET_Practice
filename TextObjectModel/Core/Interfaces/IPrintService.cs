@@ -9,8 +9,10 @@ namespace TextObjectModel.Core.Interfaces
         void PrintIncorrectChoose();
         void PrintInputWordsLength();
         void PrintMainMenu();
+        void PrintNumberOfSentence();
         void PrintSentence(ISentence sentence);
         void PrintSentenceItem(ISentenceItem item);
+        void PrintSentences(Text data);
         void PrintSentencesByOrderOfWords(Text data);
         void PrintSortingMenu();
         void PrintSubstringToReplaceWords();

@@ -14,18 +14,16 @@ namespace TextObjectModel.Core.Services
         private readonly ITypeConversionService _typeConversionService;
         private readonly IPrintService _printService;
         private readonly IDataRepository _dataRepository;
-        private readonly Text _parsedText;
         private readonly DataObjectModel _dataObjectModel;
-        private SymbolsContainer punctuationContainer = new SymbolsContainer();
+        private SymbolsContainer symbolsContainer = new SymbolsContainer();
 
         private int _selectedMenuItemId;
 
-        public MenuService(IDataRepository dataRepository, ITypeConversionService typeConversionService, IPrintService printService, Text parsedText, int selectedMenuItemId, DataObjectModel dataObjectModel)
+        public MenuService(IDataRepository dataRepository, ITypeConversionService typeConversionService, IPrintService printService, int selectedMenuItemId, DataObjectModel dataObjectModel)
         {
             this._dataRepository = dataRepository;
             this._typeConversionService = typeConversionService;
             this._printService = printService;
-            this._parsedText = parsedText;
             this._selectedMenuItemId = selectedMenuItemId;
             this._dataObjectModel = dataObjectModel;
         }
@@ -40,7 +38,7 @@ namespace TextObjectModel.Core.Services
 
             var inputLength = _typeConversionService.CheckAndConvertInputToInt(Console.ReadLine());
 
-            var sentenceSeparators = punctuationContainer.SentenceSeparators().ToList();
+            var sentenceSeparators = symbolsContainer.SentenceSeparators().ToList();
 
             var interrogativeSentences = data.sentences.ToList().Where(s => s.items.Last().Chars == sentenceSeparators[0]);
 
@@ -60,16 +58,51 @@ namespace TextObjectModel.Core.Services
             return resultSentencesItems;
         }
 
-        public void RemoveWordsGivenLength(Text data)
+        public Text RemoveWordsGivenLengthAndStartsConsonantLetter(Text data)
         {
             _printService.PrintInputWordsLength();
 
             var inputLength = _typeConversionService.CheckAndConvertInputToInt(Console.ReadLine());
 
-            var sentences = data.sentences.ToList().Where(s => s);
+            var consonantLetters = symbolsContainer.ConsonantLetters().ToList();
 
+            foreach (var sentence in data.sentences)
+            {
+                foreach (var sentenceItem in sentence.items)
+                {
+                    if (sentenceItem.Chars.Length == inputLength && consonantLetters.Contains(sentenceItem.Chars[0].ToString()))
+                    {
+                        sentence.items.Remove(sentenceItem);
+                    }
+                }
+            }
+
+            return data;
         }
 
+        public Text ReplaceWordsGivenLengthBySubstring(Text data)
+        {
+            _printService.PrintNumberOfSentence();
 
+            var numberOfSentence = _typeConversionService.CheckAndConvertInputToInt(Console.ReadLine());
+
+            _printService.PrintInputWordsLength();
+
+            var inputLength = _typeConversionService.CheckAndConvertInputToInt(Console.ReadLine());
+
+            _printService.PrintSubstringToReplaceWords();
+
+            var inputString = Console.ReadLine().Trim();
+           
+            foreach (var sentenceItem in data.sentences.ToList()[numberOfSentence - 1])
+            {
+                if (sentenceItem.Chars.Length == inputLength)
+                {
+                    sentenceItem.Chars = inputString;
+                }
+            }
+
+            return data;
+        }
     }
 }

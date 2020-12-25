@@ -176,7 +176,7 @@ namespace TextObjectModel.Core.Services
 
             string wordSeparator = "";
 
-            var wordSeparators = _punctuationContainer.WordSeparators().ToList();
+            var wordSeparators = _symbolsContainer.WordSeparators().ToList();
 
             int bufferlength = 10000;
 

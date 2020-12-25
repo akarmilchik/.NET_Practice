@@ -5,7 +5,7 @@
         CloseApp,
         DisplayAscOfWords,
         FindWordsInInterrogativeSentences,
-        RemoveWordsGivenLength,
+        RemoveWords,
         ReplaceWordsBySubstring,
         SaveTextObjectModel
     }

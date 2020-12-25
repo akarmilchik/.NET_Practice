@@ -43,6 +43,10 @@ namespace TextObjectModel.App.Models
 
                 return sb.ToString();
             }
+            set 
+            {
+                _symbols = Chars.Select(x => new Symbol(x)).ToArray();
+            }
         }
 
         public ICollection<Symbol> Symbols => _symbols;
