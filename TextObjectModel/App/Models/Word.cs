@@ -11,6 +11,35 @@ namespace TextObjectModel.App.Models
     {
         private Symbol[] _symbols;
 
+        public Symbol this[int index] => _symbols[index];
+
+        public ICollection<Symbol> Symbols => _symbols;
+
+        public int Length => _symbols?.Length ?? default;
+
+        public IEnumerator<Symbol> GetEnumerator() => _symbols.AsEnumerable().GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator() => _symbols.GetEnumerator();
+
+        public string Chars
+        {
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+
+                foreach (var s in _symbols)
+                {
+                    sb.Append(s.Chars);
+                }
+
+                return sb.ToString();
+            }
+            set
+            {
+                _symbols = Chars.Select(x => new Symbol(x)).ToArray();
+            }
+        }
+
         public Word(IEnumerable<Symbol> symbols)
         {
             _symbols = symbols.ToArray();
@@ -27,34 +56,5 @@ namespace TextObjectModel.App.Models
 
             _symbols = chars.Select(x => new Symbol(x)).ToArray();
         }
-
-        public Symbol this[int index] => _symbols[index];
-
-        public string Chars
-        {
-            get
-            {
-                StringBuilder sb = new StringBuilder();
-
-                foreach (var s in _symbols)
-                {
-                    sb.Append(s.Chars);
-                }
-
-                return sb.ToString();
-            }
-            set 
-            {
-                _symbols = Chars.Select(x => new Symbol(x)).ToArray();
-            }
-        }
-
-        public ICollection<Symbol> Symbols => _symbols;
-
-        public int Length => _symbols?.Length ?? default;
-
-        public IEnumerator<Symbol> GetEnumerator() => _symbols.AsEnumerable().GetEnumerator();
-
-        IEnumerator IEnumerable.GetEnumerator() => _symbols.GetEnumerator();
     }
 }

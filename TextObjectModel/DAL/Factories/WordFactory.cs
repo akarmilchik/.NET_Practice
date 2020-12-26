@@ -5,9 +5,6 @@ namespace TextObjectModel.DAL.Factories
 {
     public class WordFactory : ISentenceItemFactory
     {
-        public ISentenceItem Create(string chars)
-        {
-            return new Word(chars);
-        }
+        public ISentenceItem Create(string chars) => new Word(chars);
     }
 }

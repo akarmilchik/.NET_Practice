@@ -7,7 +7,7 @@ namespace TextObjectModel.DAL.Repositories.Interfaces
         string GetDataPath();
         string GetModelPath();
         DataObjectModel ReadData();
-        void SaveData(DataObjectModel data);
         DataObjectModel UpdateObjectModel(Text data);
+        void SaveData(DataObjectModel data);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using TextObjectModel.App.Constants;
 using TextObjectModel.App.Models;
+using TextObjectModel.Core;
 using TextObjectModel.Core.Services;
 using TextObjectModel.DAL.Factories;
 using TextObjectModel.DAL.Repositories;
@@ -17,11 +18,11 @@ namespace TextObjectModel
 
             MainMenuItems menuItems;
 
-            SymbolsContainer punctuationContainer = new SymbolsContainer();
+            SymbolsContainer symbolsContainer = new SymbolsContainer();
 
             WordFactory wordFactory = new WordFactory();
 
-            PunctuationFactory punctuationFactory = new PunctuationFactory(punctuationContainer);
+            PunctuationFactory punctuationFactory = new PunctuationFactory(symbolsContainer);
 
             DataRepository dataRepository = new DataRepository();
 
@@ -35,13 +36,13 @@ namespace TextObjectModel
 
             ParseService parseService = new ParseService();
 
-            Parser parser = new Parser(punctuationContainer, wordFactory, punctuationFactory, sentenceItemFactory, internService, parseService);
+            Parser parser = new Parser(symbolsContainer, sentenceItemFactory, internService, parseService);
 
             Text parsedText = parseService.ParseData(parser, dataRepository);
 
             var dataObjectModel = dataRepository.ReadData();
 
-            MenuService menuService = new MenuService(dataRepository, typeConversionService, printService, selectedMenuItemId, dataObjectModel);
+            MenuService menuService = new MenuService(dataRepository, typeConversionService, printService, dataObjectModel);
 
             printService.PrintWelcome();
 

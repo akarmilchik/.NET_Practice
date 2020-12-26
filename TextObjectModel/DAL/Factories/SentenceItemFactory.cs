@@ -5,9 +5,16 @@ namespace TextObjectModel.DAL.Factories
 {
     public class SentenceItemFactory : ISentenceItemFactory
     {
-        private ISentenceItemFactory _punctuationFactory;
-        private ISentenceItemFactory _wordFactory;
-        private IInternService _internService;
+        private readonly ISentenceItemFactory _punctuationFactory;
+        private readonly ISentenceItemFactory _wordFactory;
+        private readonly IInternService _internService;
+
+        public SentenceItemFactory(ISentenceItemFactory punctuationFactory, ISentenceItemFactory wordFactory, IInternService internService)
+        {
+            _punctuationFactory = punctuationFactory;
+            _wordFactory = wordFactory;
+            _internService = internService;
+        }
 
         public ISentenceItem Create(string chars)
         {
@@ -20,13 +27,6 @@ namespace TextObjectModel.DAL.Factories
                 result = _wordFactory.Create(chars);
             }
             return result;
-        }
-
-        public SentenceItemFactory(ISentenceItemFactory punctuationFactory, ISentenceItemFactory wordFactory, IInternService internService)
-        {
-            _punctuationFactory = punctuationFactory;
-            _wordFactory = wordFactory;
-            _internService = internService;
         }
     }
 }

@@ -48,7 +48,6 @@ namespace TextObjectModel.DAL.Repositories
 
         public DataObjectModel ReadData()
         {
-            /*
             string data = File.ReadAllText(GetDataPath());
 
             using StreamReader file = File.OpenText(GetModelPath());
@@ -57,15 +56,13 @@ namespace TextObjectModel.DAL.Repositories
             
             JObject jsonTextObject = (JObject)JToken.ReadFrom(reader);
 
-            var settings = new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.Auto,
-                Formatting = Formatting.Indented
-            };
+            Text textObject = jsonTextObject.ToObject<Text>();
 
-            var deserializedData = JsonConvert.DeserializeObject<DataObjectModel>(data, settings);*/
+            DataObjectModel textObjectModel = new DataObjectModel();
 
-            return null;
+            textObjectModel.Text = textObject;
+
+            return textObjectModel;
         }
     }
 }

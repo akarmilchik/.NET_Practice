@@ -7,16 +7,16 @@ namespace TextObjectModel.App.Models
     public class Text
     {
         private ICollection<ISentence> _sentences;
-        
-        public Text(ICollection<ISentence> sentences)
-        {
-            _sentences = sentences;
-        }
 
         public ICollection<ISentence> sentences
         {
             get { return _sentences; }
             set { _sentences = value; }
+        }
+
+        public Text(ICollection<ISentence> sentences)
+        {
+            _sentences = sentences;
         }
 
         public void Add(ISentence item)

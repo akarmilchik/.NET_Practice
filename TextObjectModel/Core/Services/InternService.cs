@@ -5,9 +5,9 @@ namespace TextObjectModel.Core.Services
 {
     public class InternService : IInternService
     {
-        public void InternSeparators(SymbolsContainer PunctuationContainer)
+        public void InternSeparators(SymbolsContainer punctuationContainer)
         {
-            foreach (var obj in PunctuationContainer.All())
+            foreach (var obj in punctuationContainer.All())
             {
                 string.Intern(obj);
             }

@@ -15,16 +15,13 @@ namespace TextObjectModel.Core.Services
         private readonly IPrintService _printService;
         private readonly IDataRepository _dataRepository;
         private readonly DataObjectModel _dataObjectModel;
-        private SymbolsContainer symbolsContainer = new SymbolsContainer();
+        private readonly SymbolsContainer symbolsContainer = new SymbolsContainer();
 
-        private int _selectedMenuItemId;
-
-        public MenuService(IDataRepository dataRepository, ITypeConversionService typeConversionService, IPrintService printService, int selectedMenuItemId, DataObjectModel dataObjectModel)
+        public MenuService(IDataRepository dataRepository, ITypeConversionService typeConversionService, IPrintService printService, DataObjectModel dataObjectModel)
         {
             _dataRepository = dataRepository;
             _typeConversionService = typeConversionService;
             _printService = printService;
-            _selectedMenuItemId = selectedMenuItemId;
             _dataObjectModel = dataObjectModel;
         }
         public void CloseApp()

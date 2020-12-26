@@ -11,7 +11,6 @@ namespace TextObjectModel.App.Models
             get { return Value.Chars; }
             set { _value = new Symbol(Chars); }
         }
-     
 
         public Punctuation(string chars)
         {

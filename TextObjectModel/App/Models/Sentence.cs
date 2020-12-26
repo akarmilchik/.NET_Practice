@@ -10,17 +10,20 @@ namespace TextObjectModel.App.Models
     {
         private ICollection<ISentenceItem> _items;
 
-        public Sentence(ICollection<ISentenceItem> source)
-        {
-            _items = source;
-        }
-
         public int Count => _items.Count();
 
         public ICollection<ISentenceItem> items
         {
             get { return _items; }
             set { _items = value; }
+        }
+        public IEnumerator<ISentenceItem> GetEnumerator() => _items.GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator() => _items.GetEnumerator();
+
+        public Sentence(ICollection<ISentenceItem> source)
+        {
+            _items = source;
         }
 
         public void Add(ISentenceItem item)
@@ -42,9 +45,5 @@ namespace TextObjectModel.App.Models
 
             return _items.Remove(item);
         }
-
-        public IEnumerator<ISentenceItem> GetEnumerator() => _items.GetEnumerator();
-
-        IEnumerator IEnumerable.GetEnumerator() => _items.GetEnumerator();
     }
 }
