@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace TextObjectModel.App.Constants
 {
     public class SymbolsContainer
     {
-        private static readonly string[] _sentenceSeparators = new string[] { "?", "!", ".", "...", "?!" };
+        private static readonly string[] _sentenceSeparators = new string[] { ".", "?", "!", "?!", "..." };
         private static readonly string[] _wordSeparators = new string[] { " ", "-", ",", ":", ";", "(", ")", "[","]", "\""};
-        public static readonly string[] _badSymbols = new string[] { "  ", "\t" };
-        public static readonly string[] _consonantLetters = new string[] { "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "z" };
+        private static readonly string[] _badSymbols = new string[] { "  ", "   ", "\t", " \t", "\t " };
+        private static readonly string[] _consonantLetters = new string[] { "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "z" };
 
         public IEnumerable<string> SentenceSeparators() => _sentenceSeparators.AsEnumerable();
 
@@ -21,9 +20,6 @@ namespace TextObjectModel.App.Constants
 
         public IEnumerable<string> ConsonantLetters() => _consonantLetters.Concat(ConsonantLettersToUpper()).AsEnumerable();
 
-        public IEnumerable<string> ConsonantLettersToUpper()
-        {
-            return _consonantLetters.Select(cl => cl.ToUpper()).ToArray();
-        }
+        public IEnumerable<string> ConsonantLettersToUpper() => _consonantLetters.Select(cl => cl.ToUpper()).ToArray();
     }
 }

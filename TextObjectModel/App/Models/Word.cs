@@ -36,7 +36,7 @@ namespace TextObjectModel.App.Models
             {
                 StringBuilder sb = new StringBuilder();
 
-                foreach (var s in this._symbols)
+                foreach (var s in _symbols)
                 {
                     sb.Append(s.Chars);
                 }

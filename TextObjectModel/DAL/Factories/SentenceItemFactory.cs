@@ -5,28 +5,28 @@ namespace TextObjectModel.DAL.Factories
 {
     public class SentenceItemFactory : ISentenceItemFactory
     {
-        private ISentenceItemFactory punctuationFactory;
-        private ISentenceItemFactory wordFactory;
-        private IInternService internService;
+        private ISentenceItemFactory _punctuationFactory;
+        private ISentenceItemFactory _wordFactory;
+        private IInternService _internService;
 
         public ISentenceItem Create(string chars)
         {
-            internService.InternString(chars);
+            _internService.InternString(chars);
 
-            ISentenceItem result = punctuationFactory.Create(chars);
+            ISentenceItem result = _punctuationFactory.Create(chars);
 
             if (result == null)
             {
-                result = wordFactory.Create(chars);
+                result = _wordFactory.Create(chars);
             }
             return result;
         }
 
         public SentenceItemFactory(ISentenceItemFactory punctuationFactory, ISentenceItemFactory wordFactory, IInternService internService)
         {
-            this.punctuationFactory = punctuationFactory;
-            this.wordFactory = wordFactory;
-            this.internService = internService;
+            _punctuationFactory = punctuationFactory;
+            _wordFactory = wordFactory;
+            _internService = internService;
         }
     }
 }

@@ -7,21 +7,21 @@ namespace TextObjectModel.DAL.Factories
 {
     public class PunctuationFactory : ISentenceItemFactory
     {
-        IDictionary<string, ISentenceItem> cachedItems;
+        private IDictionary<string, ISentenceItem> _cachedItems;
 
         public ISentenceItem Create(string chars)
         {
-            return cachedItems.ContainsKey(chars) ? cachedItems[chars] : null;
+            return _cachedItems.ContainsKey(chars) ? _cachedItems[chars] : null;
         }
 
         public PunctuationFactory(SymbolsContainer PunctuationContainer)
         {
-            this.cachedItems = new Dictionary<string, ISentenceItem>();
+            _cachedItems = new Dictionary<string, ISentenceItem>();
+
             foreach (var c in PunctuationContainer.All())
             {
-                this.cachedItems.Add(c, new Punctuation(c));
+                _cachedItems.Add(c, new Punctuation(c));
             }
         }
-    
     }
 }

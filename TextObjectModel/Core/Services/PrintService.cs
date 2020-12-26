@@ -61,6 +61,7 @@ namespace TextObjectModel.Core.Services
 
         public void PrintSentence(ISentence sentence) 
         {
+            
             foreach (var sentenceItem in sentence)
             {
                 Console.Write(sentenceItem.Chars);
@@ -76,6 +77,7 @@ namespace TextObjectModel.Core.Services
 
         public void PrintSentencesItems(IEnumerable<ISentenceItem> items)
         {
+            Console.WriteLine("\n");
             items.ToList().ForEach(i => PrintSentenceItem(i));
         }
 
@@ -84,6 +86,8 @@ namespace TextObjectModel.Core.Services
             var sentencesList = data.sentences.ToList();
 
             sentencesList = sentencesList.OrderBy(s => s.items.Count()).ToList();
+
+            Console.WriteLine("\n");
 
             sentencesList.ForEach(s => PrintSentence(s));
         }

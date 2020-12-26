@@ -21,11 +21,11 @@ namespace TextObjectModel.Core.Services
 
         public MenuService(IDataRepository dataRepository, ITypeConversionService typeConversionService, IPrintService printService, int selectedMenuItemId, DataObjectModel dataObjectModel)
         {
-            this._dataRepository = dataRepository;
-            this._typeConversionService = typeConversionService;
-            this._printService = printService;
-            this._selectedMenuItemId = selectedMenuItemId;
-            this._dataObjectModel = dataObjectModel;
+            _dataRepository = dataRepository;
+            _typeConversionService = typeConversionService;
+            _printService = printService;
+            _selectedMenuItemId = selectedMenuItemId;
+            _dataObjectModel = dataObjectModel;
         }
         public void CloseApp()
         {

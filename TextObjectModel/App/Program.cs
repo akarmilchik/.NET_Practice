@@ -35,7 +35,7 @@ namespace TextObjectModel
 
             ParseService parseService = new ParseService();
 
-            Parser parser = new Parser(punctuationContainer, wordFactory, punctuationFactory, dataRepository, sentenceItemFactory, internService);
+            Parser parser = new Parser(punctuationContainer, wordFactory, punctuationFactory, sentenceItemFactory, internService, parseService);
 
             Text parsedText = parseService.ParseData(parser, dataRepository);
 
@@ -78,6 +78,7 @@ namespace TextObjectModel
                             break;
                         case MainMenuItems.ReplaceWordsBySubstring:
                             Text replacedText = menuService.ReplaceWordsGivenLengthBySubstring(parsedText);
+                            printService.PrintSentences(replacedText);
                             break;
                         case MainMenuItems.SaveTextObjectModel:
                             dataObjectModel = dataRepository.UpdateObjectModel(parsedText);
