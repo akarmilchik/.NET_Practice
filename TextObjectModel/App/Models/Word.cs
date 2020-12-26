@@ -17,7 +17,7 @@ namespace TextObjectModel.App.Models
 
         public int Length => _symbols?.Length ?? default;
 
-        public IEnumerator<Symbol> GetEnumerator() => _symbols.AsEnumerable().GetEnumerator();
+        public IEnumerator<Symbol> GetEnumerator() => _symbols.AsEnumerable()?.GetEnumerator() ?? Enumerable.Empty<Symbol>().GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => _symbols.GetEnumerator();
 
@@ -49,8 +49,6 @@ namespace TextObjectModel.App.Models
         {
             if (chars == null)
             {
-                _symbols = null;
-
                 throw new NullReferenceException("Trying to add a null element to the word.");
             }
 

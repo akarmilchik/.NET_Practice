@@ -26,23 +26,21 @@ namespace TextObjectModel
 
             DataRepository dataRepository = new DataRepository();
 
-            InternService internService = new InternService();
-
-            SentenceItemFactory sentenceItemFactory = new SentenceItemFactory(punctuationFactory, wordFactory, internService);
+            SentenceItemFactory sentenceItemFactory = new SentenceItemFactory(punctuationFactory, wordFactory);
 
             PrintService printService = new PrintService();
 
-            TypeConversionService typeConversionService = new TypeConversionService();
-
             ParseService parseService = new ParseService();
 
-            Parser parser = new Parser(symbolsContainer, sentenceItemFactory, internService, parseService);
+            Parser parser = new Parser(symbolsContainer, sentenceItemFactory, parseService);
 
-            Text parsedText = parseService.ParseData(parser, dataRepository);
+            var dataPath = dataRepository.GetDataPath();
+
+            var parsedText = parser.Parse(dataPath);
 
             var dataObjectModel = dataRepository.ReadData();
 
-            MenuService menuService = new MenuService(dataRepository, typeConversionService, printService, dataObjectModel);
+            MenuService menuService = new MenuService(dataRepository, printService, parsedText);
 
             printService.PrintWelcome();
 
@@ -54,7 +52,7 @@ namespace TextObjectModel
 
                 var input = Console.ReadKey();
 
-                selectedMenuItemId = typeConversionService.CheckAndConvertInputToInt(input.KeyChar.ToString());
+                selectedMenuItemId = TypeConversionService.ToInt(input.KeyChar.ToString());
 
                 menuItems = (MainMenuItems)selectedMenuItemId;
 
@@ -82,8 +80,7 @@ namespace TextObjectModel
                             printService.PrintSentences(replacedText);
                             break;
                         case MainMenuItems.SaveTextObjectModel:
-                            dataObjectModel = dataRepository.UpdateObjectModel(parsedText);
-                            dataRepository.SaveData(dataObjectModel);
+                            dataRepository.SaveData(parsedText);
                             break;
                         default:
                             printService.PrintIncorrectChoose();

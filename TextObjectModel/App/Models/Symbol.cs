@@ -18,7 +18,7 @@ namespace TextObjectModel.App.Models
 
         public Symbol(char source)
         {
-            _chars = String.Format("{0}", source);
+            _chars = source.ToString();
         }
     }
 }

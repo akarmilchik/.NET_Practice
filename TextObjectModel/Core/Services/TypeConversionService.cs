@@ -1,40 +1,29 @@
 ﻿using System.Collections.Generic;
-using TextObjectModel.Core.Interfaces;
 
 namespace TextObjectModel.Core.Services
 {
-    class TypeConversionService : ITypeConversionService
+    public static class TypeConversionService
     {
-        public int CheckAndConvertInputToInt(string input)
+        public static int ToInt(this string input)
         {
-            int resultInt;
+            if (int.TryParse(input, out var resultInt))
+            {
+                return resultInt;
+            }
 
-            if (int.TryParse(input, out resultInt))
-            {
-                return resultInt;
-            }
-            else
-            {
-                resultInt = -1;
-                return resultInt;
-            }
+            resultInt = -1;
+            return resultInt;         
         }
 
-        public IEnumerable<int> CheckAndConvertInputArrayToInt(string[] inputArray)
+        public static IEnumerable<int> ToInt(this string[] inputArray)
         {
-            int intItem;
-
-            List<int> resultIntArray = new List<int>();
-
             foreach (string item in inputArray)
             {
-                if (int.TryParse(item, out intItem))
+                if (int.TryParse(item, out var intItem))
                 {
-                    resultIntArray.Add(intItem);
+                    yield return intItem;
                 }
             }
-
-            return resultIntArray;
         }
     }
 }

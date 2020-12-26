@@ -85,7 +85,7 @@ namespace TextObjectModel.Core.Services
         {
             var sentencesList = data.sentences.ToList();
 
-            sentencesList = sentencesList.OrderBy(s => s.items.Count()).ToList();
+            sentencesList = sentencesList.OrderBy(s => s.Items.Count()).ToList();
 
             Console.WriteLine("\n");
 

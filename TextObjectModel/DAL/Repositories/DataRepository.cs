@@ -8,35 +8,33 @@ namespace TextObjectModel.DAL.Repositories
 {
     public class DataRepository : IDataRepository
     {
-        public string GetDataPath()
+        private static string dataFileName = "text.txt";
+        private static string dataObjectModelFileName = "dataObjectModel.json";
+
+        private static string GetPath(string fileName)
         {
             var path = System.Reflection.Assembly.GetExecutingAssembly().Location;
 
-            path = path.Remove(path.LastIndexOf("\\")) + "\\App\\Data\\text.txt";
-
-            return path;
+            return path.Remove(path.LastIndexOf("\\")) + $"\\App\\Data\\{fileName}";
         }
 
-        public string GetModelPath()
+        private DataObjectModel UpdateObjectModel(Text data) => new DataObjectModel { Text = data };
+
+        private static string GetModelPath() => GetPath(dataObjectModelFileName);
+
+        public string GetDataPath() => GetPath(dataFileName);
+
+        public void SaveData(Text data)
         {
-            var path = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            var model = UpdateObjectModel(data);
 
-            path = path.Remove(path.LastIndexOf("\\")) + "\\App\\Data\\dataObjectModel.json";
-
-            return path;
-        }
-
-        public DataObjectModel UpdateObjectModel(Text data) => new DataObjectModel { Text = data };
-
-        public void SaveData(DataObjectModel data)
-        {
             string modelPath = GetModelPath();
 
-            string serializedObject = JsonConvert.SerializeObject(data);
+            string serializedObject = JsonConvert.SerializeObject(model);
 
             File.WriteAllText(modelPath, serializedObject);
 
-            JObject dataObject = new JObject(data);
+            JObject dataObject = new JObject(model);
 
             using StreamWriter file = File.CreateText(modelPath);
 
@@ -48,8 +46,6 @@ namespace TextObjectModel.DAL.Repositories
 
         public DataObjectModel ReadData()
         {
-            string data = File.ReadAllText(GetDataPath());
-
             using StreamReader file = File.OpenText(GetModelPath());
 
             using JsonTextReader reader = new JsonTextReader(file);

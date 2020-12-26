@@ -11,39 +11,37 @@ namespace TextObjectModel.Core.Services
 {
     class MenuService : IMenuService
     {
-        private readonly ITypeConversionService _typeConversionService;
         private readonly IPrintService _printService;
         private readonly IDataRepository _dataRepository;
-        private readonly DataObjectModel _dataObjectModel;
+        private readonly Text _textData;
         private readonly SymbolsContainer symbolsContainer = new SymbolsContainer();
 
-        public MenuService(IDataRepository dataRepository, ITypeConversionService typeConversionService, IPrintService printService, DataObjectModel dataObjectModel)
+        public MenuService(IDataRepository dataRepository, IPrintService printService, Text textData)
         {
             _dataRepository = dataRepository;
-            _typeConversionService = typeConversionService;
             _printService = printService;
-            _dataObjectModel = dataObjectModel;
+            _textData = textData;
         }
         public void CloseApp()
         {
-            _dataRepository.SaveData(_dataObjectModel);
+            _dataRepository.SaveData(_textData);
         }
 
         public IEnumerable<ISentenceItem> FindWordsInInterrogativeSentences(Text data)
         {
             _printService.PrintInputWordsLength();
 
-            var inputLength = _typeConversionService.CheckAndConvertInputToInt(Console.ReadLine());
+            var inputLength = TypeConversionService.ToInt(Console.ReadLine());
 
             var sentenceSeparators = symbolsContainer.SentenceSeparators().ToList();
 
-            var interrogativeSentences = data.sentences.ToList().Where(s => s.items.Last().Chars == sentenceSeparators[0]);
+            var interrogativeSentences = data.sentences.ToList().Where(s => s.Items.Last().Chars == sentenceSeparators[0]);
 
             List<ISentenceItem> resultSentencesItems = new List<ISentenceItem>();
 
             foreach (var sentence in interrogativeSentences)
             {
-                foreach (var sentenceItem in sentence.items)
+                foreach (var sentenceItem in sentence.Items)
                 {
                     if (sentenceItem.Chars.Length == inputLength)
                     {
@@ -59,17 +57,17 @@ namespace TextObjectModel.Core.Services
         {
             _printService.PrintInputWordsLength();
 
-            var inputLength = _typeConversionService.CheckAndConvertInputToInt(Console.ReadLine());
+            var inputLength = TypeConversionService.ToInt(Console.ReadLine());
 
             var consonantLetters = symbolsContainer.ConsonantLetters().ToList();
 
             foreach (var sentence in data.sentences)
             {
-                foreach (var sentenceItem in sentence.items)
+                foreach (var sentenceItem in sentence.Items)
                 {
                     if (sentenceItem.Chars.Length == inputLength && consonantLetters.Contains(sentenceItem.Chars[0].ToString()))
                     {
-                        sentence.items.Remove(sentenceItem);
+                        sentence.Items.Remove(sentenceItem);
                     }
                 }
             }
@@ -81,11 +79,11 @@ namespace TextObjectModel.Core.Services
         {
             _printService.PrintNumberOfSentence();
 
-            var numberOfSentence = _typeConversionService.CheckAndConvertInputToInt(Console.ReadLine());
+            var numberOfSentence = TypeConversionService.ToInt(Console.ReadLine());
 
             _printService.PrintInputWordsLength();
 
-            var inputLength = _typeConversionService.CheckAndConvertInputToInt(Console.ReadLine());
+            var inputLength = TypeConversionService.ToInt(Console.ReadLine());
 
             _printService.PrintSubstringToReplaceWords();
 

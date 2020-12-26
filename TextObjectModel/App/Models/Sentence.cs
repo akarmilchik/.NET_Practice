@@ -10,9 +10,7 @@ namespace TextObjectModel.App.Models
     {
         private ICollection<ISentenceItem> _items;
 
-        public int Count => _items.Count();
-
-        public ICollection<ISentenceItem> items
+        public ICollection<ISentenceItem> Items
         {
             get { return _items; }
             set { _items = value; }
