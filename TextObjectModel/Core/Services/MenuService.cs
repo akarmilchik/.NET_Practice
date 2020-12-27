@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using TextObjectModel.App.Constants;
 using TextObjectModel.App.Interfaces;
 using TextObjectModel.App.Models;
+using TextObjectModel.Core.Extensions;
 using TextObjectModel.Core.Interfaces;
 using TextObjectModel.DAL.Repositories.Interfaces;
 
@@ -23,24 +23,6 @@ namespace TextObjectModel.Core.Services
             _textData = textData;
         }
 
-        public static string ReadSetting(string key)
-        {
-            try
-            {
-                var appSettings = ConfigurationManager.AppSettings;
-
-                string result = appSettings[key] ?? "Not Found";
-
-                return result;
-            }
-            catch (ConfigurationErrorsException)
-            {
-                Console.WriteLine("Error reading app settings");
-            }
-
-            return string.Empty;
-        }
-
         public void CloseApp()
         {
             _dataRepository.SaveData(_textData);
@@ -50,7 +32,7 @@ namespace TextObjectModel.Core.Services
         {
             _printService.PrintInputWordsLength();
 
-            var inputLength = TypeConversionService.ToInt(Console.ReadLine());
+            var inputLength = TypeConversionExtension.ToInt(Console.ReadLine());
 
             var sentenceSeparators = SymbolsContainer.SentenceSeparators().ToList();
 
@@ -76,11 +58,12 @@ namespace TextObjectModel.Core.Services
         {
             _printService.PrintInputWordsLength();
 
-            var inputLength = TypeConversionService.ToInt(Console.ReadLine());
+            var inputLength = TypeConversionExtension.ToInt(Console.ReadLine());
 
             var consonantLetters = SymbolsContainer.ConsonantLetters().ToList();
 
             var inputData = data.sentences.ToList();
+
             var resultData = data.sentences.ToList();
 
             for (int i = 0; i < inputData.Count; i++)
@@ -103,11 +86,11 @@ namespace TextObjectModel.Core.Services
         {
             _printService.PrintNumberOfSentence();
 
-            var numberOfSentence = TypeConversionService.ToInt(Console.ReadLine());
+            var numberOfSentence = TypeConversionExtension.ToInt(Console.ReadLine());
 
             _printService.PrintInputWordsLength();
 
-            var inputLength = TypeConversionService.ToInt(Console.ReadLine());
+            var inputLength = TypeConversionExtension.ToInt(Console.ReadLine());
 
             _printService.PrintSubstringToReplaceWords();
 

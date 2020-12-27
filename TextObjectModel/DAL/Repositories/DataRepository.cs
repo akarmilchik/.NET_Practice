@@ -1,16 +1,16 @@
 ﻿using Newtonsoft.Json;
 using System.IO;
+using TextObjectModel.App.Helpers;
 using TextObjectModel.App.Models;
-using TextObjectModel.Core.Services;
 using TextObjectModel.DAL.Repositories.Interfaces;
 
 namespace TextObjectModel.DAL.Repositories
 {
     public class DataRepository : IDataRepository
     {
-        private static readonly string dataFileName = MenuService.ReadSetting("DataPath");
+        private static readonly string dataFileName = ReadConfig.ReadSetting("DataPath");
 
-        private static readonly string dataObjectModelTxtFileName = MenuService.ReadSetting("DataObjectModelJsonPath");
+        private static readonly string dataObjectModelTxtFileName = ReadConfig.ReadSetting("DataObjectModelJsonPath");
 
         public void SaveData(Text data)
         {

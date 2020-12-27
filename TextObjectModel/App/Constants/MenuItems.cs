@@ -1,6 +1,6 @@
 ﻿namespace TextObjectModel.App.Constants
 {
-    public enum MainMenuItems
+    public enum MenuItems
     {
         CloseApp,
         DisplayAscOfWords,

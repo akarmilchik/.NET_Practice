@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace TextObjectModel.Core.Services
+namespace TextObjectModel.Core.Extensions
 {
-    public static class TypeConversionService
+    public static class TypeConversionExtension
     {
         public static int ToInt(this string input)
         {
