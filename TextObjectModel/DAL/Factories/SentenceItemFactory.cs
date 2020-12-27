@@ -1,4 +1,5 @@
 ﻿using TextObjectModel.App.Interfaces;
+using TextObjectModel.DAL.Factories.Interfaces;
 
 namespace TextObjectModel.DAL.Factories
 {

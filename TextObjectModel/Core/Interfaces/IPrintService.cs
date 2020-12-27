@@ -1,11 +1,11 @@
-﻿using TextObjectModel.App.Interfaces;
+﻿using System.Collections.Generic;
+using TextObjectModel.App.Interfaces;
 using TextObjectModel.App.Models;
 
 namespace TextObjectModel.Core.Interfaces
 {
     public interface IPrintService
     {
-        void PrintConsonantLetterToDeleteWords();
         void PrintIncorrectChoose();
         void PrintInputWordsLength();
         void PrintMainMenu();
@@ -14,10 +14,9 @@ namespace TextObjectModel.Core.Interfaces
         void PrintSentenceItem(ISentenceItem item);
         void PrintSentences(Text data);
         void PrintSentencesByOrderOfWords(Text data);
-        void PrintSortingMenu();
+        void PrintSentencesItems(IEnumerable<ISentenceItem> items);
         void PrintSubstringToReplaceWords();
         void PrintSuccessSave();
         void PrintWelcome();
-        void PrintWrongInput();
     }
 }

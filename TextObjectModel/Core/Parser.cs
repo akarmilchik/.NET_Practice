@@ -8,6 +8,7 @@ using TextObjectModel.App.Interfaces;
 using TextObjectModel.App.Models;
 using TextObjectModel.Core.Interfaces;
 using TextObjectModel.DAL.Factories;
+using TextObjectModel.DAL.Factories.Interfaces;
 
 namespace TextObjectModel.Core
 {
@@ -15,7 +16,6 @@ namespace TextObjectModel.Core
     {
         private readonly ISentenceItemFactory _sentenceItemFactory;
         private readonly IParseService _parseService;
-        private readonly int bufferlength = 10000;
 
         public Parser(ISentenceItemFactory sentenceItemFactory, IParseService parseService)
         {
@@ -29,41 +29,42 @@ namespace TextObjectModel.Core
 
             List<ISentence> workedSentences = new List<ISentence>();
 
-            StringBuilder buffer = new StringBuilder(bufferlength);
-
-            buffer.Clear();
-
-            using (StreamReader reader = new StreamReader(dataPath, Encoding.Default))
+            try
             {
-                string currentString;
-
-                while ((currentString = reader.ReadLine()) != null)
+                using (StreamReader reader = new StreamReader(dataPath, Encoding.Default))
                 {
-                    currentString = _parseService.ClearSentenceStringLine(currentString);
+                    string currentString;
 
-                    while (currentString.Length > 0)
+                    while ((currentString = reader.ReadLine()) != null)
                     {
-                        string sentenceSeparator = _parseService.FindSeparator(currentString,  ref separatorOccurence);
+                        currentString = _parseService.ClearSentenceStringLine(currentString);
 
-                        if (sentenceSeparator != string.Empty && !string.IsNullOrEmpty(sentenceSeparator))
+                        while (currentString.Length > 0)
                         {
-                            buffer.Append(currentString.Substring(0, separatorOccurence + sentenceSeparator.Length));
+                            string sentenceSeparator = _parseService.FindSeparator(currentString, ref separatorOccurence);
 
-                            var sentence = ParseSentence(buffer.ToString(), sentenceSeparator);
+                            if (sentenceSeparator != string.Empty && !string.IsNullOrEmpty(sentenceSeparator))
+                            {
+                                var sentenceString = currentString.Substring(0, separatorOccurence + sentenceSeparator.Length);
 
-                            workedSentences.Add(sentence);
+                                var sentence = ParseSentence(sentenceString);
 
-                            buffer.Clear();
+                                workedSentences.Add(sentence);
+                            }
+
+                            if (separatorOccurence >= 0)
+                            {
+                                currentString = currentString.Substring(separatorOccurence + sentenceSeparator.Length);
+                            }
+
+                            currentString = currentString.TrimStart();
                         }
-
-                        if (separatorOccurence >= 0)
-                        {
-                            currentString = currentString.Substring(separatorOccurence + sentenceSeparator.Length);
-                        }
-
-                        currentString = currentString.TrimStart();
                     }
                 }
+            }
+            catch (FileNotFoundException e)
+            {
+                Console.WriteLine($"File not found {e.Message}");
             }
 
             Text textResult = new Text(workedSentences);
@@ -71,16 +72,16 @@ namespace TextObjectModel.Core
             return textResult;
         }
 
-        private ISentence ParseSentence(string source, string sentenceSeparator)
+        private ISentence ParseSentence(string source)
         {
-            var items = ParseSentenceItems(source, sentenceSeparator);
+            var items = ParseSentenceItems(source);
 
             Sentence sentence = new Sentence(items);
 
             return sentence;
         }
 
-        private ICollection<ISentenceItem> ParseSentenceItems(string sentenceSource, string sentenceSeparator)
+        private ICollection<ISentenceItem> ParseSentenceItems(string sentenceSource)
         {
             List<ISentenceItem> sentenceItems = new List<ISentenceItem>();
 
@@ -88,11 +89,7 @@ namespace TextObjectModel.Core
 
             List<string> itemParts = new List<string>();
 
-            var wordSeparators = SymbolsContainer.WordSeparators().ToList();
-
             var allSeparators = SymbolsContainer.All().ToList();
-
-            StringBuilder buffer = new StringBuilder(bufferlength);
 
             while (sentenceSource.Length > 0)
             {
@@ -114,7 +111,7 @@ namespace TextObjectModel.Core
 
                             itemParts.Add(separator);
 
-                            itemParts.Add(item.Substring(++separatorOccurence));
+                            itemParts.Add(item.Substring(separatorOccurence + separator.Length));
                             break;
                         }
                     }

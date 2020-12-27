@@ -19,15 +19,13 @@ namespace TextObjectModel.Core.Services
             Console.Write("Input: ");
         }
 
+        public void PrintEmptyString()
+        {
+            Console.WriteLine("\nEmpty input string.");
+        }
         public void PrintInputWordsLength()
         {
             Console.Write("\nInput words length: ");
-        }
-
-        public void PrintConsonantLetterToDeleteWords()
-        {
-            Console.WriteLine("\nInput consonant letter of the beginning of words to delete:");
-            Console.Write("Input: ");
         }
 
         public void PrintSubstringToReplaceWords()
@@ -40,18 +38,6 @@ namespace TextObjectModel.Core.Services
         {
             Console.WriteLine("\nInput number of sentence for replace words:");
             Console.Write("Input: ");
-        }
-
-        public void PrintSortingMenu()
-        {
-            Console.WriteLine("\nChoose sorting order:");
-            Console.WriteLine("\n\n 1. Ascending \n 2. Descending\n");
-            Console.Write("Input: ");
-        }
-
-        public void PrintWrongInput()
-        {
-            Console.WriteLine("\nWrong input!");
         }
 
         public void PrintSuccessSave()

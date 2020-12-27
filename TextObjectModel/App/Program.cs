@@ -2,9 +2,12 @@
 using TextObjectModel.App.Constants;
 using TextObjectModel.Core;
 using TextObjectModel.Core.Extensions;
+using TextObjectModel.Core.Interfaces;
 using TextObjectModel.Core.Services;
 using TextObjectModel.DAL.Factories;
+using TextObjectModel.DAL.Factories.Interfaces;
 using TextObjectModel.DAL.Repositories;
+using TextObjectModel.DAL.Repositories.Interfaces;
 
 namespace TextObjectModel
 {
@@ -20,13 +23,13 @@ namespace TextObjectModel
 
             PunctuationFactory punctuationFactory = new PunctuationFactory();
 
-            DataRepository dataRepository = new DataRepository();
+            IDataRepository dataRepository = new DataRepository();
 
-            SentenceItemFactory sentenceItemFactory = new SentenceItemFactory(punctuationFactory, wordFactory);
+            ISentenceItemFactory sentenceItemFactory = new SentenceItemFactory(punctuationFactory, wordFactory);
 
-            PrintService printService = new PrintService();
+            IPrintService printService = new PrintService();
 
-            ParseService parseService = new ParseService();
+            IParseService parseService = new ParseService();
 
             Parser parser = new Parser(sentenceItemFactory, parseService);
 
@@ -34,7 +37,7 @@ namespace TextObjectModel
 
             var parsedText = parser.Parse(dataPath);
 
-            MenuService menuService = new MenuService(dataRepository, printService, parsedText);
+            IMenuService menuService = new MenuService(dataRepository, printService, parsedText);
 
             printService.PrintWelcome();
 
@@ -44,7 +47,7 @@ namespace TextObjectModel
 
                 var input = Console.ReadKey();
 
-                var selectedMenuItemId = TypeConversionExtension.ToInt(input.KeyChar.ToString());
+                var selectedMenuItemId = input.KeyChar.ToString().ToInt();
 
                 menuItems = (MenuItems)selectedMenuItemId;
 

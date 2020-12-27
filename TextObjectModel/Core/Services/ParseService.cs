@@ -8,13 +8,13 @@ namespace TextObjectModel.Core.Services
     {
         public string FindSeparator(string currentString, ref int separatorOccurence)
         {
+            string sentenceSeparator = string.Empty;
+
             separatorOccurence = -1;
 
             int separatorOnlyOccurence = -1;
 
             int separatorFollowedSpaceOccurence = -1;
-
-            string sentenceSeparator = string.Empty;
 
             foreach (var separator in SymbolsContainer.SentenceSeparators().ToList().Select(s => s + SymbolsContainer.Space))
             {
@@ -23,16 +23,16 @@ namespace TextObjectModel.Core.Services
                 if (separatorFollowedSpaceOccurence < 0)
                 {
                     separatorOnlyOccurence = currentString.IndexOf(separator.TrimEnd());
-                }    
+                }
 
                 if (separatorOnlyOccurence > 0 && separatorOnlyOccurence <= currentString.Length - separator.TrimEnd().Length)
                 {
                     separatorOnlyOccurence = CheckSeparatorOccurence(currentString, separatorOnlyOccurence, separator.TrimEnd());
                 }
-                
+
                 if (separatorFollowedSpaceOccurence >= 0 && separatorFollowedSpaceOccurence < currentString.Length - separator.Length)
                 {
-                    sentenceSeparator = currentString.ElementAt(separatorFollowedSpaceOccurence).ToString();
+                    sentenceSeparator = currentString.Substring(separatorFollowedSpaceOccurence, separator.TrimEnd().Length).ToString();
 
                     separatorOccurence = separatorFollowedSpaceOccurence;
 
@@ -48,7 +48,7 @@ namespace TextObjectModel.Core.Services
                     break;
                 }
             }
-
+            
             return sentenceSeparator;
         }
 

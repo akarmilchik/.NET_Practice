@@ -32,7 +32,7 @@ namespace TextObjectModel.Core.Services
         {
             _printService.PrintInputWordsLength();
 
-            var inputLength = TypeConversionExtension.ToInt(Console.ReadLine());
+            var inputLength = Console.ReadLine().ToInt();
 
             var sentenceSeparators = SymbolsContainer.SentenceSeparators().ToList();
 
@@ -46,7 +46,10 @@ namespace TextObjectModel.Core.Services
                 {
                     if (sentenceItem.Chars.Length == inputLength)
                     {
-                        resultSentencesItems.Add(sentenceItem);
+                        if (!(resultSentencesItems.Contains(sentenceItem)))
+                        {
+                            resultSentencesItems.Add(sentenceItem);
+                        }
                     }
                 }
             }
@@ -58,7 +61,7 @@ namespace TextObjectModel.Core.Services
         {
             _printService.PrintInputWordsLength();
 
-            var inputLength = TypeConversionExtension.ToInt(Console.ReadLine());
+            var inputLength = Console.ReadLine().ToInt();
 
             var consonantLetters = SymbolsContainer.ConsonantLetters().ToList();
 
@@ -86,11 +89,11 @@ namespace TextObjectModel.Core.Services
         {
             _printService.PrintNumberOfSentence();
 
-            var numberOfSentence = TypeConversionExtension.ToInt(Console.ReadLine());
+            var numberOfSentence = Console.ReadLine().ToInt();
 
             _printService.PrintInputWordsLength();
 
-            var inputLength = TypeConversionExtension.ToInt(Console.ReadLine());
+            var inputLength = Console.ReadLine().ToInt();
 
             _printService.PrintSubstringToReplaceWords();
 
