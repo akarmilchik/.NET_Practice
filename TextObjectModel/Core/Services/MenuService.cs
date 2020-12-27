@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using TextObjectModel.App.Constants;
 using TextObjectModel.App.Interfaces;
@@ -14,18 +15,38 @@ namespace TextObjectModel.Core.Services
         private readonly IPrintService _printService;
         private readonly IDataRepository _dataRepository;
         private readonly Text _textData;
+
         public MenuService(IDataRepository dataRepository, IPrintService printService, Text textData)
         {
             _dataRepository = dataRepository;
             _printService = printService;
             _textData = textData;
         }
+
+        public static string ReadSetting(string key)
+        {
+            try
+            {
+                var appSettings = ConfigurationManager.AppSettings;
+
+                string result = appSettings[key] ?? "Not Found";
+
+                return result;
+            }
+            catch (ConfigurationErrorsException)
+            {
+                Console.WriteLine("Error reading app settings");
+            }
+
+            return string.Empty;
+        }
+
         public void CloseApp()
         {
             _dataRepository.SaveData(_textData);
         }
 
-        public IEnumerable<ISentenceItem> FindWordsInInterrogativeSentences(Text data)
+        public IEnumerable<ISentenceItem> FindSentenceItemsInInterrogativeSentences(Text data)
         {
             _printService.PrintInputWordsLength();
 
@@ -51,7 +72,7 @@ namespace TextObjectModel.Core.Services
             return resultSentencesItems;
         }
 
-        public Text RemoveWordsGivenLengthAndStartsConsonantLetter(Text data)
+        public Text RemoveSentenceItemsGivenLengthAndStartsConsonantLetter(Text data)
         {
             _printService.PrintInputWordsLength();
 
@@ -78,7 +99,7 @@ namespace TextObjectModel.Core.Services
             return new Text(resultData);
         }
 
-        public ISentence ReplaceWordsGivenLengthBySubstring(Text data)
+        public ISentence ReplaceSentenceItemsGivenLengthBySubstring(Text data)
         {
             _printService.PrintNumberOfSentence();
 
@@ -91,6 +112,11 @@ namespace TextObjectModel.Core.Services
             _printService.PrintSubstringToReplaceWords();
 
             var inputString = Console.ReadLine().Trim();
+
+            if (numberOfSentence < 1)
+            {
+                numberOfSentence = 1;
+            }
 
             var items = data.sentences.ToList()[numberOfSentence - 1].Items.ToList();
 

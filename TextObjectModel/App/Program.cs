@@ -1,6 +1,5 @@
 ﻿using System;
 using TextObjectModel.App.Constants;
-using TextObjectModel.App.Models;
 using TextObjectModel.Core;
 using TextObjectModel.Core.Services;
 using TextObjectModel.DAL.Factories;
@@ -14,10 +13,7 @@ namespace TextObjectModel
         {
             bool isWorking = true;
 
-            int selectedMenuItemId = -1;
-
             MainMenuItems menuItems;
-
 
             WordFactory wordFactory = new WordFactory();
 
@@ -43,13 +39,11 @@ namespace TextObjectModel
 
             while (isWorking)
             {
-                selectedMenuItemId = -1;
-
                 printService.PrintMainMenu();
 
                 var input = Console.ReadKey();
 
-                selectedMenuItemId = TypeConversionService.ToInt(input.KeyChar.ToString());
+                var selectedMenuItemId = TypeConversionService.ToInt(input.KeyChar.ToString());
 
                 menuItems = (MainMenuItems)selectedMenuItemId;
 
@@ -65,15 +59,15 @@ namespace TextObjectModel
                             printService.PrintSentencesByOrderOfWords(parsedText);
                             break;
                         case MainMenuItems.FindWordsInInterrogativeSentences:
-                            var findWords = menuService.FindWordsInInterrogativeSentences(parsedText);
+                            var findWords = menuService.FindSentenceItemsInInterrogativeSentences(parsedText);
                             printService.PrintSentencesItems(findWords);
                             break;
                         case MainMenuItems.RemoveWords:
-                            var formattedText = menuService.RemoveWordsGivenLengthAndStartsConsonantLetter(parsedText);
+                            var formattedText = menuService.RemoveSentenceItemsGivenLengthAndStartsConsonantLetter(parsedText);
                             printService.PrintSentences(formattedText);
                             break;
                         case MainMenuItems.ReplaceWordsBySubstring:
-                            var changedSentence = menuService.ReplaceWordsGivenLengthBySubstring(parsedText);
+                            var changedSentence = menuService.ReplaceSentenceItemsGivenLengthBySubstring(parsedText);
                             printService.PrintSentence(changedSentence);
                             break;
                         case MainMenuItems.SaveTextObjectModel:

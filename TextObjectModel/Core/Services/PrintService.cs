@@ -101,6 +101,5 @@ namespace TextObjectModel.Core.Services
         {
             data.sentences.ToList().ForEach(s => PrintSentence(s));
         }
-
     }
 }

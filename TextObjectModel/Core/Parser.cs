@@ -15,7 +15,7 @@ namespace TextObjectModel.Core
     {
         private readonly ISentenceItemFactory _sentenceItemFactory;
         private readonly IParseService _parseService;
-        private int bufferlength = 10000;
+        private readonly int bufferlength = 10000;
 
         public Parser(ISentenceItemFactory sentenceItemFactory, IParseService parseService)
         {
@@ -82,7 +82,6 @@ namespace TextObjectModel.Core
 
         private ICollection<ISentenceItem> ParseSentenceItems(string sentenceSource, string sentenceSeparator)
         {
-
             List<ISentenceItem> sentenceItems = new List<ISentenceItem>();
 
             int separatorOccurence = -1;
@@ -90,8 +89,8 @@ namespace TextObjectModel.Core
             List<string> itemParts = new List<string>();
 
             var wordSeparators = SymbolsContainer.WordSeparators().ToList();
-            var allSeparators = SymbolsContainer.All().ToList();
 
+            var allSeparators = SymbolsContainer.All().ToList();
 
             StringBuilder buffer = new StringBuilder(bufferlength);
 
@@ -141,6 +140,5 @@ namespace TextObjectModel.Core
 
             return sentenceItems;
         }
-
     }
 }

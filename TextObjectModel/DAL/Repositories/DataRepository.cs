@@ -1,15 +1,16 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System.IO;
 using TextObjectModel.App.Models;
+using TextObjectModel.Core.Services;
 using TextObjectModel.DAL.Repositories.Interfaces;
 
 namespace TextObjectModel.DAL.Repositories
 {
     public class DataRepository : IDataRepository
     {
-        private static string dataFileName = "text.txt";
-        private static string dataObjectModelFileName = "dataObjectModel.json";
+        private static readonly string dataFileName = MenuService.ReadSetting("DataPath");
+
+        private static readonly string dataObjectModelTxtFileName = MenuService.ReadSetting("DataObjectModelJsonPath");
 
         public void SaveData(Text data)
         {
@@ -20,41 +21,32 @@ namespace TextObjectModel.DAL.Repositories
             string serializedObject = JsonConvert.SerializeObject(model);
 
             File.WriteAllText(modelPath, serializedObject);
-
-            using StreamWriter file = File.CreateText(modelPath);
-            {
-                JsonSerializer serializer = new JsonSerializer();
-                serializer.Serialize(file, model);
-            }
-
         }
 
         public DataObjectModel ReadData()
         {
-            using StreamReader file = File.OpenText(GetModelPath());
+            var jsonText = File.ReadAllText(GetModelPath());
 
-            using JsonTextReader reader = new JsonTextReader(file);
+            var settings = new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.Auto,
+                Formatting = Formatting.Indented
+            };
 
-            JObject jsonTextObject = (JObject)JToken.ReadFrom(reader);
+            var deserializedData = JsonConvert.DeserializeObject<DataObjectModel>(jsonText, settings);
 
-            Text textObject = jsonTextObject.ToObject<Text>();
-
-            DataObjectModel textObjectModel = new DataObjectModel();
-
-            textObjectModel.Text = textObject;
-
-            return textObjectModel;
+            return deserializedData;
         }
+
+        public string GetDataPath() => GetPath(dataFileName);
+
+        private static string GetModelPath() => GetPath(dataObjectModelTxtFileName);
 
         private static string GetPath(string fileName)
         {
             var path = System.Reflection.Assembly.GetExecutingAssembly().Location;
 
-            return path.Remove(path.LastIndexOf("\\")) + $"\\App\\Data\\{fileName}";
+            return path.Remove(path.LastIndexOf("\\")) + $"{fileName}";
         }
-
-        private static string GetModelPath() => GetPath(dataObjectModelFileName);
-
-        public string GetDataPath() => GetPath(dataFileName);
     }
 }
