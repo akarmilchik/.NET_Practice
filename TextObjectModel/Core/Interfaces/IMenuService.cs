@@ -8,6 +8,6 @@ namespace TextObjectModel.Core.Interfaces
     {
         IEnumerable<ISentenceItem> FindWordsInInterrogativeSentences(Text data);
         Text RemoveWordsGivenLengthAndStartsConsonantLetter(Text data);
-        Text ReplaceWordsGivenLengthBySubstring(Text data);
+        ISentence ReplaceWordsGivenLengthBySubstring(Text data);
     }
 }

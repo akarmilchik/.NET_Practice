@@ -33,7 +33,7 @@ namespace TextObjectModel.Core.Services
 
             var sentenceSeparators = SymbolsContainer.SentenceSeparators().ToList();
 
-            var interrogativeSentences = data.sentences.ToList().Where(s => s.Items.Last().Chars == sentenceSeparators[0]);
+            var interrogativeSentences = data.sentences.ToList().Where(s => s.Items.ElementAt(s.Items.Count - 2).Chars == sentenceSeparators[2]);
 
             List<ISentenceItem> resultSentencesItems = new List<ISentenceItem>();
 
@@ -59,21 +59,26 @@ namespace TextObjectModel.Core.Services
 
             var consonantLetters = SymbolsContainer.ConsonantLetters().ToList();
 
-            foreach (var sentence in data.sentences)
+            var inputData = data.sentences.ToList();
+            var resultData = data.sentences.ToList();
+
+            for (int i = 0; i < inputData.Count; i++)
             {
-                foreach (var sentenceItem in sentence.Items)
+                var sentenceItems = inputData[i].Items.ToList();
+
+                for (int j = 0; j < sentenceItems.Count; j++)
                 {
-                    if (sentenceItem.Chars.Length == inputLength && consonantLetters.Contains(sentenceItem.Chars[0].ToString()))
+                    if (sentenceItems[j].Chars.Length == inputLength && consonantLetters.Contains(sentenceItems[j].Chars[0].ToString()))
                     {
-                        sentence.Items.Remove(sentenceItem);
+                        resultData.ElementAt(i).Items.Remove(resultData.ElementAt(i).Items.ElementAt(j));
                     }
                 }
             }
 
-            return data;
+            return new Text(resultData);
         }
 
-        public Text ReplaceWordsGivenLengthBySubstring(Text data)
+        public ISentence ReplaceWordsGivenLengthBySubstring(Text data)
         {
             _printService.PrintNumberOfSentence();
 
@@ -86,16 +91,25 @@ namespace TextObjectModel.Core.Services
             _printService.PrintSubstringToReplaceWords();
 
             var inputString = Console.ReadLine().Trim();
-           
-            foreach (var sentenceItem in data.sentences.ToList()[numberOfSentence - 1])
+
+            var items = data.sentences.ToList()[numberOfSentence - 1].Items.ToList();
+
+            List<ISentenceItem> resultItems = new List<ISentenceItem>();
+
+            for (int i = 0; i < items.Count; i++)
             {
-                if (sentenceItem.Chars.Length == inputLength)
+                if (items[i].Chars.Length == inputLength)
                 {
-                    sentenceItem.Chars = inputString;
+                    resultItems.Add(new Word(inputString));
                 }
+                else
+                {
+                    resultItems.Add(items[i]);
+                }
+
             }
 
-            return data;
+            return new Sentence(resultItems);
         }
     }
 }

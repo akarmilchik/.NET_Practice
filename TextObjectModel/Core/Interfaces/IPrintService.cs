@@ -16,6 +16,7 @@ namespace TextObjectModel.Core.Interfaces
         void PrintSentencesByOrderOfWords(Text data);
         void PrintSortingMenu();
         void PrintSubstringToReplaceWords();
+        void PrintSuccessSave();
         void PrintWelcome();
         void PrintWrongInput();
     }

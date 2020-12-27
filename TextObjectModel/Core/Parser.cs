@@ -56,7 +56,10 @@ namespace TextObjectModel.Core
                             buffer.Clear();
                         }
 
-                        currentString = currentString.Substring(separatorOccurence + sentenceSeparator.Length);
+                        if (separatorOccurence >= 0)
+                        {
+                            currentString = currentString.Substring(separatorOccurence + sentenceSeparator.Length);
+                        }
 
                         currentString = currentString.TrimStart();
                     }

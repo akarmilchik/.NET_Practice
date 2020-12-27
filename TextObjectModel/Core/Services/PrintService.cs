@@ -51,7 +51,12 @@ namespace TextObjectModel.Core.Services
 
         public void PrintWrongInput()
         {
-            Console.WriteLine("Wrong input!");
+            Console.WriteLine("\nWrong input!");
+        }
+
+        public void PrintSuccessSave()
+        {
+            Console.WriteLine("\n\nText object model successfully saved!");
         }
 
         public void PrintIncorrectChoose()
@@ -96,5 +101,6 @@ namespace TextObjectModel.Core.Services
         {
             data.sentences.ToList().ForEach(s => PrintSentence(s));
         }
+
     }
 }

@@ -69,15 +69,16 @@ namespace TextObjectModel
                             printService.PrintSentencesItems(findWords);
                             break;
                         case MainMenuItems.RemoveWords:
-                            Text formattedText = menuService.RemoveWordsGivenLengthAndStartsConsonantLetter(parsedText);
+                            var formattedText = menuService.RemoveWordsGivenLengthAndStartsConsonantLetter(parsedText);
                             printService.PrintSentences(formattedText);
                             break;
                         case MainMenuItems.ReplaceWordsBySubstring:
-                            Text replacedText = menuService.ReplaceWordsGivenLengthBySubstring(parsedText);
-                            printService.PrintSentences(replacedText);
+                            var changedSentence = menuService.ReplaceWordsGivenLengthBySubstring(parsedText);
+                            printService.PrintSentence(changedSentence);
                             break;
                         case MainMenuItems.SaveTextObjectModel:
                             dataRepository.SaveData(parsedText);
+                            printService.PrintSuccessSave();
                             break;
                         default:
                             printService.PrintIncorrectChoose();

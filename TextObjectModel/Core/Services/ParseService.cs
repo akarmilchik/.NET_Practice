@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using TextObjectModel.App.Constants;
 using TextObjectModel.Core.Interfaces;
 
@@ -72,64 +71,120 @@ namespace TextObjectModel.Core.Services
         {
             string partOfStringWithSeparator = string.Empty;
 
-            partOfStringWithSeparator = getPartOfStringWithSeparator(currentString, separatorOccurence, separator, partOfStringWithSeparator);
+            string needString = currentString;
 
-            while (separatorOccurence >= 0 && (separatorOccurence != (currentString.Length - separator.Length)) && partOfStringWithSeparator.Last().ToString() != SymbolsContainer.Space)
+            int resultOccurence = 0;
+
+            partOfStringWithSeparator = getPartOfStringWithSeparator(needString, separatorOccurence, separator, partOfStringWithSeparator);
+
+            while (separatorOccurence >= 0 && (separatorOccurence != (needString.Length - separator.Length)) && partOfStringWithSeparator.Last().ToString() != SymbolsContainer.Space)
             {
-                var cutPreString = currentString.Substring(0, separatorOccurence + separator.Length - 1);
+                var cutPreString = needString.Substring(0, separatorOccurence + separator.Length - 1);
 
-                var cutString = currentString.Substring(separatorOccurence + separator.Length);
+                var cutString = needString.Substring(separatorOccurence + separator.Length);
 
                 //if (partOfStringWithSeparator == separator)
                 //{
-                    separatorOccurence = CheckSeparatorContains(separator, separatorOccurence, partOfStringWithSeparator, cutPreString, cutString);
-               // }
+                // separatorOccurence = CheckSeparatorContains(separator, separatorOccurence, partOfStringWithSeparator, cutPreString, cutString);
+                // }
 
-                if (cutString.Length > separator.Length)
+                var containsSeparatorinPreString = isStringContainsSeparator(cutPreString, separator);
+
+                var containsSeparatorinAfterString = isStringContainsSeparator(cutString, separator);
+
+
+                if (containsSeparatorinAfterString)
                 {
-                    separatorOccurence = cutString.IndexOf(separator) + separatorOccurence + 1;
+                    resultOccurence += separatorOccurence + separator.Length;
+                    separatorOccurence = cutString.IndexOf(separator);
+                    partOfStringWithSeparator = getPartOfStringWithSeparator(cutString, separatorOccurence, separator, partOfStringWithSeparator);
+                    needString = cutString;
+
+                }
+                else if (containsSeparatorinPreString)
+                {
+                    separatorOccurence = cutPreString.IndexOf(separator);
+                    partOfStringWithSeparator = getPartOfStringWithSeparator(cutPreString, separatorOccurence, separator, partOfStringWithSeparator);
+                    needString = cutPreString;
+                    resultOccurence += separatorOccurence;
                 }
                 else
                 {
-                    separatorOccurence = cutPreString.IndexOf(separator) + separatorOccurence + 1;
+                    return -1;
                 }
-
-                partOfStringWithSeparator = getPartOfStringWithSeparator(currentString, separatorOccurence, separator, partOfStringWithSeparator);
             }
 
-            return separatorOccurence;
+            resultOccurence += separatorOccurence;
+
+            return resultOccurence;
         }
 
         private int CheckSeparatorContains(string separator, int separatorOccurence, string partWithSeparator, string cutPreString, string cutString)
-        {
+        {/*
             var containsSeparatorinPreString = isStringContainsSeparator(cutPreString);
 
             var containsSeparatorinAfterString = isStringContainsSeparator(cutString);
 
-            if ((containsSeparatorinPreString && !containsSeparatorinAfterString) ||
-                (!containsSeparatorinPreString && containsSeparatorinAfterString) ||
-                (!containsSeparatorinPreString && !containsSeparatorinAfterString) )
+            if (!containsSeparatorinPreString && !containsSeparatorinAfterString)
             {
-                return -1;
+                return separatorOccurence;
+            }
+            */
+            return -1;
+        }
+
+        private bool isStringContainsSeparator(string partString, string separator)
+        {
+            string result = string.Empty;
+
+            if (partString.IndexOf(separator + SymbolsContainer.Space) >= 0)
+            {
+                result = partString.Substring(partString.IndexOf(separator + SymbolsContainer.Space));
             }
 
-            return separatorOccurence;
+            if (result == string.Empty)
+            {
+                //result = partString.Substring(partString.Length - separator.Length);
+            }
+
+
+            if ((partString.Contains(separator)) ||
+                (partString.Contains(separator) && result == separator))
+            {
+                return true;
+            }
+            
+
+            return false;
         }
 
         private bool isStringContainsSeparator(string partString)
         {
-            var separatorsWithSpace = SymbolsContainer.SentenceSeparators().Select(s => s + SymbolsContainer.Space).ToList();
+            string result = string.Empty;
 
-            for (int i = 0; i < separatorsWithSpace.Count; i++)
+            var separators = SymbolsContainer.SentenceSeparators().ToArray();
+
+            for (int i = 0; i < separators.Length; i++)
             {
-                //var lastPartOfString = partString.Substring(partString.IndexOf(separatorsWithSpace[i].TrimEnd()));
+                result = string.Empty;
 
-                if ((partString.Contains(separatorsWithSpace[i])) ||
-                    (partString.Contains(separatorsWithSpace[i].TrimEnd()) && partString.Substring(partString.IndexOf(separatorsWithSpace[i].TrimEnd())) == separatorsWithSpace[i].TrimEnd()))
+                if (partString.IndexOf(separators[i] + SymbolsContainer.Space) >= 0)
+                {
+                    result = partString.Substring(partString.IndexOf(separators[i] + SymbolsContainer.Space));
+                }
+
+                if (result == string.Empty)
+                {
+                    result = partString.Substring(partString.Length - separators[i].Length);
+                }
+
+                if ((partString.Contains(separators[i])) ||
+                    (partString.Contains(separators[i]) && result == separators[i]))
                 {
                     return true;
                 }
             }
+
 
             return false;
         }

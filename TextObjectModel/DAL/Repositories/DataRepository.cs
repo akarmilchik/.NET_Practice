@@ -9,7 +9,7 @@ namespace TextObjectModel.DAL.Repositories
     public class DataRepository : IDataRepository
     {
         private static string dataFileName = "text.txt";
-        private static string dataObjectModelFileName = "dataObjectModel.txt";
+        private static string dataObjectModelFileName = "dataObjectModel.json";
 
         public void SaveData(Text data)
         {
@@ -21,13 +21,11 @@ namespace TextObjectModel.DAL.Repositories
 
             File.WriteAllText(modelPath, serializedObject);
 
-            JObject dataObject = new JObject(model);
-
             using StreamWriter file = File.CreateText(modelPath);
-
-            using JsonTextWriter writer = new JsonTextWriter(file);
-
-            dataObject.WriteTo(writer);
+            {
+                JsonSerializer serializer = new JsonSerializer();
+                serializer.Serialize(file, model);
+            }
 
         }
 
