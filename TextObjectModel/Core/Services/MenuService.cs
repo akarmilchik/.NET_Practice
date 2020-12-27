@@ -14,8 +14,6 @@ namespace TextObjectModel.Core.Services
         private readonly IPrintService _printService;
         private readonly IDataRepository _dataRepository;
         private readonly Text _textData;
-        private readonly SymbolsContainer symbolsContainer = new SymbolsContainer();
-
         public MenuService(IDataRepository dataRepository, IPrintService printService, Text textData)
         {
             _dataRepository = dataRepository;
@@ -33,7 +31,7 @@ namespace TextObjectModel.Core.Services
 
             var inputLength = TypeConversionService.ToInt(Console.ReadLine());
 
-            var sentenceSeparators = symbolsContainer.SentenceSeparators().ToList();
+            var sentenceSeparators = SymbolsContainer.SentenceSeparators().ToList();
 
             var interrogativeSentences = data.sentences.ToList().Where(s => s.Items.Last().Chars == sentenceSeparators[0]);
 
@@ -59,7 +57,7 @@ namespace TextObjectModel.Core.Services
 
             var inputLength = TypeConversionService.ToInt(Console.ReadLine());
 
-            var consonantLetters = symbolsContainer.ConsonantLetters().ToList();
+            var consonantLetters = SymbolsContainer.ConsonantLetters().ToList();
 
             foreach (var sentence in data.sentences)
             {

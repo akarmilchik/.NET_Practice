@@ -9,24 +9,11 @@ namespace TextObjectModel.DAL.Repositories
     public class DataRepository : IDataRepository
     {
         private static string dataFileName = "text.txt";
-        private static string dataObjectModelFileName = "dataObjectModel.json";
-
-        private static string GetPath(string fileName)
-        {
-            var path = System.Reflection.Assembly.GetExecutingAssembly().Location;
-
-            return path.Remove(path.LastIndexOf("\\")) + $"\\App\\Data\\{fileName}";
-        }
-
-        private DataObjectModel UpdateObjectModel(Text data) => new DataObjectModel { Text = data };
-
-        private static string GetModelPath() => GetPath(dataObjectModelFileName);
-
-        public string GetDataPath() => GetPath(dataFileName);
+        private static string dataObjectModelFileName = "dataObjectModel.txt";
 
         public void SaveData(Text data)
         {
-            var model = UpdateObjectModel(data);
+            var model = new DataObjectModel { Text = data };
 
             string modelPath = GetModelPath();
 
@@ -39,9 +26,9 @@ namespace TextObjectModel.DAL.Repositories
             using StreamWriter file = File.CreateText(modelPath);
 
             using JsonTextWriter writer = new JsonTextWriter(file);
-            
+
             dataObject.WriteTo(writer);
-            
+
         }
 
         public DataObjectModel ReadData()
@@ -49,7 +36,7 @@ namespace TextObjectModel.DAL.Repositories
             using StreamReader file = File.OpenText(GetModelPath());
 
             using JsonTextReader reader = new JsonTextReader(file);
-            
+
             JObject jsonTextObject = (JObject)JToken.ReadFrom(reader);
 
             Text textObject = jsonTextObject.ToObject<Text>();
@@ -60,5 +47,16 @@ namespace TextObjectModel.DAL.Repositories
 
             return textObjectModel;
         }
+
+        private static string GetPath(string fileName)
+        {
+            var path = System.Reflection.Assembly.GetExecutingAssembly().Location;
+
+            return path.Remove(path.LastIndexOf("\\")) + $"\\App\\Data\\{fileName}";
+        }
+
+        private static string GetModelPath() => GetPath(dataObjectModelFileName);
+
+        public string GetDataPath() => GetPath(dataFileName);
     }
 }

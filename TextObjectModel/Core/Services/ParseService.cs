@@ -7,7 +7,7 @@ namespace TextObjectModel.Core.Services
 {
     public class ParseService : IParseService
     {
-        public string FindSeparator(string currentString, string spaceSeparator, ref int separatorOccurence, SymbolsContainer symbolsContainer)
+        public string FindSeparator(string currentString, ref int separatorOccurence)
         {
             separatorOccurence = -1;
 
@@ -15,20 +15,25 @@ namespace TextObjectModel.Core.Services
 
             int separatorFollowedSpaceOccurence = -1;
 
-            string sentenceSeparator = "";
+            string sentenceSeparator = string.Empty;
 
-            var sentenceSeparators = symbolsContainer.SentenceSeparators();
-
-            foreach (var separator in sentenceSeparators)
+            foreach (var separator in SymbolsContainer.SentenceSeparators().ToList().Select(s => s + SymbolsContainer.Space))
             {
-                separatorOnlyOccurence = currentString.IndexOf(separator);
+                separatorFollowedSpaceOccurence = currentString.IndexOf(separator);
 
-                separatorFollowedSpaceOccurence = currentString.IndexOf(separator + spaceSeparator);
-
-                if (separatorOnlyOccurence > 0 && separatorOnlyOccurence <= currentString.Length - separator.Length)
+                if (separatorFollowedSpaceOccurence < 0)
                 {
-                    separatorOnlyOccurence = CheckSeparatorOccurence(currentString, separatorOnlyOccurence, separator, spaceSeparator, sentenceSeparators);
+                    separatorOnlyOccurence = currentString.IndexOf(separator.TrimEnd());
+                }    
+
+                /*
+                separatorFollowedSpaceOccurence = currentString.IndexOf(separator + SymbolsContainer.Space);
+                */
+                if (separatorOnlyOccurence > 0 && separatorOnlyOccurence <= currentString.Length - separator.TrimEnd().Length)
+                {
+                    separatorOnlyOccurence = CheckSeparatorOccurence(currentString, separatorOnlyOccurence, separator.TrimEnd());
                 }
+                
 
                 if (separatorFollowedSpaceOccurence >= 0 && separatorFollowedSpaceOccurence < currentString.Length - separator.Length)
                 {
@@ -38,9 +43,9 @@ namespace TextObjectModel.Core.Services
 
                     break;
                 }
-                else if (separatorOnlyOccurence >= 0 && separatorOnlyOccurence == (currentString.Length - separator.Length))
+                if (separatorOnlyOccurence >= 0 && separatorOnlyOccurence == (currentString.Length - separator.TrimEnd().Length))
                 {
-                    sentenceSeparator = currentString.Substring(separatorOnlyOccurence, separator.Length).ToString();
+                    sentenceSeparator = currentString.Substring(separatorOnlyOccurence, separator.TrimEnd().Length).ToString();
 
                     separatorOccurence = separatorOnlyOccurence;
 
@@ -51,43 +56,35 @@ namespace TextObjectModel.Core.Services
             return sentenceSeparator;
         }
 
-        public string ClearSentenceStringLine(string stringLine, SymbolsContainer symbolsContainer)
+        public string ClearSentenceStringLine(string stringLine)
         {
-            var wordSeparators = symbolsContainer.WordSeparators().ToList();
-
-            foreach (string badSymbol in symbolsContainer.BadSymbols())
+            foreach (var badSymbol in SymbolsContainer.BadSymbols())
             {
-                stringLine = stringLine.Replace(badSymbol, wordSeparators[0]);
+                stringLine = stringLine.Replace(badSymbol, SymbolsContainer.Space);
             }
 
-            if (stringLine.StartsWith(wordSeparators[0]))
-            {
-                stringLine = stringLine.Substring(wordSeparators[0].Length);
-            }
-
+            stringLine = stringLine.TrimStart();
+            
             return stringLine;
         }
 
-        private int CheckSeparatorOccurence(string currentString, int separatorOccurence, string separator, string spaceSeparator, IEnumerable<string> separators)
+        private int CheckSeparatorOccurence(string currentString, int separatorOccurence, string separator)
         {
-            string partOfStringWithSeparator = "";
+            string partOfStringWithSeparator = string.Empty;
 
             partOfStringWithSeparator = getPartOfStringWithSeparator(currentString, separatorOccurence, separator, partOfStringWithSeparator);
 
-            while ((separatorOccurence != (currentString.Length - separator.Length)) && (partOfStringWithSeparator[separator.Length].ToString() != spaceSeparator))
+            while (separatorOccurence >= 0 && (separatorOccurence != (currentString.Length - separator.Length)) && partOfStringWithSeparator.Last().ToString() != SymbolsContainer.Space)
             {
                 var cutPreString = currentString.Substring(0, separatorOccurence + separator.Length - 1);
 
                 var cutString = currentString.Substring(separatorOccurence + separator.Length);
 
-                bool containsSeparatorinPreString = cutPreString.Any(s => separators.ToList().Contains(s.ToString()));
+                //if (partOfStringWithSeparator == separator)
+                //{
+                    separatorOccurence = CheckSeparatorContains(separator, separatorOccurence, partOfStringWithSeparator, cutPreString, cutString);
+               // }
 
-                bool containsSeparatorinAfterString = cutString.Any(s => separators.ToList().Contains(s.ToString()));
-
-                if (!(cutString.Contains(separator)) || (containsSeparatorinPreString && !containsSeparatorinAfterString))
-                {
-                    return -1;
-                }
                 if (cutString.Length > separator.Length)
                 {
                     separatorOccurence = cutString.IndexOf(separator) + separatorOccurence + 1;
@@ -103,8 +100,47 @@ namespace TextObjectModel.Core.Services
             return separatorOccurence;
         }
 
+        private int CheckSeparatorContains(string separator, int separatorOccurence, string partWithSeparator, string cutPreString, string cutString)
+        {
+            var containsSeparatorinPreString = isStringContainsSeparator(cutPreString);
+
+            var containsSeparatorinAfterString = isStringContainsSeparator(cutString);
+
+            if ((containsSeparatorinPreString && !containsSeparatorinAfterString) ||
+                (!containsSeparatorinPreString && containsSeparatorinAfterString) ||
+                (!containsSeparatorinPreString && !containsSeparatorinAfterString) )
+            {
+                return -1;
+            }
+
+            return separatorOccurence;
+        }
+
+        private bool isStringContainsSeparator(string partString)
+        {
+            var separatorsWithSpace = SymbolsContainer.SentenceSeparators().Select(s => s + SymbolsContainer.Space).ToList();
+
+            for (int i = 0; i < separatorsWithSpace.Count; i++)
+            {
+                //var lastPartOfString = partString.Substring(partString.IndexOf(separatorsWithSpace[i].TrimEnd()));
+
+                if ((partString.Contains(separatorsWithSpace[i])) ||
+                    (partString.Contains(separatorsWithSpace[i].TrimEnd()) && partString.Substring(partString.IndexOf(separatorsWithSpace[i].TrimEnd())) == separatorsWithSpace[i].TrimEnd()))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         private string getPartOfStringWithSeparator(string cutString, int separatorOccurence, string separator, string partOfStringWithSeparator)
         {
+            if (separatorOccurence < 0)
+            {
+                return string.Empty;
+            }
+
             if (separatorOccurence < cutString.Length - separator.Length)
             {
                 partOfStringWithSeparator = cutString.Substring(separatorOccurence, separator.Length + 1);

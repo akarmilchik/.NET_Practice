@@ -14,11 +14,11 @@ namespace TextObjectModel.DAL.Factories
             return _cachedItems.ContainsKey(chars) ? _cachedItems[chars] : null;
         }
 
-        public PunctuationFactory(SymbolsContainer PunctuationContainer)
+        public PunctuationFactory()
         {
             _cachedItems = new Dictionary<string, ISentenceItem>();
 
-            foreach (var c in PunctuationContainer.All())
+            foreach (var c in SymbolsContainer.All())
             {
                 _cachedItems.Add(c, new Punctuation(c));
             }

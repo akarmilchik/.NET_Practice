@@ -18,11 +18,10 @@ namespace TextObjectModel
 
             MainMenuItems menuItems;
 
-            SymbolsContainer symbolsContainer = new SymbolsContainer();
 
             WordFactory wordFactory = new WordFactory();
 
-            PunctuationFactory punctuationFactory = new PunctuationFactory(symbolsContainer);
+            PunctuationFactory punctuationFactory = new PunctuationFactory();
 
             DataRepository dataRepository = new DataRepository();
 
@@ -32,13 +31,11 @@ namespace TextObjectModel
 
             ParseService parseService = new ParseService();
 
-            Parser parser = new Parser(symbolsContainer, sentenceItemFactory, parseService);
+            Parser parser = new Parser(sentenceItemFactory, parseService);
 
             var dataPath = dataRepository.GetDataPath();
 
             var parsedText = parser.Parse(dataPath);
-
-            var dataObjectModel = dataRepository.ReadData();
 
             MenuService menuService = new MenuService(dataRepository, printService, parsedText);
 
