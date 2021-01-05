@@ -3,10 +3,12 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AssemblyName>ATS</AssemblyName>
+    <RootNamespace>ATS</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="DAL\Repositories\" />
+    <Folder Include="Core\Services\" />
   </ItemGroup>
 
 </Project>

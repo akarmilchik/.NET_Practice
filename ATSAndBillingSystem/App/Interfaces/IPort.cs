@@ -1,14 +1,16 @@
-﻿using ATEAndBillingSystem.App.Constants;
+﻿using ATS.App.Constants;
 using System;
 
-namespace ATEAndBillingSystem.App.Interfaces
+namespace ATS.App.Interfaces
 {
     public interface IPort
     {
-        PortState State { get; set; }
+        PortState PortState { get; set; }
 
         event EventHandler<PortState> StateChanging;
 
         event EventHandler<PortState> StateChanged;
+
+        void RegisterEventHandlersForTerminal(ITerminal terminal);
     }
 }

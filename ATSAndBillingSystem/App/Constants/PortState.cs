@@ -1,9 +1,10 @@
-﻿namespace ATEAndBillingSystem.App.Constants
+﻿namespace ATS.App.Constants
 {
     public enum PortState
     {
         Disabled,
         Enabled, 
-        Calling
+        Calling,
+        Free
     }
 }

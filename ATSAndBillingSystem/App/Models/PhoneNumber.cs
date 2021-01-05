@@ -1,4 +1,4 @@
-﻿namespace ATEAndBillingSystem.App.Models
+﻿namespace ATS.App.Models
 {
     public struct PhoneNumber
     {
@@ -20,6 +20,11 @@
             return Value;
         }
 
+        public override int GetHashCode()
+        {
+            return _phoneNumber.GetHashCode();
+        }
+
         public override bool Equals(object obj)
         {
             if (obj is PhoneNumber)
@@ -31,6 +36,5 @@
                 return false;
             }
         }
-
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ATEAndBillingSystem
+namespace ATS
 {
     class Program
     {

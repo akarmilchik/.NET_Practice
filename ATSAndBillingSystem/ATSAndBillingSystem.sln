@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ATSAndBillingSystem", "ATSAndBillingSystem.csproj", "{D952C7AC-96ED-45DE-915B-439E10796CF9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ATS", "ATS.csproj", "{D952C7AC-96ED-45DE-915B-439E10796CF9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BillingSystem", "..\BillingSystem.BL\BillingSystem.csproj", "{16C317E4-8627-4519-A162-B7C4BB68C182}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{D952C7AC-96ED-45DE-915B-439E10796CF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D952C7AC-96ED-45DE-915B-439E10796CF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D952C7AC-96ED-45DE-915B-439E10796CF9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16C317E4-8627-4519-A162-B7C4BB68C182}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16C317E4-8627-4519-A162-B7C4BB68C182}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16C317E4-8627-4519-A162-B7C4BB68C182}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16C317E4-8627-4519-A162-B7C4BB68C182}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ATEAndBillingSystem.DAL.Interfaces
+namespace ATS.App.Constants
 {
-    class IDataRepository
+    public enum RespondState
     {
+        Accept,
+        Drop
     }
 }

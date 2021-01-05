@@ -1,37 +1,48 @@
-﻿using ATEAndBillingSystem.App.Interfaces;
+﻿using ATS.App.Interfaces;
+using System;
+using System.Collections.Generic;
 
-namespace ATEAndBillingSystem.App.Models
+namespace ATS.App.Models
 {
-    public class Station : IStation
+    public abstract class Station : IStation
     {
-        public void AssignNumberToAClient(IClient client, PhoneNumber number)
+        private ICollection<ICallDetails> _connectionCollection;
+        private ICollection<ICallDetails> _callCollection;
+        private ICollection<ITerminal> _terminalCollection;
+        private ICollection<IPort> _portCollection;
+        private IDictionary<PhoneNumber, IPort> _portMapping;
+
+        public Station(ICollection<ITerminal> terminalCollection, ICollection<IPort> portCollection)
         {
-            throw new System.NotImplementedException();
+            this._terminalCollection = terminalCollection;
+            this._portCollection = portCollection;
+            this._connectionCollection = new List<ICallDetails>();
+            this._callCollection = new List<ICallDetails>();
+            this._portMapping = new Dictionary<PhoneNumber, IPort>();
         }
 
-        public void AssignTerminalToAClient(ITerminal terminal, IClient client)
-        {
-            throw new System.NotImplementedException();
-        }
+        public event EventHandler<CallDetails> CallDetailsPrepared;
 
-        public void ConcludeContract(IClient client)
+        protected virtual void OnCallInfoPrepared(object sender, CallDetails callDetails)
+        {
+            if (CallDetailsPrepared != null)
+            {
+                CallDetailsPrepared(sender, callDetails);
+            }
+        }
+        /*
+        public void AssignTerminalToAClient(ITerminal terminal, IUser client)
         {
             throw new System.NotImplementedException();
-        }
+        }*/
 
         public void ProvidePortForTerminal(ITerminal terminal, IPort port)
         {
             throw new System.NotImplementedException();
         }
 
-        public void RegisterEventHandlersForPort(IPort port)
-        {
-            throw new System.NotImplementedException();
-        }
+        public abstract void RegisterEventHandlersForPort(IPort port);
 
-        public void RegisterEventHandlersForTerminal(ITerminal terminal)
-        {
-            throw new System.NotImplementedException();
-        }
+        public abstract void RegisterEventHandlersForTerminal(ITerminal terminal);
     }
 }
