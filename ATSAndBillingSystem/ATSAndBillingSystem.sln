@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ATS", "ATS.csproj", "{D952C7AC-96ED-45DE-915B-439E10796CF9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BillingSystem", "..\BillingSystem.BL\BillingSystem.csproj", "{16C317E4-8627-4519-A162-B7C4BB68C182}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BillingSystem", "..\BillingSystem\BillingSystem.csproj", "{16C317E4-8627-4519-A162-B7C4BB68C182}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
