@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BillingSystem\BillingSystem.csproj" />
+    <ProjectReference Include="..\ATS.Core\ATS.Core.csproj" />
   </ItemGroup>
 
 </Project>
