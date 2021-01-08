@@ -1,14 +1,12 @@
-﻿using ATS.App.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using ATS.App.Constants;
+using ATS.App.Requests;
 
 namespace ATS.App.Responds
 {
     public class Respond
     {
-        public Requests.Request Request;
-        public PhoneNumber Source { get; set; }
+        public Request Request;
+        public string SourcePhoneNumber { get; set; }
         public RespondState State { get; set; }
     }
 }

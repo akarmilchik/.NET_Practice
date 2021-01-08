@@ -1,6 +1,6 @@
 ﻿namespace ATS.App.Requests
 {
-    public class IncomingRequest: Request
+    public class DisconnectRequest: Request
     {
     }
 }

@@ -3,7 +3,7 @@
     public enum PortState
     {
         Disabled,
-        Enabled, 
+        Enabled,
         Calling,
         Free
     }

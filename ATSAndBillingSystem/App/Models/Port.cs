@@ -8,7 +8,7 @@ namespace ATS.App.Models
     {
         private PortState _portState;
 
-        public PortState PortState 
+        public PortState PortState
         {
             get
             {
@@ -47,6 +47,12 @@ namespace ATS.App.Models
             }
         }
 
-        public abstract void RegisterEventHandlersForTerminal(ITerminal terminal);      
+        public void ClearEvents()
+        {
+            this.StateChanged = null;
+            this.StateChanging = null;
+        }
+
+        public abstract void RegisterEventHandlersForTerminal(ITerminal terminal);
     }
 }

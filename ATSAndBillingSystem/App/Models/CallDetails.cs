@@ -7,8 +7,8 @@ namespace ATS.App.Models
     {
         public DateTime StartedTime { get; set; }
         public TimeSpan DurationTime { get; set; }
-        public ITerminal Source { get; set; }
-        public ITerminal Target { get; set; }
+        public string Source { get; set; }
+        public string Target { get; set; }
         public decimal Cost { get; set; }
     }
 }

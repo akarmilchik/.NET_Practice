@@ -6,8 +6,8 @@ namespace ATS.App.Interfaces
     {
         DateTime StartedTime { get; set; }
         TimeSpan DurationTime { get; set; }
-        ITerminal Source { get; set; }
-        ITerminal Target { get; set; }
+        string Source { get; set; }
+        string Target { get; set; }
         decimal Cost { get; set; }
     }
 }

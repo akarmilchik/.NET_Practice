@@ -10,8 +10,4 @@
     <Folder Include="DAL\Repositories\" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\ATSAndBillingSystem\ATS.csproj" />
-  </ItemGroup>
-
 </Project>

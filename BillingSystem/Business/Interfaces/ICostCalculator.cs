@@ -1,5 +1,4 @@
 ﻿using ATS.App.Interfaces;
-using ATS.App.Models;
 using System.Collections.Generic;
 
 namespace BillingSystem.Business.Interfaces

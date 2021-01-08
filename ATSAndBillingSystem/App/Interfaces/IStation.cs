@@ -3,7 +3,7 @@ using System;
 
 namespace ATS.App.Interfaces
 {
-    public interface IStation
+    public interface IStation : IClearEventsService
     {
         void RegisterEventHandlersForTerminal(ITerminal terminal);
         void RegisterEventHandlersForPort(IPort port);

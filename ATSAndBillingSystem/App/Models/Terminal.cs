@@ -1,6 +1,7 @@
 ﻿using ATS.App.Constants;
 using ATS.App.Interfaces;
 using ATS.App.Requests;
+using ATS.App.Responds;
 using System;
 
 namespace ATS.App.Models
@@ -9,42 +10,63 @@ namespace ATS.App.Models
     {
         private Request ServerIncomingRequest { get; set; }
         protected bool IsOnline { get; private set; }
-        public PhoneNumber PhoneNumber { get; set; }
+        public string PhoneNumber { get; private set; }
 
-        public Terminal(PhoneNumber number)
+        public Terminal(string number)
         {
-            this.PhoneNumber = number;
+            PhoneNumber = number;
         }
 
         public void Answer()
         {
             if (!IsOnline && ServerIncomingRequest != null)
             {
-                OnIncomingRespond(this, new Responds.Respond() { Source = PhoneNumber, State = RespondState.Accept, Request = ServerIncomingRequest });
+                OnIncomingRespond(this, new Respond() 
+                { 
+                    SourcePhoneNumber = PhoneNumber, 
+                    State = RespondState.Accept, 
+                    Request = ServerIncomingRequest 
+                });
+
                 OnOnline(this, null);
             }
         }
 
-        public void Call(PhoneNumber targetPhoneNumber)
+        public void Call(string targetPhoneNumber)
         {
-            throw new System.NotImplementedException();
+            if (!IsOnline)
+            {
+                OnOutgoingCall(this, targetPhoneNumber);
+                OnOnline(this, null);
+            }
         }
 
         public void Connect(IPort port)
         {
-            throw new System.NotImplementedException();
+            OnConnect(this, null);
         }
 
         public void Disconect(IPort port)
         {
-            throw new System.NotImplementedException();
+            if (IsOnline)
+            {
+                Drop();
+
+                OnDisconnect(this, null);
+            }
         }
 
         public void Drop()
         {
             if (ServerIncomingRequest != null)
             {
-                OnIncomingRespond(this, new Responds.Respond() { Source = PhoneNumber, State = RespondState.Drop, Request = ServerIncomingRequest });
+                OnIncomingRespond(this, new Respond() 
+                { 
+                    SourcePhoneNumber = PhoneNumber, 
+                    State = RespondState.Drop, 
+                    Request = ServerIncomingRequest 
+                });
+                
                 if (IsOnline)
                 {
                     OnOffline(this, null);
@@ -52,98 +74,10 @@ namespace ATS.App.Models
             }
         }
 
-        protected virtual void OnOutgoingCall(object sender, PhoneNumber target)
+        public void IncomingRequestFrom(string source)
         {
-            if (OutgoingConnection != null)
-            {
-                ServerIncomingRequest = new Requests.OutgoingCallRequest() { Source = this.PhoneNumber, Target = target };
-                OutgoingConnection(sender, ServerIncomingRequest);
-            }
+            OnIncomingRequest(this, new IncomingRequest() { SourcePhoneNumber = source });
         }
-
-        public event EventHandler<Requests.IncomingCallRequest> IncomingRequest;
-
-        protected virtual void OnIncomingRequest(object sender, Requests.IncomingCallRequest request)
-        {
-            if (IncomingRequest != null)
-            {
-                IncomingRequest(sender, request);
-            }
-            ServerIncomingRequest = request;
-        }
-
-        public void IncomingRequestFrom(PhoneNumber source)
-        {
-            OnIncomingRequest(this, new Requests.IncomingCallRequest() { Source = source });
-        }
-
-        public event EventHandler<Responds.Respond> IncomingRespond;
-
-        protected virtual void OnIncomingRespond(object sender, Responds.Respond respond)
-        {
-            if (this.IncomingRespond != null && ServerIncomingRequest != null)
-            {
-                this.IncomingRespond(sender, respond);
-            }
-        }
-
-        public event EventHandler Online;
-
-        public event EventHandler Offline;
-
-        protected virtual void OnOnline(object sender, EventArgs args)
-        {
-            if (Online != null)
-            {
-                Online(sender, args);
-            }
-            IsOnline = true;
-        }
-
-        protected virtual void OnOffline(object sender, EventArgs args)
-        {
-            if (Offline != null)
-            {
-                Offline(sender, args);
-                ServerIncomingRequest = null;
-            }
-            IsOnline = false;
-        }
-
-
-        public void Plug()
-        {
-            OnPlugging(this, null);
-        }
-
-        public void Unplug()
-        {
-            if (IsOnline)
-            {
-                Drop();
-                OnUnPlugging(this, null);
-            }
-        }
-
-        protected virtual void OnPlugging(object sender, EventArgs args)
-        {
-            if (Plugging != null)
-            {
-                Plugging(sender, args);
-            }
-        }
-
-        protected virtual void OnUnPlugging(object sender, EventArgs args)
-        {
-            if (UnPlugging != null)
-            {
-                UnPlugging(sender, args);
-            }
-        }
-
-        public event EventHandler Plugging;
-
-        public event EventHandler UnPlugging;
 
         public void ClearEvents()
         {
@@ -152,8 +86,8 @@ namespace ATS.App.Models
             this.Online = null;
             this.Offline = null;
             this.OutgoingConnection = null;
-            this.Plugging = null;
-            this.UnPlugging = null;
+            this.Connecting = null;
+            this.Disconnecting = null;
         }
 
         public virtual void RegisterEventHandlersForPort(IPort port)
@@ -167,5 +101,76 @@ namespace ATS.App.Models
             };
         }
 
+        public event EventHandler<Request> OutgoingConnection;
+
+        protected virtual void OnOutgoingCall(object sender, string target)
+        {
+            if (OutgoingConnection != null)
+            {
+                ServerIncomingRequest = new OutgoingRequest() 
+                { 
+                    SourcePhoneNumber = this.PhoneNumber, 
+                    TargetPhoneNumber = target 
+                };
+
+                OutgoingConnection(sender, ServerIncomingRequest);
+            }
+        }
+
+        public event EventHandler<IncomingRequest> IncomingRequest;
+
+        protected virtual void OnIncomingRequest(object sender, IncomingRequest request)
+        {
+            if (IncomingRequest != null)
+            {
+                IncomingRequest(sender, request);
+            }
+
+            ServerIncomingRequest = request;
+        }
+
+        public event EventHandler<Respond> IncomingRespond;
+
+        protected virtual void OnIncomingRespond(object sender, Respond respond)
+        {
+            if (this.IncomingRespond != null && ServerIncomingRequest != null)
+            {
+                this.IncomingRespond(sender, respond);
+            }
+        }
+
+        public event EventHandler Online;
+
+        protected virtual void OnOnline(object sender, EventArgs args)
+        {
+            if (Online != null)
+            {
+                Online(sender, args);
+            }
+
+            IsOnline = true;
+        }
+
+        public event EventHandler Offline;
+
+        protected virtual void OnOffline(object sender, EventArgs args)
+        {
+            if (Offline != null)
+            {
+                Offline(sender, args);
+
+                ServerIncomingRequest = null;
+            }
+
+            IsOnline = false;
+        }
+
+        public event EventHandler Connecting;
+
+        protected virtual void OnConnect(object sender, EventArgs args) => Connecting?.Invoke(sender, args);            
+
+        public event EventHandler Disconnecting;
+
+        protected virtual void OnDisconnect(object sender, EventArgs args) => Disconnecting?.Invoke(sender, args);
     }
 }
