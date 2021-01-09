@@ -7,12 +7,14 @@ using System.Linq;
 namespace ATS.DAL.Models.TariffPlans
 {
     public class SecondMinuteTariffPlan : ITariffPlan
-    {
-        private decimal _minuteCost = 0.01m;
-        public Guid Id { get; }
-        public string PlanName { get; private set; }
+    { 
+        public int Id { get; set; }
 
-        public SecondMinuteTariffPlan(Guid id, string planName, decimal minuteCost)
+        private readonly decimal _minuteCost = 0.01m;
+
+        public string PlanName { get; set; }
+
+        public SecondMinuteTariffPlan(int id, string planName, decimal minuteCost)
         {
             Id = id;
             _minuteCost = minuteCost;

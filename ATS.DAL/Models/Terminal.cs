@@ -8,24 +8,38 @@ namespace ATS.DAL.Models
 {
     public class Terminal : ITerminal
     {
+        private readonly string _phoneNumber;
         private Request ServerIncomingRequest { get; set; }
         protected bool IsOnline { get; private set; }
-        public string PhoneNumber { get; private set; }
 
-        public Terminal(string number)
+        public int Id { get; set; }
+        public string PhoneNumber { get; set; }
+
+        public Terminal()
         {
-            PhoneNumber = number;
+
+        }
+
+        public Terminal(string phoneNumber)
+        {
+            _phoneNumber = phoneNumber;
+            this.IncomingRequest += this.OnIncomingRequest;
+            this.IncomingRespond += this.OnIncomingRespond;
+            this.Online += (sender, args) => { Console.WriteLine("Terminal {0} turned to online mode", phoneNumber); };
+            this.Offline += (sender, args) => { Console.WriteLine("Terminal {0} turned to offline mode", phoneNumber); };
+            this.Connecting += (sender, args) => { Console.WriteLine("Terminal {0} turned to offline mode", phoneNumber); };
+            this.Disconnecting += (sender, args) => { Console.WriteLine("Terminal {0} turned to offline mode", phoneNumber); };
         }
 
         public void Answer()
         {
             if (!IsOnline && ServerIncomingRequest != null)
             {
-                OnIncomingRespond(this, new Respond() 
-                { 
-                    SourcePhoneNumber = PhoneNumber, 
-                    State = RespondState.Accept, 
-                    Request = ServerIncomingRequest 
+                OnIncomingRespond(this, new Respond()
+                {
+                    SourcePhoneNumber = _phoneNumber,
+                    State = RespondState.Accept,
+                    Request = ServerIncomingRequest
                 });
 
                 OnOnline(this, null);
@@ -60,13 +74,13 @@ namespace ATS.DAL.Models
         {
             if (ServerIncomingRequest != null)
             {
-                OnIncomingRespond(this, new Respond() 
-                { 
-                    SourcePhoneNumber = PhoneNumber, 
-                    State = RespondState.Drop, 
-                    Request = ServerIncomingRequest 
+                OnIncomingRespond(this, new Respond()
+                {
+                    SourcePhoneNumber = _phoneNumber,
+                    State = RespondState.Drop,
+                    Request = ServerIncomingRequest
                 });
-                
+
                 if (IsOnline)
                 {
                     OnOffline(this, null);
@@ -107,10 +121,10 @@ namespace ATS.DAL.Models
         {
             if (OutgoingConnection != null)
             {
-                ServerIncomingRequest = new OutgoingRequest() 
-                { 
-                    SourcePhoneNumber = this.PhoneNumber, 
-                    TargetPhoneNumber = target 
+                ServerIncomingRequest = new OutgoingRequest()
+                {
+                    SourcePhoneNumber = _phoneNumber,
+                    TargetPhoneNumber = target
                 };
 
                 OutgoingConnection(sender, ServerIncomingRequest);
@@ -124,6 +138,7 @@ namespace ATS.DAL.Models
             if (IncomingRequest != null)
             {
                 IncomingRequest(sender, request);
+                Console.WriteLine("{0} received request for incoming connection from {1}", _phoneNumber, request.SourcePhoneNumber);
             }
 
             ServerIncomingRequest = request;
@@ -136,6 +151,7 @@ namespace ATS.DAL.Models
             if (this.IncomingRespond != null && ServerIncomingRequest != null)
             {
                 this.IncomingRespond(sender, respond);
+                Console.WriteLine("{0} create respond for incoming connection from {1}", this.PhoneNumber, respond.SourcePhoneNumber);
             }
         }
 
@@ -167,7 +183,7 @@ namespace ATS.DAL.Models
 
         public event EventHandler Connecting;
 
-        protected virtual void OnConnect(object sender, EventArgs args) => Connecting?.Invoke(sender, args);            
+        protected virtual void OnConnect(object sender, EventArgs args) => Connecting?.Invoke(sender, args);
 
         public event EventHandler Disconnecting;
 

@@ -1,10 +1,11 @@
 ﻿using ATS.DAL.Constants;
 using ATS.DAL.Interfaces;
+using ATS.DAL.Models.Requests;
 using System;
 
 namespace ATS.DAL.Models
 {
-    public abstract class Port : IPort
+    public  class Port : IPort
     {
         private PortState _portState;
 
@@ -27,6 +28,11 @@ namespace ATS.DAL.Models
             }
         }
 
+        public Port()
+        {
+            this.StateChanged += (sender, state) => { Console.WriteLine("Port detected the State is changed to {0}", state); };
+        }    
+
         public event EventHandler<PortState> StateChanging;
 
         public event EventHandler<PortState> StateChanged;
@@ -47,12 +53,28 @@ namespace ATS.DAL.Models
             }
         }
 
+        public void OnOutgoingCall(object sender, Request request)
+        {
+            if (request.GetType() == typeof(OutgoingRequest) && this.PortState == PortState.Free)
+            {
+                this.PortState = PortState.Calling;
+            }
+        }
+
+
         public void ClearEvents()
         {
             this.StateChanged = null;
             this.StateChanging = null;
         }
 
-        public abstract void RegisterEventHandlersForTerminal(ITerminal terminal);
+        public virtual void RegisterEventHandlersForTerminal(ITerminal terminal)
+        {
+            terminal.OutgoingConnection += this.OnOutgoingCall;
+
+            terminal.Online += (port, args) => { this.PortState = PortState.Free; };
+
+            terminal.Offline += (port, args) => { this.PortState = PortState.Disabled; };
+        }
     }
 }

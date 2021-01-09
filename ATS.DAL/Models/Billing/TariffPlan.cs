@@ -9,9 +9,11 @@ namespace ATS.DAL.Models.Billing
 {
     public class TariffPlan : ITariffPlan
     {
+        public int Id { get; set; }
+
         private ICostCalculator _costCalculator;
+
         protected byte[] streamObject { get; set; }
-        public Guid Id { get; }
 
         public ICostCalculator CostCalculator
         {

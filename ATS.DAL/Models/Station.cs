@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace ATS.DAL.Models
 {
-    public abstract class Station : IStation
+    public class Station : IStation
     {
         private readonly ICollection<CallDetails> _connectionCollection;
         private readonly ICollection<CallDetails> _callCollection;
@@ -76,10 +76,16 @@ namespace ATS.DAL.Models
             this.CallDetailsPrepared = null;
         }
 
-        public abstract void RegisterEventHandlersForPort(IPort port);
+        public virtual void RegisterEventHandlersForPort(IPort port)
+        {
+            port.StateChanged += (sender, state) => { Console.WriteLine("Station detected the port changed its State to {0}", state); };
+        }
 
-        public abstract void RegisterEventHandlersForTerminal(ITerminal terminal);
-
+        public virtual void RegisterEventHandlersForTerminal(ITerminal terminal)
+        {
+            terminal.OutgoingConnection += this.OnOutgoingRequest;
+            terminal.IncomingRespond += OnIncomingCallRespond;
+        }
         protected virtual void OnCallDetailsPrepared(object sender, CallDetails callDetails)
         {
             if (CallDetailsPrepared != null)
@@ -200,6 +206,14 @@ namespace ATS.DAL.Models
             callDetails.StartedTime = DateTime.Now;
 
             _callCollection.Add(callDetails);
+        }
+
+        public void OnOutgoingRequest(object sender, Request request)
+        {
+            if (request.GetType() == typeof(OutgoingRequest))
+            {
+                RegisterOutgoingRequest(request as OutgoingRequest);
+            }
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Data.Entity;
 
 namespace ATS.DAL
 {
-    class DataContext : DbContext
+    public class DataContext : DbContext
     {
 
         public DataContext() : base("DbConnection")

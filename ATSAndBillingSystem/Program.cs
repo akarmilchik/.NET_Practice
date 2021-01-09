@@ -1,7 +1,7 @@
-﻿using ATS.App.Constants;
-using ATS.Core.Extensions;
+﻿using ATS.Core.Extensions;
 using ATS.Core.Interfaces;
 using ATS.Core.Services;
+using ATS.DAL.Constants;
 using System;
 
 namespace ATS

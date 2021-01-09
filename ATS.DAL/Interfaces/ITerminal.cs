@@ -4,9 +4,9 @@ using ATS.DAL.Models.Responds;
 
 namespace ATS.DAL.Interfaces
 {
-    public interface ITerminal : IClearEventsService
+    public interface ITerminal : IClearEventsService, IEntity
     {
-        string PhoneNumber { get; }
+        string PhoneNumber { get; set; }
 
         event EventHandler<Request> OutgoingConnection;
 
