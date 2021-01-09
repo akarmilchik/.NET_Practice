@@ -4,7 +4,6 @@
     {
         Disabled,
         Enabled,
-        Calling,
-        Free
+        Calling
     }
 }

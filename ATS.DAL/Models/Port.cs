@@ -5,9 +5,11 @@ using System;
 
 namespace ATS.DAL.Models
 {
-    public  class Port : IPort
+    public class Port : IPort
     {
         private PortState _portState;
+
+        public int Id { get; set; }
 
         public PortState PortState
         {
@@ -31,7 +33,7 @@ namespace ATS.DAL.Models
         public Port()
         {
             this.StateChanged += (sender, state) => { Console.WriteLine("Port detected the State is changed to {0}", state); };
-        }    
+        }
 
         public event EventHandler<PortState> StateChanging;
 
@@ -55,12 +57,11 @@ namespace ATS.DAL.Models
 
         public void OnOutgoingCall(object sender, Request request)
         {
-            if (request.GetType() == typeof(OutgoingRequest) && this.PortState == PortState.Free)
+            if (request.GetType() == typeof(OutgoingRequest) && this.PortState == PortState.Enabled)
             {
                 this.PortState = PortState.Calling;
             }
         }
-
 
         public void ClearEvents()
         {
@@ -72,7 +73,7 @@ namespace ATS.DAL.Models
         {
             terminal.OutgoingConnection += this.OnOutgoingCall;
 
-            terminal.Online += (port, args) => { this.PortState = PortState.Free; };
+            terminal.Online += (port, args) => { this.PortState = PortState.Enabled; };
 
             terminal.Offline += (port, args) => { this.PortState = PortState.Disabled; };
         }

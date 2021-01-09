@@ -1,7 +1,10 @@
 ﻿using ATS.DAL.Constants;
 using ATS.DAL.Interfaces;
+using ATS.DAL.Interfaces.Billing;
+using ATS.DAL.Models.Billing;
 using ATS.DAL.Models.Requests;
 using ATS.DAL.Models.Responds;
+using ATS.DAL.Models.TariffPlans;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,17 +15,23 @@ namespace ATS.DAL.Models
     {
         private readonly ICollection<CallDetails> _connectionCollection;
         private readonly ICollection<CallDetails> _callCollection;
-        private readonly ICollection<ITerminal> _terminalCollection;
-        private readonly ICollection<IPort> _portCollection;
+        private readonly ICollection<ITerminal> _terminals;
+        private readonly ICollection<IPort> _ports;
         private readonly IDictionary<string, IPort> _portMapping;
+        private readonly ICollection<ITariffPlan> _tariffPlans;
+        private readonly ICollection<IContract> _contracts;
 
-        public Station(ICollection<ITerminal> terminalCollection, ICollection<IPort> portCollection)
+        public int Id { get; set; }
+
+        public Station(ICollection<ITerminal> terminals, ICollection<IPort> ports, ICollection<IContract> contracts, ICollection<ITariffPlan> tariffPlans)
         {
-            this._terminalCollection = terminalCollection;
-            this._portCollection = portCollection;
-            this._connectionCollection = new List<CallDetails>();
-            this._callCollection = new List<CallDetails>();
-            this._portMapping = new Dictionary<string, IPort>();
+            _terminals = terminals;
+            _ports = ports;
+            _connectionCollection = new List<CallDetails>();
+            _callCollection = new List<CallDetails>();
+            _portMapping = new Dictionary<string, IPort>();
+            _contracts = contracts;
+            _tariffPlans = tariffPlans;
         }
 
         public void OnIncomingCallRespond(object sender, Respond respond)
@@ -57,10 +66,10 @@ namespace ATS.DAL.Models
 
         public void Add(ITerminal terminal)
         {
-            var freePort = _portCollection.Except(_portMapping.Values).FirstOrDefault();
+            var freePort = _ports.Except(_portMapping.Values).FirstOrDefault();
             if (freePort != null)
             {
-                _terminalCollection.Add(terminal);
+                _terminals.Add(terminal);
 
                 MapTerminalToPort(terminal, freePort);
 
@@ -86,6 +95,7 @@ namespace ATS.DAL.Models
             terminal.OutgoingConnection += this.OnOutgoingRequest;
             terminal.IncomingRespond += OnIncomingCallRespond;
         }
+
         protected virtual void OnCallDetailsPrepared(object sender, CallDetails callDetails)
         {
             if (CallDetailsPrepared != null)
@@ -96,7 +106,7 @@ namespace ATS.DAL.Models
 
         protected ITerminal GetTerminalByPhoneNumber(string number)
         {
-            return _terminalCollection.FirstOrDefault(x => x.PhoneNumber == number);
+            return _terminals.FirstOrDefault(x => x.PhoneNumber == number);
         }
 
         protected IPort GetPortByPhoneNumber(string number)
@@ -120,7 +130,7 @@ namespace ATS.DAL.Models
 
                 IPort targetPort = GetPortByPhoneNumber(request.TargetPhoneNumber);
 
-                if (targetPort.PortState == PortState.Free)
+                if (targetPort.PortState == PortState.Enabled)
                 {
                     _connectionCollection.Add(callDetails);
 
@@ -162,20 +172,21 @@ namespace ATS.DAL.Models
 
             port.ClearEvents();
         }
+
         protected void SetPortStateWhenConnectionInterrupted(string source, string target)
         {
             var sourcePort = GetPortByPhoneNumber(source);
 
             if (sourcePort != null)
             {
-                sourcePort.PortState = PortState.Free;
+                sourcePort.PortState = PortState.Enabled;
             }
 
             var targetPort = GetPortByPhoneNumber(target);
 
             if (targetPort != null)
             {
-                targetPort.PortState = PortState.Free;
+                targetPort.PortState = PortState.Enabled;
             }
         }
 

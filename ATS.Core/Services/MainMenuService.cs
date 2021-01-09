@@ -7,12 +7,10 @@ namespace ATS.Core.Services
     {
         public MainMenuService()
         {
-
         }
 
         public void CloseApp()
         {
-            
         }
 
         public DataModel ShowAllData()
@@ -21,13 +19,11 @@ namespace ATS.Core.Services
         }
 
         public void OpenClientMenu()
-        { 
-            
+        {
         }
 
         public void OpenStationMenu()
         {
-
         }
     }
 }

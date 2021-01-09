@@ -2,7 +2,7 @@
 
 namespace ATS.Core.Services
 {
-    class InputService : IInputService
+    internal class InputService : IInputService
     {
     }
 }

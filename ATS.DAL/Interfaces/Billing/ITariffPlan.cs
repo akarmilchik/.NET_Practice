@@ -2,6 +2,5 @@
 {
     public interface ITariffPlan : ICostCalculator, IEntity
     {
-
     }
 }

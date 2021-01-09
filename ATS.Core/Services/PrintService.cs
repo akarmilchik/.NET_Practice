@@ -10,6 +10,7 @@ namespace ATS.Core.Services
         {
             Console.WriteLine("Welcome to ATS And Billing Station, please choose what you would like to do!");
         }
+
         public void PrintMainMenu()
         {
             Console.WriteLine("\nActions:\n 1. See all data about clients and tariffs \n 2. Open clients menu \n 3. Open station menu \n 0. Close");
@@ -32,6 +33,7 @@ namespace ATS.Core.Services
         {
             Console.WriteLine("\nEmpty input string.");
         }
+
         public void PrintChooseClient()
         {
             Console.Write("\nChoose client number from the list: ");
@@ -42,11 +44,10 @@ namespace ATS.Core.Services
         {
             Console.WriteLine("\n\nPlease choose correct menu item.");
         }
-        
+
         public void PrintClient(IUser client)
         {
             Console.WriteLine(client.FirstName);
         }
-
     }
 }

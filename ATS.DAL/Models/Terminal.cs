@@ -17,7 +17,6 @@ namespace ATS.DAL.Models
 
         public Terminal()
         {
-
         }
 
         public Terminal(string phoneNumber)
@@ -108,7 +107,7 @@ namespace ATS.DAL.Models
         {
             port.StateChanged += (sender, state) =>
             {
-                if (IsOnline && state == PortState.Free)
+                if (IsOnline && state == PortState.Enabled)
                 {
                     this.OnOffline(sender, null);
                 }

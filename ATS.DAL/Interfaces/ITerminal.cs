@@ -1,6 +1,6 @@
-﻿using System;
-using ATS.DAL.Models.Requests;
+﻿using ATS.DAL.Models.Requests;
 using ATS.DAL.Models.Responds;
+using System;
 
 namespace ATS.DAL.Interfaces
 {
@@ -19,11 +19,17 @@ namespace ATS.DAL.Interfaces
         event EventHandler Offline;
 
         void Call(string targetPhoneNumber);
+
         void Drop();
+
         void Answer();
+
         void Connect(IPort port);
+
         void Disconect(IPort port);
+
         void IncomingRequestFrom(string source);
+
         void RegisterEventHandlersForPort(IPort port);
     }
 }

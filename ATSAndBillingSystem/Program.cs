@@ -1,6 +1,7 @@
 ﻿using ATS.Core.Extensions;
 using ATS.Core.Interfaces;
 using ATS.Core.Services;
+using ATS.DAL;
 using ATS.DAL.Constants;
 using System;
 
@@ -17,6 +18,10 @@ namespace ATS
             IPrintService printService = new PrintService();
 
             IMainMenuService mainMenuService = new MainMenuService();
+
+            //var context = new DataContext();
+
+            //InitializeData(context);
 
             while (isWorking)
             {
@@ -36,17 +41,21 @@ namespace ATS
                             isWorking = false;
                             mainMenuService.CloseApp();
                             break;
+
                         case MainMenuItems.ShowAllData:
                             mainMenuService.ShowAllData();
                             break;
+
                         case MainMenuItems.OpenClientMenu:
                             mainMenuService.OpenClientMenu();
                             //printService.PrintSentencesItems();
                             break;
+
                         case MainMenuItems.OpenStationMenu:
                             mainMenuService.OpenStationMenu();
                             //printService.PrintSentences();
-                            break;                  
+                            break;
+
                         default:
                             printService.PrintIncorrectChoose();
                             break;

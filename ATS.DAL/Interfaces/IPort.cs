@@ -3,11 +3,14 @@ using System;
 
 namespace ATS.DAL.Interfaces
 {
-    public interface IPort : IClearEventsService
+    public interface IPort : IClearEventsService, IEntity
     {
         PortState PortState { get; set; }
+
         event EventHandler<PortState> StateChanging;
+
         event EventHandler<PortState> StateChanged;
+
         void RegisterEventHandlersForTerminal(ITerminal terminal);
     }
 }

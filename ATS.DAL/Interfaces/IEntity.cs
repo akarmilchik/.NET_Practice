@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ATS.DAL.Interfaces
+﻿namespace ATS.DAL.Interfaces
 {
     public interface IEntity
     {

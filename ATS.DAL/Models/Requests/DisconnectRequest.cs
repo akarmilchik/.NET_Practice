@@ -1,6 +1,6 @@
 ﻿namespace ATS.DAL.Models.Requests
 {
-    public class DisconnectRequest: Request
+    public class DisconnectRequest : Request
     {
     }
 }

@@ -6,6 +6,5 @@ namespace ATS.DAL.Models
     public class DataModel
     {
         public IEnumerable<IUser> Clients { get; set; }
-
     }
 }
