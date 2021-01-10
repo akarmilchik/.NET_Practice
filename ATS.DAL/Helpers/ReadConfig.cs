@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Configuration;
 
-namespace ATS.Helpers
+namespace ATS.DAL.Helpers
 {
     public static class ReadConfig
     {

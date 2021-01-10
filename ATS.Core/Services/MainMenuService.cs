@@ -5,17 +5,21 @@ namespace ATS.Core.Services
 {
     public class MainMenuService : IMainMenuService
     {
-        public MainMenuService()
+        private readonly IPrintService _printService;
+
+        public MainMenuService(IPrintService printService)
         {
+            _printService = printService;
         }
 
         public void CloseApp()
         {
+            _printService.PrintExit();
         }
 
         public DataModel ShowAllData()
         {
-            return null;
+            _printService
         }
 
         public void OpenClientMenu()

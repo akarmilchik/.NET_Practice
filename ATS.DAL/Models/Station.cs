@@ -1,10 +1,8 @@
 ﻿using ATS.DAL.Constants;
 using ATS.DAL.Interfaces;
 using ATS.DAL.Interfaces.Billing;
-using ATS.DAL.Models.Billing;
 using ATS.DAL.Models.Requests;
 using ATS.DAL.Models.Responds;
-using ATS.DAL.Models.TariffPlans;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +20,7 @@ namespace ATS.DAL.Models
         private readonly ICollection<IContract> _contracts;
 
         public int Id { get; set; }
+        public string Name { get; set; }
 
         public Station(ICollection<ITerminal> terminals, ICollection<IPort> ports, ICollection<IContract> contracts, ICollection<ITariffPlan> tariffPlans)
         {

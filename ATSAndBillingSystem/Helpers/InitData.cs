@@ -2,9 +2,9 @@
 
 namespace ATS.Helpers
 {
-    public class InitData
+    public static class InitData
     {
-        public void InitializeData(DataContext context)
+        public static void InitializeData(DataContext context)
         {
             var seeder = new DataSeeder(context);
             seeder.SeedData();

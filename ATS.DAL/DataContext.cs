@@ -1,7 +1,7 @@
-﻿using ATS.DAL.Interfaces;
-using ATS.DAL.Interfaces.Billing;
+﻿using ATS.DAL.Helpers;
 using ATS.DAL.Models;
 using ATS.DAL.Models.Billing;
+using ATS.DAL.Models.TariffPlans;
 using Microsoft.EntityFrameworkCore;
 
 namespace ATS.DAL
@@ -11,13 +11,30 @@ namespace ATS.DAL
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         { }
 
-        public DbSet<ITariffPlan> TariffPlans { get; set; }
-        public DbSet<IUser> Clients { get; set; }
-        public DbSet<ITerminal> Terminals { get; set; }
-        public DbSet<IPort> Ports { get; set; }
-        public DbSet<IContract> Contracts { get; set; }
-        public DbSet<IStation> Stations { get; set; }
+        public DbSet<SecondMinuteTariffPlan> TariffPlans { get; set; }
+        public DbSet<Client> Clients { get; set; }
+        public DbSet<Terminal> Terminals { get; set; }
+        public DbSet<Port> Ports { get; set; }
+        public DbSet<Contract> Contracts { get; set; }
+        public DbSet<Station> Stations { get; set; }
 
         public override int SaveChanges() => base.SaveChanges();
+        
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer($"{ReadConfig.ReadSetting("DBConnection")}");
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<SecondMinuteTariffPlan>().ToTable("TariffPlans");
+            modelBuilder.Entity<Client>().ToTable("Clients");
+            modelBuilder.Entity<Terminal>().ToTable("Terminals");
+            modelBuilder.Entity<Port>().ToTable("Ports");
+            modelBuilder.Entity<Contract>().ToTable("Contracts");
+            modelBuilder.Entity<Station>().ToTable("Stations");
+        }
     }
 }

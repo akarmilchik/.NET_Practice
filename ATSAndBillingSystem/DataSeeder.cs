@@ -20,12 +20,12 @@ namespace ATS
             _context = context;
         }
 
-        private static readonly List<ITariffPlan> TariffPlans = new List<ITariffPlan>
+        private static readonly List<SecondMinuteTariffPlan> TariffPlans = new List<SecondMinuteTariffPlan>
         {
             new SecondMinuteTariffPlan(1, "Every second minute free", 0.1m)
         };
 
-        private static readonly List<IUser> Clients = new List<IUser>
+        private static readonly List<Client> Clients = new List<Client>
         {
             new Client { Id = 1, FirstName = "Alex", LastName = "Karm"},
             new Client { Id = 2, FirstName = "Jeff", LastName = "Bezos"},
@@ -34,7 +34,7 @@ namespace ATS
             new Client { Id = 5, FirstName = "Scarlett", LastName = "Johansson"}
         };
 
-        private static readonly List<ITerminal> Terminals = new List<ITerminal>
+        private static readonly List<Terminal> Terminals = new List<Terminal>
         {
             new Terminal {Id = 1 ,PhoneNumber = "100" },
             new Terminal {Id = 2, PhoneNumber = "222" },
@@ -42,7 +42,7 @@ namespace ATS
             new Terminal {Id = 4, PhoneNumber = "440" }
         };
 
-        private static readonly List<IPort> Ports = new List<IPort>
+        private static readonly List<Port> Ports = new List<Port>
         {
             new Port { Id = 1, PortState = PortState.Enabled },
             new Port { Id = 2, PortState = PortState.Disabled },
@@ -50,7 +50,7 @@ namespace ATS
             new Port { Id = 4, PortState = PortState.Enabled }
         };
 
-        private static readonly List<IContract> Contracts = new List<IContract>
+        private static readonly List<Contract> Contracts = new List<Contract>
         {
             new Contract {Id = 1, Client = Clients[1], ContractStartDate = new DateTime(2020, 10, 01), ContractCloseDate = new DateTime(2020, 12, 31), Terminal = Terminals[3] },
             new Contract {Id = 2, Client = Clients[3], ContractStartDate = new DateTime(2020, 11, 01), ContractCloseDate = new DateTime(2021, 04, 30), Terminal = Terminals[4] },
@@ -60,14 +60,13 @@ namespace ATS
 
         private static readonly List<Station> Stations = new List<Station>
         {
-            new Station(Terminals, Ports, Contracts, TariffPlans)
+            new Station((ICollection<ITerminal>)Terminals, (ICollection<IPort>)Ports, (ICollection<IContract>)Contracts, (ICollection<ITariffPlan>)TariffPlans)
         };
 
         public void SeedData()
         {
             if (_context.Database.CanConnect())
             {
-               
                 if (!_context.TariffPlans.Any())
                 {
                     _context.TariffPlans.AddRange(TariffPlans);
@@ -102,5 +101,4 @@ namespace ATS
             }
         }
     }
-    
 }

@@ -1,5 +1,7 @@
 ﻿using ATS.Core.Interfaces;
+using ATS.DAL.Interfaces;
 using ATS.DAL.Interfaces.Billing;
+using ATS.DAL.Models;
 using System;
 
 namespace ATS.Core.Services
@@ -45,9 +47,43 @@ namespace ATS.Core.Services
             Console.WriteLine("\n\nPlease choose correct menu item.");
         }
 
-        public void PrintClient(IUser client)
+        public void PrintData(IUser user)
         {
-            Console.WriteLine(client.FirstName);
+            Console.WriteLine($"Client name: {user.FirstName} {user.LastName}");
         }
+        public void PrintData(ITerminal terminal)
+        {
+            Console.WriteLine($"Number: {terminal.PhoneNumber}");
+        }
+
+        public void PrintData(IPort port)
+        {
+            Console.WriteLine($"Port number: {port.Id}. State: {port.PortState}");
+        }
+
+        public void PrintData(IContract contract)
+        {
+            Console.WriteLine($"Contract with client: {contract.Client.FirstName} {contract.Client.LastName}. Duration: from {contract.ContractStartDate.Date} to {contract.ContractCloseDate.Value.Date}.");
+        }
+
+        public void PrintData(IStation station)
+        {
+            Console.WriteLine($"Station: {station.Name}");
+        }
+
+        public void PrintData(DataModel data)
+        {
+            foreach (var station in data.Stations)
+            {
+                Console.WriteLine($"Station: {station.Name}");
+                Console.WriteLine($"Station: {}");
+            }
+        }
+
+        public void PrintExit()
+        {
+            Console.Write("Exit...");
+        }
+
     }
 }

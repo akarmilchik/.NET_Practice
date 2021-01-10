@@ -11,7 +11,7 @@ namespace ATS.Core.Interfaces
         void PrintClientsMenu();
 
         void PrintEmptyString();
-
+        void PrintExit();
         void PrintIncorrectChoose();
 
         void PrintMainMenu();

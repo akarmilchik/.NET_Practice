@@ -1,15 +1,14 @@
 ﻿using ATS.Core.Extensions;
 using ATS.Core.Interfaces;
 using ATS.Core.Services;
-using ATS.DAL;
 using ATS.DAL.Constants;
 using System;
 
 namespace ATS
 {
-    class Program
+    internal class Program
     {
-        static void Main()
+        private static void Main(string[] args)
         {
             bool isWorking = true;
 
@@ -21,7 +20,7 @@ namespace ATS
 
             //var context = new DataContext();
 
-            //InitializeData(context);
+            //InitData.InitializeData(context);
 
             while (isWorking)
             {
@@ -48,12 +47,10 @@ namespace ATS
 
                         case MainMenuItems.OpenClientMenu:
                             mainMenuService.OpenClientMenu();
-                            //printService.PrintSentencesItems();
                             break;
 
                         case MainMenuItems.OpenStationMenu:
                             mainMenuService.OpenStationMenu();
-                            //printService.PrintSentences();
                             break;
 
                         default:
