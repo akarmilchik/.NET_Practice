@@ -19,7 +19,8 @@ namespace ATS.Core.Services
 
         public DataModel ShowAllData()
         {
-            _printService
+            // _printService
+            return null;
         }
 
         public void OpenClientMenu()

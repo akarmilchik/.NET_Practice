@@ -76,7 +76,7 @@ namespace ATS.Core.Services
             foreach (var station in data.Stations)
             {
                 Console.WriteLine($"Station: {station.Name}");
-                Console.WriteLine($"Station: {}");
+               // Console.WriteLine($"Station: {}");
             }
         }
 

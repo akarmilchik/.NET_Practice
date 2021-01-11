@@ -6,8 +6,6 @@ namespace ATS.Core.Interfaces
     {
         void PrintChooseClient();
 
-        void PrintClient(IUser client);
-
         void PrintClientsMenu();
 
         void PrintEmptyString();

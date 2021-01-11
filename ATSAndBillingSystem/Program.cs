@@ -16,7 +16,7 @@ namespace ATS
 
             IPrintService printService = new PrintService();
 
-            IMainMenuService mainMenuService = new MainMenuService();
+            IMainMenuService mainMenuService = new MainMenuService(printService);
 
             //var context = new DataContext();
 
