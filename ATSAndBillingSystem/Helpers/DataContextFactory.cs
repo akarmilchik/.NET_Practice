@@ -10,7 +10,7 @@ namespace ATS.Helpers
         {
             var optionsBuilder = new DbContextOptionsBuilder<DataContext>();
 
-            optionsBuilder.UseSqlite("Data Source=blog.db");
+            optionsBuilder.UseSqlite("Data Source=ATSDataBase.db");
 
             return new DataContext(optionsBuilder.Options);
         }

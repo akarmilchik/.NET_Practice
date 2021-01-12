@@ -1,10 +1,8 @@
-﻿using ATS.Core.Extensions;
-using ATS.Core.Interfaces;
+﻿using ATS.Core.Interfaces;
 using ATS.Core.Services;
 using ATS.DAL.Constants;
 using ATS.DAL.Models;
 using ATS.Helpers;
-using System;
 
 namespace ATS
 {
@@ -18,21 +16,23 @@ namespace ATS
 
             IPrintService printService = new PrintService();
 
-            IMainMenuService mainMenuService = new MainMenuService(printService);
+            IInputService inputService = new InputService();
 
             var contextFactory = new DataContextFactory();
 
-            var context = contextFactory.CreateDbContext(args); ;
+            var context = contextFactory.CreateDbContext(args);
+
+            IMainMenuService mainMenuService = new MainMenuService(printService, inputService, context);
 
             InitData.InitializeData(context);
+
+            var mapper = MapperFactory.InitMapper();
 
             while (isWorking)
             {
                 printService.PrintMainMenu();
 
-                var input = Console.ReadKey();
-
-                var selectedMenuItemId = input.KeyChar.ToInt();
+                var selectedMenuItemId = inputService.ReadInputKey();
 
                 mainMenuItems = (MainMenuItems)selectedMenuItemId;
 
@@ -42,11 +42,11 @@ namespace ATS
                     {
                         case MainMenuItems.CloseApp:
                             isWorking = false;
-                            mainMenuService.CloseApp();
+                            printService.PrintExit();
                             break;
 
                         case MainMenuItems.ShowAllData:
-                            mainMenuService.ShowAllData(new DataModel());
+                            mainMenuService.ShowAllData();
                             break;
 
                         case MainMenuItems.OpenClientMenu:

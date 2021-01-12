@@ -19,7 +19,7 @@ namespace ATS
 
         private static readonly List<SecondMinuteTariffPlanEntity> TariffPlans = new List<SecondMinuteTariffPlanEntity>
         {
-            new SecondMinuteTariffPlanEntity { Id = 1, Name = "Every second minute free", MinuteCost = 0.1m, CostCalculator_Id = 1 }
+            new SecondMinuteTariffPlanEntity { Id = 1, Name = "Every second minute free", MinuteCost = 0.1m }
         };
 
         private static readonly List<ClientEntity> Clients = new List<ClientEntity>

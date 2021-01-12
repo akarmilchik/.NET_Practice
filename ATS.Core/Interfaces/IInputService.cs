@@ -2,5 +2,7 @@
 {
     public interface IInputService
     {
+        int ReadInputKey();
+        string ReadInputLine();
     }
 }

@@ -14,6 +14,12 @@ namespace ATS.DAL.Models.Billing
 
         public string Name { get; set; }
 
+        public decimal MinuteCost
+        {
+            get { return _minuteCost; }
+            set { MinuteCost = _minuteCost; }
+        }
+
         public SecondMinuteTariffPlan()
         {
         }
