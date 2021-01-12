@@ -1,6 +1,6 @@
 ﻿using ATS.DAL.Constants;
 using ATS.DAL.Interfaces;
-using ATS.DAL.Interfaces.Billing;
+using ATS.DAL.Models.Billing;
 using ATS.DAL.Models.Requests;
 using ATS.DAL.Models.Responds;
 using System;
@@ -13,16 +13,20 @@ namespace ATS.DAL.Models
     {
         private readonly ICollection<CallDetails> _connectionCollection;
         private readonly ICollection<CallDetails> _callCollection;
-        private readonly ICollection<ITerminal> _terminals;
-        private readonly ICollection<IPort> _ports;
+        private readonly ICollection<Terminal> _terminals;
+        private readonly ICollection<Port> _ports;
         private readonly IDictionary<string, IPort> _portMapping;
-        private readonly ICollection<ITariffPlan> _tariffPlans;
-        private readonly ICollection<IContract> _contracts;
+        private readonly ICollection<SecondMinuteTariffPlan> _tariffPlans;
+        private readonly ICollection<Contract> _contracts;
 
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public Station(ICollection<ITerminal> terminals, ICollection<IPort> ports, ICollection<IContract> contracts, ICollection<ITariffPlan> tariffPlans)
+        public Station()
+        {
+        }
+
+        public Station(ICollection<Terminal> terminals, ICollection<Port> ports, ICollection<Contract> contracts, ICollection<SecondMinuteTariffPlan> tariffPlans)
         {
             _terminals = terminals;
             _ports = ports;
@@ -63,7 +67,7 @@ namespace ATS.DAL.Models
             }
         }
 
-        public void Add(ITerminal terminal)
+        public void Add(Terminal terminal)
         {
             var freePort = _ports.Except(_portMapping.Values).FirstOrDefault();
             if (freePort != null)

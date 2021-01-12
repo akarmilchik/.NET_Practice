@@ -10,6 +10,6 @@ namespace ATS.Core.Interfaces
 
         void OpenStationMenu();
 
-        DataModel ShowAllData();
+        void ShowAllData(DataModel model);
     }
 }

@@ -6,7 +6,7 @@ namespace ATS.DAL.Interfaces.Billing
     {
         DateTime ContractStartDate { get; }
         DateTime? ContractCloseDate { get; }
-        IUser Client { get; }
+        IClient Client { get; }
         ITerminal Terminal { get; }
     }
 }

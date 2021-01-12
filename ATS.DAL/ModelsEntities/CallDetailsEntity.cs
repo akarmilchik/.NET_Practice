@@ -1,9 +1,8 @@
-﻿using ATS.DAL.Interfaces;
-using System;
+﻿using System;
 
-namespace ATS.DAL.Models
+namespace ATS.DAL.ModelsEntities
 {
-    public class CallDetails : ICallDetails
+    public class CallDetailsEntity
     {
         public int Id { get; set; }
         public DateTime StartedTime { get; set; }

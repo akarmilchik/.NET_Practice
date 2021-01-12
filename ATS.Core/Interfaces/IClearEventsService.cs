@@ -1,4 +1,4 @@
-﻿namespace ATS.DAL.Interfaces
+﻿namespace ATS.Core.Interfaces
 {
     public interface IClearEventsService
     {

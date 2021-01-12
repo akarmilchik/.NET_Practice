@@ -1,10 +1,7 @@
 ﻿using ATS.DAL;
 using ATS.DAL.Constants;
-using ATS.DAL.Interfaces;
-using ATS.DAL.Interfaces.Billing;
-using ATS.DAL.Models;
-using ATS.DAL.Models.Billing;
-using ATS.DAL.Models.TariffPlans;
+using ATS.DAL.ModelsEntities;
+using ATS.DAL.ModelsEntities.Billing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,47 +17,47 @@ namespace ATS
             _context = context;
         }
 
-        private static readonly List<SecondMinuteTariffPlan> TariffPlans = new List<SecondMinuteTariffPlan>
+        private static readonly List<SecondMinuteTariffPlanEntity> TariffPlans = new List<SecondMinuteTariffPlanEntity>
         {
-            new SecondMinuteTariffPlan(1, "Every second minute free", 0.1m)
+            new SecondMinuteTariffPlanEntity { Id = 1, Name = "Every second minute free", MinuteCost = 0.1m, CostCalculator_Id = 1 }
         };
 
-        private static readonly List<Client> Clients = new List<Client>
+        private static readonly List<ClientEntity> Clients = new List<ClientEntity>
         {
-            new Client { Id = 1, FirstName = "Alex", LastName = "Karm"},
-            new Client { Id = 2, FirstName = "Jeff", LastName = "Bezos"},
-            new Client { Id = 3, FirstName = "Elvis", LastName = "Presley"},
-            new Client { Id = 4, FirstName = "Marty", LastName = "McFly"},
-            new Client { Id = 5, FirstName = "Scarlett", LastName = "Johansson"}
+            new ClientEntity { Id = 1, FirstName = "Alex", LastName = "Karm" },
+            new ClientEntity { Id = 2, FirstName = "Jeff", LastName = "Bezos" },
+            new ClientEntity { Id = 3, FirstName = "Elvis", LastName = "Presley" },
+            new ClientEntity { Id = 4, FirstName = "Marty", LastName = "McFly" },
+            new ClientEntity { Id = 5, FirstName = "Scarlett", LastName = "Johansson" }
         };
 
-        private static readonly List<Terminal> Terminals = new List<Terminal>
+        private static readonly List<TerminalEntity> Terminals = new List<TerminalEntity>
         {
-            new Terminal {Id = 1 ,PhoneNumber = "100" },
-            new Terminal {Id = 2, PhoneNumber = "222" },
-            new Terminal {Id = 3, PhoneNumber = "300" },
-            new Terminal {Id = 4, PhoneNumber = "440" }
+            new TerminalEntity { Id = 1 ,PhoneNumber = "100" },
+            new TerminalEntity { Id = 2, PhoneNumber = "222" },
+            new TerminalEntity { Id = 3, PhoneNumber = "300" },
+            new TerminalEntity { Id = 4, PhoneNumber = "440" }
         };
 
-        private static readonly List<Port> Ports = new List<Port>
+        private static readonly List<PortEntity> Ports = new List<PortEntity>
         {
-            new Port { Id = 1, PortState = PortState.Enabled },
-            new Port { Id = 2, PortState = PortState.Disabled },
-            new Port { Id = 3, PortState = PortState.Calling },
-            new Port { Id = 4, PortState = PortState.Enabled }
+            new PortEntity { Id = 1, PortState = PortState.Enabled },
+            new PortEntity { Id = 2, PortState = PortState.Disabled },
+            new PortEntity { Id = 3, PortState = PortState.Calling },
+            new PortEntity { Id = 4, PortState = PortState.Enabled }
         };
 
-        private static readonly List<Contract> Contracts = new List<Contract>
+        private static readonly List<ContractEntity> Contracts = new List<ContractEntity>
         {
-            new Contract {Id = 1, Client = Clients[1], ContractStartDate = new DateTime(2020, 10, 01), ContractCloseDate = new DateTime(2020, 12, 31), Terminal = Terminals[3] },
-            new Contract {Id = 2, Client = Clients[3], ContractStartDate = new DateTime(2020, 11, 01), ContractCloseDate = new DateTime(2021, 04, 30), Terminal = Terminals[4] },
-            new Contract {Id = 3, Client = Clients[2], ContractStartDate = new DateTime(2020, 12, 15), ContractCloseDate = new DateTime(2021, 03, 15), Terminal = Terminals[2] },
-            new Contract {Id = 4, Client = Clients[4], ContractStartDate = new DateTime(2020, 09, 01), ContractCloseDate = new DateTime(2021, 01, 31), Terminal = Terminals[1] }
+            new ContractEntity { Id = 1, Client_Id = Clients[1].Id, ContractStartDate = new DateTime(2020, 10, 01), ContractCloseDate = new DateTime(2020, 12, 31), Terminal_Id = Terminals[3].Id },
+            new ContractEntity { Id = 2, Client_Id = Clients[3].Id, ContractStartDate = new DateTime(2020, 11, 01), ContractCloseDate = new DateTime(2021, 04, 30), Terminal_Id = Terminals[4].Id },
+            new ContractEntity { Id = 3, Client_Id = Clients[2].Id, ContractStartDate = new DateTime(2020, 12, 15), ContractCloseDate = new DateTime(2021, 03, 15), Terminal_Id = Terminals[2].Id },
+            new ContractEntity { Id = 4, Client_Id = Clients[4].Id, ContractStartDate = new DateTime(2020, 09, 01), ContractCloseDate = new DateTime(2021, 01, 31), Terminal_Id = Terminals[1].Id }
         };
 
-        private static readonly List<Station> Stations = new List<Station>
+        private static readonly List<StationEntity> Stations = new List<StationEntity>
         {
-            new Station((ICollection<ITerminal>)Terminals, (ICollection<IPort>)Ports, (ICollection<IContract>)Contracts, (ICollection<ITariffPlan>)TariffPlans)
+            new StationEntity { Id = 1, Name = "A1 Station" }
         };
 
         public void SeedData()

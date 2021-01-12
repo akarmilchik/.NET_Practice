@@ -2,6 +2,8 @@
 using ATS.Core.Interfaces;
 using ATS.Core.Services;
 using ATS.DAL.Constants;
+using ATS.DAL.Models;
+using ATS.Helpers;
 using System;
 
 namespace ATS
@@ -18,9 +20,11 @@ namespace ATS
 
             IMainMenuService mainMenuService = new MainMenuService(printService);
 
-            //var context = new DataContext();
+            var contextFactory = new DataContextFactory();
 
-            //InitData.InitializeData(context);
+            var context = contextFactory.CreateDbContext(args); ;
+
+            InitData.InitializeData(context);
 
             while (isWorking)
             {
@@ -42,7 +46,7 @@ namespace ATS
                             break;
 
                         case MainMenuItems.ShowAllData:
-                            mainMenuService.ShowAllData();
+                            mainMenuService.ShowAllData(new DataModel());
                             break;
 
                         case MainMenuItems.OpenClientMenu:

@@ -2,7 +2,7 @@
 
 namespace ATS.DAL.Interfaces.Billing
 {
-    public interface IContractToTariffPlanBinding
+    public interface IContractToTariffPlanBinding : IEntity
     {
         DateTime BindingDate { get; }
         IContract Contract { get; }

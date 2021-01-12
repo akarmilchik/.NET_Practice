@@ -1,4 +1,5 @@
-﻿using ATS.DAL.Models.Requests;
+﻿using ATS.DAL.Interfaces.Services;
+using ATS.DAL.Models.Requests;
 using ATS.DAL.Models.Responds;
 using System;
 
@@ -10,7 +11,7 @@ namespace ATS.DAL.Interfaces
 
         event EventHandler<Request> OutgoingConnection;
 
-        event EventHandler<IncomingRequest> IncomingRequest;
+        event EventHandler<Request> IncomingRequest;
 
         event EventHandler<Respond> IncomingRespond;
 

@@ -1,12 +1,11 @@
 ﻿using ATS.DAL.Constants;
-using ATS.DAL.Models.Requests;
 
-namespace ATS.DAL.Models.Responds
+namespace ATS.DAL.ModelsEntities
 {
-    public class Respond
+    public class RespondEntity
     {
         public int Id { get; set; }
-        public Request Request { get; set; }
+        public int Request_Id { get; set; }
         public string SourcePhoneNumber { get; set; }
         public RespondState State { get; set; }
     }

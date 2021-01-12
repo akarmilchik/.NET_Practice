@@ -1,8 +1,6 @@
-﻿using ATS.DAL.Interfaces.Billing;
-
-namespace ATS.DAL.Models.Billing
+﻿namespace ATS.DAL.ModelsEntities.Billing
 {
-    public class Client : IClient
+    public class ClientEntity
     {
         public int Id { get; set; }
         public string FirstName { get; set; }

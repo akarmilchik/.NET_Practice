@@ -6,7 +6,7 @@ namespace ATS.DAL.Models
 {
     public class DataModel
     {
-        public IEnumerable<IUser> Clients { get; set; }
+        public IEnumerable<IClient> Clients { get; set; }
         public IEnumerable<ITerminal> Terminals { get; set; }
         public IEnumerable<IPort> Ports { get; set; }
         public IEnumerable<IContract> Contracts { get; set; }

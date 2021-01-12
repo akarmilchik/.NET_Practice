@@ -1,8 +1,8 @@
 ﻿using ATS.DAL.Constants;
 
-namespace ATS.DAL.Models.Requests
+namespace ATS.DAL.ModelsEntities
 {
-    public class Request
+    public class RequestEntity
     {
         public int Id { get; set; }
         public string SourcePhoneNumber { get; set; }

@@ -2,7 +2,7 @@
 
 namespace ATS.DAL.Interfaces
 {
-    public interface ICallDetails
+    public interface ICallDetails : IEntity
     {
         DateTime StartedTime { get; set; }
         TimeSpan DurationTime { get; set; }

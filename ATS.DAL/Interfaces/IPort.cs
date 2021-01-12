@@ -1,4 +1,5 @@
 ﻿using ATS.DAL.Constants;
+using ATS.DAL.Interfaces.Services;
 using System;
 
 namespace ATS.DAL.Interfaces

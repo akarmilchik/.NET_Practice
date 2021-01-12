@@ -47,10 +47,11 @@ namespace ATS.Core.Services
             Console.WriteLine("\n\nPlease choose correct menu item.");
         }
 
-        public void PrintData(IUser user)
+        public void PrintData(IClient user)
         {
             Console.WriteLine($"Client name: {user.FirstName} {user.LastName}");
         }
+
         public void PrintData(ITerminal terminal)
         {
             Console.WriteLine($"Number: {terminal.PhoneNumber}");
@@ -76,7 +77,7 @@ namespace ATS.Core.Services
             foreach (var station in data.Stations)
             {
                 Console.WriteLine($"Station: {station.Name}");
-               // Console.WriteLine($"Station: {}");
+                // Console.WriteLine($"Station: {}");
             }
         }
 
@@ -84,6 +85,5 @@ namespace ATS.Core.Services
         {
             Console.Write("Exit...");
         }
-
     }
 }

@@ -11,7 +11,6 @@ namespace ATS.DAL.Models
         private readonly string _phoneNumber;
         private Request ServerIncomingRequest { get; set; }
         protected bool IsOnline { get; private set; }
-
         public int Id { get; set; }
         public string PhoneNumber { get; set; }
 
@@ -50,6 +49,7 @@ namespace ATS.DAL.Models
             if (!IsOnline)
             {
                 OnOutgoingCall(this, targetPhoneNumber);
+                //OutgoingConnection.Invoke(this, targetPhoneNumber);
                 OnOnline(this, null);
             }
         }
@@ -89,7 +89,7 @@ namespace ATS.DAL.Models
 
         public void IncomingRequestFrom(string source)
         {
-            OnIncomingRequest(this, new IncomingRequest() { SourcePhoneNumber = source });
+            OnIncomingRequest(this, new Request { SourcePhoneNumber = source });
         }
 
         public void ClearEvents()
@@ -130,9 +130,9 @@ namespace ATS.DAL.Models
             }
         }
 
-        public event EventHandler<IncomingRequest> IncomingRequest;
+        public event EventHandler<Request> IncomingRequest;
 
-        protected virtual void OnIncomingRequest(object sender, IncomingRequest request)
+        protected virtual void OnIncomingRequest(object sender, Request request)    //add request state incoming
         {
             if (IncomingRequest != null)
             {

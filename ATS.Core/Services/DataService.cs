@@ -1,10 +1,10 @@
 ﻿using ATS.Core.Interfaces;
 using ATS.DAL;
-using ATS.DAL.Models.Billing;
+using ATS.DAL.ModelsEntities.Billing;
 
 namespace ATS.Core.Services
 {
-    class DataService : IDataService
+    internal class DataService : IDataService
     {
         private readonly DataContext _context;
 
@@ -13,7 +13,7 @@ namespace ATS.Core.Services
             _context = context;
         }
 
-        public void AddContractToDb(Contract contract)
+        public void AddContractToDb(ContractEntity contract)
         {
             _context.Database.EnsureCreated();
 
@@ -22,7 +22,7 @@ namespace ATS.Core.Services
             _context.SaveChanges();
         }
 
-        public void RemoveContractToDb(Contract contract)
+        public void RemoveContractToDb(ContractEntity contract)
         {
             _context.Database.EnsureCreated();
 
