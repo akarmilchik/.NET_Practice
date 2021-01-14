@@ -12,6 +12,7 @@ namespace ATS.DAL.Interfaces
         void RegisterEventHandlersForTerminal(ITerminal terminal);
 
         void RegisterEventHandlersForPort(IPort port);
+        void onTerminateContract(object sender, Contract contract);
 
         event EventHandler<CallDetails> CallDetailsPrepared;
 

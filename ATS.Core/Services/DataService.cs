@@ -1,4 +1,5 @@
 ﻿using ATS.Core.Interfaces;
+using ATS.Core.Mapper;
 using ATS.DAL;
 using ATS.DAL.Interfaces;
 using ATS.DAL.Interfaces.Billing;
@@ -6,6 +7,7 @@ using ATS.DAL.Models;
 using ATS.DAL.Models.Billing;
 using ATS.DAL.ModelsEntities;
 using ATS.DAL.ModelsEntities.Billing;
+using AutoMapper;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -14,12 +16,12 @@ namespace ATS.Core.Services
     public class DataService : IDataService
     {
         private readonly DataContext _context;
-        private readonly AutoMapper.Mapper _mapper;
+        private readonly IMapper _mapper;
 
-        public DataService(DataContext context, AutoMapper.Mapper mapper)
+        public DataService(DataContext context)
         {
             _context = context;
-            _mapper = mapper;
+            _mapper = MapperFactory.InitMapper();
         }
 
         public void AddContractToDb(ContractEntity contract)

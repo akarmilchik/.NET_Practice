@@ -228,7 +228,6 @@ namespace ATS.DAL.Models
             }
         }
 
-
         public event EventHandler<Contract> TerminateContract;
 
         public void onTerminateContract(object sender, Contract contract)

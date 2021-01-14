@@ -1,16 +1,24 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ATS.Core.Mapper
 {
     public static class MapperFactory
     {
-        public static AutoMapper.Mapper InitMapper()
+        public static IMapper InitMapper()
         {
-            var config = new MappingProfile();
+            var services = new ServiceCollection();
 
-            var mapper = new AutoMapper.Mapper((IConfigurationProvider)config);
+            var mappingProfile = new MappingProfile();
 
-            return mapper;
+            services.AddAutoMapper(mapperConfig => mapperConfig.AddProfile(mappingProfile));
+
+            var serviceProvider = services.BuildServiceProvider();
+
+            var mockMapper = new MapperConfiguration(cfg => cfg.AddProfile(mappingProfile));
+
+            return mockMapper.CreateMapper();
+
         }
     }
 }

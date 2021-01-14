@@ -3,6 +3,7 @@ using ATS.Core.Mapper;
 using ATS.Core.Services;
 using ATS.DAL.Constants;
 using ATS.Helpers;
+using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ATS
@@ -15,7 +16,7 @@ namespace ATS
 
             MainMenuItems mainMenuItems;
 
-            var mapper = MapperFactory.InitMapper();
+            //var mapper = MapperFactory.InitMapper();
 
             IPrintService printService = new PrintService();
 
@@ -27,7 +28,7 @@ namespace ATS
 
             context.Database.EnsureCreated();
 
-            IDataService dataService = new DataService(context, mapper);
+            IDataService dataService = new DataService(context);
 
             IMainMenuService mainMenuService = new MainMenuService(printService, inputService, dataService, context);
 
@@ -53,7 +54,7 @@ namespace ATS
                             break;
 
                         case MainMenuItems.PrintBasicData:
-                            mainMenuService.PrintBasicData();
+                            printService.PrintDataArray(dataService.GetClients());
                             break;
 
                         case MainMenuItems.OpenClientMenu:

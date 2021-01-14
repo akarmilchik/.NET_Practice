@@ -10,7 +10,7 @@ namespace ATS.Core.Services
         private readonly IInputService _inputService;
         private readonly IDataService _dataService;
         private readonly DataContext _context;
-        private int chosenClientId;
+        private int chosenClientId = 1;
 
 
         public MainMenuService(IPrintService printService, IInputService inputService, IDataService dataService, DataContext context)
@@ -42,7 +42,7 @@ namespace ATS.Core.Services
                             break;
 
                         case ClientMenuItems.ShowCurrentClient:
-                            PrintBasicData();
+                            //PrintBasicData();
                             break;
 
                         case ClientMenuItems.ChooseClientHandle:
