@@ -1,16 +1,17 @@
 ﻿using ATS.DAL.Interfaces;
 using ATS.DAL.Interfaces.Billing;
 using ATS.DAL.Models;
+using System.Collections.Generic;
 
 namespace ATS.Core.Interfaces
 {
     public interface IPrintService
     {
         void PrintChooseClient();
-
+        void PrintChooseTerminalToCall();
         void PrintClientsMenu();
 
-        void PrintData(IClient user);
+        void PrintData(IClient client);
 
         void PrintData(ITerminal terminal);
 
@@ -20,14 +21,14 @@ namespace ATS.Core.Interfaces
 
         void PrintData(IStation station);
 
-        void PrintData(DataModel data);
+        void PrintData(ITariffPlan tariffPlan);
 
-        void PrintEmptyString();
-
+        void PrintDataArray(IEnumerable<IClient> clients);
+        void PrintDataArray(IEnumerable<ITerminal> terminals);
         void PrintExit();
 
         void PrintIncorrectChoose();
-
+        void PrintInputProposal();
         void PrintMainMenu();
 
         void PrintStationMenu();

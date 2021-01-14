@@ -2,10 +2,10 @@
 {
     public interface IMainMenuService
     {
-        void OpenClientMenu();
+        void ClientMenuHandler();
 
-        void OpenStationMenu();
+        void StationMenuHandler();
 
-        void ShowAllData();
+        void PrintBasicData();
     }
 }

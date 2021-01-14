@@ -1,5 +1,6 @@
 ﻿using ATS.DAL.Constants;
 using ATS.DAL.Interfaces;
+using ATS.DAL.Interfaces.Billing;
 using ATS.DAL.Models.Billing;
 using ATS.DAL.Models.Requests;
 using ATS.DAL.Models.Responds;
@@ -44,12 +45,12 @@ namespace ATS.DAL.Models
             {
                 switch (respond.State)
                 {
-                    case RespondState.Drop:
+                    case RequestRespondState.Drop:
                         {
                             InterruptConnection(registeredCallInfo);
                             break;
                         }
-                    case RespondState.Accept:
+                    case RequestRespondState.Accept:
                         {
                             MakeCallActive(registeredCallInfo);
                             break;
@@ -101,10 +102,7 @@ namespace ATS.DAL.Models
 
         protected virtual void OnCallDetailsPrepared(object sender, CallDetails callDetails)
         {
-            if (CallDetailsPrepared != null)
-            {
-                CallDetailsPrepared(sender, callDetails);
-            }
+            CallDetailsPrepared?.Invoke(sender, callDetails);
         }
 
         protected ITerminal GetTerminalByPhoneNumber(string number)
@@ -228,6 +226,14 @@ namespace ATS.DAL.Models
             {
                 RegisterOutgoingRequest(request as OutgoingRequest);
             }
+        }
+
+
+        public event EventHandler<Contract> TerminateContract;
+
+        public void onTerminateContract(object sender, Contract contract)
+        {
+            TerminateContract?.Invoke(sender, contract);
         }
     }
 }

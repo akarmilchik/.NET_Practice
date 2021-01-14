@@ -1,8 +1,9 @@
 ﻿using ATS.Core.Interfaces;
+using ATS.Core.Mapper;
 using ATS.Core.Services;
 using ATS.DAL.Constants;
-using ATS.DAL.Models;
 using ATS.Helpers;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ATS
 {
@@ -14,6 +15,8 @@ namespace ATS
 
             MainMenuItems mainMenuItems;
 
+            var mapper = MapperFactory.InitMapper();
+
             IPrintService printService = new PrintService();
 
             IInputService inputService = new InputService();
@@ -22,14 +25,18 @@ namespace ATS
 
             var context = contextFactory.CreateDbContext(args);
 
-            IMainMenuService mainMenuService = new MainMenuService(printService, inputService, context);
+            context.Database.EnsureCreated();
+
+            IDataService dataService = new DataService(context, mapper);
+
+            IMainMenuService mainMenuService = new MainMenuService(printService, inputService, dataService, context);
 
             InitData.InitializeData(context);
 
-            var mapper = MapperFactory.InitMapper();
-
             while (isWorking)
             {
+                printService.PrintWelcome();
+
                 printService.PrintMainMenu();
 
                 var selectedMenuItemId = inputService.ReadInputKey();
@@ -45,16 +52,16 @@ namespace ATS
                             printService.PrintExit();
                             break;
 
-                        case MainMenuItems.ShowAllData:
-                            mainMenuService.ShowAllData();
+                        case MainMenuItems.PrintBasicData:
+                            mainMenuService.PrintBasicData();
                             break;
 
                         case MainMenuItems.OpenClientMenu:
-                            mainMenuService.OpenClientMenu();
+                            mainMenuService.ClientMenuHandler();
                             break;
 
                         case MainMenuItems.OpenStationMenu:
-                            mainMenuService.OpenStationMenu();
+                            mainMenuService.StationMenuHandler();
                             break;
 
                         default:

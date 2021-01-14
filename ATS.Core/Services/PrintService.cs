@@ -3,6 +3,7 @@ using ATS.DAL.Interfaces;
 using ATS.DAL.Interfaces.Billing;
 using ATS.DAL.Models;
 using System;
+using System.Collections.Generic;
 
 namespace ATS.Core.Services
 {
@@ -31,15 +32,20 @@ namespace ATS.Core.Services
             Console.Write("Input: ");
         }
 
-        public void PrintEmptyString()
-        {
-            Console.WriteLine("\nEmpty input string.");
-        }
-
         public void PrintChooseClient()
         {
             Console.Write("\nChoose client number from the list: ");
             Console.Write("Input: ");
+        }
+
+        public void PrintInputProposal()
+        {
+            Console.Write("Input: ");
+        }
+
+        public void PrintChooseTerminalToCall()
+        {
+            Console.Write("\nChoose terminal number from the list: ");
         }
 
         public void PrintIncorrectChoose()
@@ -47,37 +53,48 @@ namespace ATS.Core.Services
             Console.WriteLine("\n\nPlease choose correct menu item.");
         }
 
-        public void PrintData(IClient user)
-        {
-            Console.WriteLine($"Client name: {user.FirstName} {user.LastName}");
-        }
-
         public void PrintData(ITerminal terminal)
         {
-            Console.WriteLine($"Number: {terminal.PhoneNumber}");
+            Console.WriteLine($"   Terminal\n      Number: {terminal.PhoneNumber}");
         }
 
         public void PrintData(IPort port)
         {
-            Console.WriteLine($"Port number: {port.Id}. State: {port.PortState}");
+            Console.WriteLine($"   Provided port\n      №: {port.Id}\n      State: {port.PortState}");
         }
 
         public void PrintData(IContract contract)
         {
-            Console.WriteLine($"Contract with client: {contract.Client.FirstName} {contract.Client.LastName}. Duration: from {contract.ContractStartDate.Date} to {contract.ContractCloseDate.Value.Date}.");
+            Console.WriteLine($"   Contract\n      Start date: {contract.ContractStartDate}\n      Close date: {contract.ContractCloseDate}");
+        }
+
+        public void PrintData(ITariffPlan tariffPlan)
+        {
+            Console.WriteLine($"   Tariff plan\n      Name: {tariffPlan.Name}\n      Minute cost: {tariffPlan.MinuteCost}$");
         }
 
         public void PrintData(IStation station)
         {
             Console.WriteLine($"Station: {station.Name}");
         }
-
-        public void PrintData(DataModel data)
+        public void PrintData(IClient client)
         {
-            foreach (var station in data.Stations)
+            Console.WriteLine($"Client №{client.Id}: {client.FirstName} {client.LastName}");
+        }
+
+        public void PrintDataArray(IEnumerable<IClient> clients)
+        {
+            foreach (var client in clients)
             {
-                Console.WriteLine($"Station: {station.Name}");
-                // Console.WriteLine($"Station: {}");
+                Console.WriteLine($"Client №{client.Id}: {client.FirstName} {client.LastName}");
+            }
+        }
+
+        public void PrintDataArray(IEnumerable<ITerminal> terminals)
+        {
+            foreach (var terminal in terminals)
+            {
+                Console.WriteLine($"Terminal №{terminal.Id}. Number:{terminal.PhoneNumber}");
             }
         }
 

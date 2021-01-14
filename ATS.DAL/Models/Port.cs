@@ -21,8 +21,6 @@ namespace ATS.DAL.Models
             {
                 if (_portState != value)
                 {
-                    OnStateChanging(this, value);
-
                     _portState = value;
 
                     OnStateChanged(this, _portState);
@@ -30,52 +28,38 @@ namespace ATS.DAL.Models
             }
         }
 
+        public event EventHandler<PortState> StateChanged;
+
         public Port()
         {
-            this.StateChanged += (sender, state) => { Console.WriteLine("Port detected the State is changed to {0}", state); };
+            StateChanged += OnStateChanged;
         }
-
-        public event EventHandler<PortState> StateChanging;
-
-        public event EventHandler<PortState> StateChanged;
 
         protected virtual void OnStateChanged(object sender, PortState state)
         {
-            if (StateChanged != null)
-            {
-                StateChanged(sender, state);
-            }
-        }
-
-        protected virtual void OnStateChanging(object sender, PortState newState)
-        {
-            if (StateChanging != null)
-            {
-                StateChanging(sender, newState);
-            }
+            StateChanged?.Invoke(sender, state);
         }
 
         public void OnOutgoingCall(object sender, Request request)
         {
-            if (request.GetType() == typeof(OutgoingRequest) && this.PortState == PortState.Enabled)
+            if (request.GetType() == typeof(OutgoingRequest) && PortState == PortState.Enabled)
             {
-                this.PortState = PortState.Calling;
+                PortState = PortState.Calling;
             }
         }
 
         public void ClearEvents()
         {
-            this.StateChanged = null;
-            this.StateChanging = null;
+            StateChanged = null;
         }
 
         public virtual void RegisterEventHandlersForTerminal(ITerminal terminal)
         {
             terminal.OutgoingConnection += this.OnOutgoingCall;
 
-            terminal.Online += (port, args) => { this.PortState = PortState.Enabled; };
+            terminal.Online += (port, args) => { PortState = PortState.Enabled; };
 
-            terminal.Offline += (port, args) => { this.PortState = PortState.Disabled; };
+            terminal.Offline += (port, args) => { PortState = PortState.Disabled; };
         }
     }
 }

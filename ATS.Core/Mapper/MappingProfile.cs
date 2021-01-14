@@ -16,26 +16,19 @@ namespace ATS.Core.Mapper
             CreateMap<Client, ClientEntity>();
 
             CreateMap<Contract, ContractEntity>()
-                .ForMember(c => c.Client_Id, opt => opt.MapFrom(ce => ce.Client.Id));
+                .ForMember(c => c.Client_Id, opt => opt.MapFrom(ce => ce.Client.Id))
+                .ForMember(c => c.Terminal_Id, opt => opt.MapFrom(ce => ce.Terminal.Id))
+                .ForMember(c => c.TariffPlan_ID, opt => opt.MapFrom(ce => ce.TariffPlan.Id));
 
-            CreateMap<ContractToTariffPlanBinding, ContractToTariffPlanBindingEntity>()
-                .ForMember(c => c.Contract_Id, opt => opt.MapFrom(ce => ce.Contract.Id))
-                .ForMember(c => c.TariffPlan_Id, opt => opt.MapFrom(ce => ce.TariffPlan.Id));
 
-            CreateMap<SecondMinuteTariffPlan, SecondMinuteTariffPlanEntity>()
-                .ForMember(tp => tp.MinuteCost, opt => opt.MapFrom(tp => tp.MinuteCost));
+            CreateMap<SecondMinuteTariffPlan, SecondMinuteTariffPlanEntity>();
 
             CreateMap<CallDetails, CallDetailsEntity>();
 
-            CreateMap<OutgoingRequest, OutgoingRequestEntity>().
-                IncludeBase<Request, RequestEntity>();
+            CreateMap<OutgoingRequest, OutgoingRequestEntity>().IncludeBase<Request, RequestEntity>();
 
-                //.ForMember(or => or.TargetPhoneNumber, opt => opt.MapFrom(or => or.TargetPhoneNumber))
-                //.ForMember(or => or.SourcePhoneNumber, opt => opt.MapFrom(or => ));
-
-            CreateMap<Port, PortEntity>()
-                .ForMember(p => p.PortState, opt => opt.MapFrom(p => p.PortState));
-
+            CreateMap<Port, PortEntity>();
+                
             CreateMap<Request, RequestEntity>();
                 
             CreateMap<Respond, RespondEntity>()
@@ -43,9 +36,8 @@ namespace ATS.Core.Mapper
 
             CreateMap<Station, StationEntity>();
 
-            CreateMap<Terminal, TerminalEntity>();
-
-            //mapper.Map<IEnumerable<ClietnEntity>>(Items));
+            CreateMap<Terminal, TerminalEntity>()
+                .ForMember(p => p.ProvidedPort_Id, opt => opt.MapFrom(p => p.ProvidedPort.Id)); ;
         }
     }
 }

@@ -8,11 +8,11 @@ namespace ATS.DAL
     public class DataContext : DbContext
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options)
-        { }
+        {
+        }
 
         public DbSet<ClientEntity> Clients { get; set; }
         public DbSet<ContractEntity> Contracts { get; set; }
-        public DbSet<ContractToTariffPlanBindingEntity> ContractToTariffPlanBindings { get; set; }
         public DbSet<SecondMinuteTariffPlanEntity> TariffPlans { get; set; }
         public DbSet<RequestEntity> Requests { get; set; }
         public DbSet<OutgoingRequestEntity> OutgoingRequests { get; set; }
@@ -24,10 +24,10 @@ namespace ATS.DAL
 
         public override int SaveChanges() => base.SaveChanges();
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite($"{ReadConfig.ReadSetting("DBConnection")}");
-        }
+        }*/
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -35,7 +35,6 @@ namespace ATS.DAL
 
             modelBuilder.Entity<ClientEntity>().ToTable("Clients");
             modelBuilder.Entity<ContractEntity>().ToTable("Contracts");
-            modelBuilder.Entity<ContractToTariffPlanBindingEntity>().ToTable("ContractToTariffPlanBindings");
             modelBuilder.Entity<SecondMinuteTariffPlanEntity>().ToTable("TariffPlans");
             modelBuilder.Entity<RequestEntity>().ToTable("Requests");
             modelBuilder.Entity<OutgoingRequestEntity>().ToTable("OutgoingRequests");

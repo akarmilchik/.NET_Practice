@@ -6,6 +6,6 @@ namespace ATS.DAL.ModelsEntities
     {
         public int Id { get; set; }
         public string SourcePhoneNumber { get; set; }
-        public RequestState State { get; set; }
+        public RequestRespondState State { get; set; }
     }
 }

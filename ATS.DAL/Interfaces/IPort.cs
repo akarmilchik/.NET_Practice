@@ -8,8 +8,6 @@ namespace ATS.DAL.Interfaces
     {
         PortState PortState { get; set; }
 
-        event EventHandler<PortState> StateChanging;
-
         event EventHandler<PortState> StateChanged;
 
         void RegisterEventHandlersForTerminal(ITerminal terminal);

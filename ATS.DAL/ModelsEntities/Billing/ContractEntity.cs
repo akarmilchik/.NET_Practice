@@ -9,5 +9,6 @@ namespace ATS.DAL.ModelsEntities.Billing
         public DateTime ContractCloseDate { get; set; }
         public int Client_Id { get; set; }
         public int Terminal_Id { get; set; }
+        public int TariffPlan_ID { get; set; }
     }
 }

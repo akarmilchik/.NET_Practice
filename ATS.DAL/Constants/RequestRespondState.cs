@@ -1,8 +1,8 @@
 ﻿namespace ATS.DAL.Constants
 {
-    public enum RespondState
+    public enum RequestRespondState
     {
         Accept,
-        Drop
+        Drop,
     }
 }

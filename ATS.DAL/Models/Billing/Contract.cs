@@ -11,6 +11,7 @@ namespace ATS.DAL.Models.Billing
         public DateTime? ContractCloseDate { get; set; }
         public IClient Client { get; set; }
         public ITerminal Terminal { get; set; }
+        public ITariffPlan TariffPlan { get; set; }
 
         public Contract()
         {

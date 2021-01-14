@@ -1,5 +1,6 @@
 ﻿using ATS.DAL.Interfaces.Services;
 using ATS.DAL.Models;
+using ATS.DAL.Models.Billing;
 using System;
 
 namespace ATS.DAL.Interfaces
@@ -13,5 +14,7 @@ namespace ATS.DAL.Interfaces
         void RegisterEventHandlersForPort(IPort port);
 
         event EventHandler<CallDetails> CallDetailsPrepared;
+
+        event EventHandler<Contract> TerminateContract;
     }
 }

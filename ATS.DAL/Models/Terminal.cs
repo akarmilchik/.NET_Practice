@@ -13,6 +13,7 @@ namespace ATS.DAL.Models
         protected bool IsOnline { get; private set; }
         public int Id { get; set; }
         public string PhoneNumber { get; set; }
+        public Port ProvidedPort { get; set; }
 
         public Terminal()
         {
@@ -36,7 +37,7 @@ namespace ATS.DAL.Models
                 OnIncomingRespond(this, new Respond()
                 {
                     SourcePhoneNumber = _phoneNumber,
-                    State = RespondState.Accept,
+                    State = RequestRespondState.Accept,
                     Request = ServerIncomingRequest
                 });
 
@@ -76,7 +77,7 @@ namespace ATS.DAL.Models
                 OnIncomingRespond(this, new Respond()
                 {
                     SourcePhoneNumber = _phoneNumber,
-                    State = RespondState.Drop,
+                    State = RequestRespondState.Drop,
                     Request = ServerIncomingRequest
                 });
 
@@ -94,13 +95,13 @@ namespace ATS.DAL.Models
 
         public void ClearEvents()
         {
-            this.IncomingRequest = null;
-            this.IncomingRespond = null;
-            this.Online = null;
-            this.Offline = null;
-            this.OutgoingConnection = null;
-            this.Connecting = null;
-            this.Disconnecting = null;
+            IncomingRequest = null;
+            IncomingRespond = null;
+            Online = null;
+            Offline = null;
+            OutgoingConnection = null;
+            Connecting = null;
+            Disconnecting = null;
         }
 
         public virtual void RegisterEventHandlersForPort(IPort port)
@@ -109,7 +110,7 @@ namespace ATS.DAL.Models
             {
                 if (IsOnline && state == PortState.Enabled)
                 {
-                    this.OnOffline(sender, null);
+                    OnOffline(sender, null);
                 }
             };
         }
@@ -125,20 +126,21 @@ namespace ATS.DAL.Models
                     SourcePhoneNumber = _phoneNumber,
                     TargetPhoneNumber = target
                 };
-
-                OutgoingConnection(sender, ServerIncomingRequest);
             }
+
+            OutgoingConnection?.Invoke(sender, ServerIncomingRequest);
+            
         }
 
         public event EventHandler<Request> IncomingRequest;
 
         protected virtual void OnIncomingRequest(object sender, Request request)    //add request state incoming
         {
-            if (IncomingRequest != null)
-            {
-                IncomingRequest(sender, request);
-                Console.WriteLine("{0} received request for incoming connection from {1}", _phoneNumber, request.SourcePhoneNumber);
-            }
+            
+            IncomingRequest?.Invoke(sender, request);
+
+            Console.WriteLine("{0} received request for incoming connection from {1}", _phoneNumber, request.SourcePhoneNumber);
+            
 
             ServerIncomingRequest = request;
         }
@@ -147,10 +149,10 @@ namespace ATS.DAL.Models
 
         protected virtual void OnIncomingRespond(object sender, Respond respond)
         {
-            if (this.IncomingRespond != null && ServerIncomingRequest != null)
+            if (IncomingRespond != null && ServerIncomingRequest != null)
             {
-                this.IncomingRespond(sender, respond);
-                Console.WriteLine("{0} create respond for incoming connection from {1}", this.PhoneNumber, respond.SourcePhoneNumber);
+                IncomingRespond(sender, respond);
+                Console.WriteLine("{0} create respond for incoming connection from {1}", PhoneNumber, respond.SourcePhoneNumber);
             }
         }
 
@@ -158,11 +160,8 @@ namespace ATS.DAL.Models
 
         protected virtual void OnOnline(object sender, EventArgs args)
         {
-            if (Online != null)
-            {
-                Online(sender, args);
-            }
-
+            Online?.Invoke(sender, args);
+            
             IsOnline = true;
         }
 
@@ -170,13 +169,10 @@ namespace ATS.DAL.Models
 
         protected virtual void OnOffline(object sender, EventArgs args)
         {
-            if (Offline != null)
-            {
-                Offline(sender, args);
+            Offline?.Invoke(sender, args);
 
-                ServerIncomingRequest = null;
-            }
-
+            ServerIncomingRequest = null;
+            
             IsOnline = false;
         }
 

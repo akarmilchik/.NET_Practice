@@ -8,5 +8,6 @@ namespace ATS.DAL.Interfaces.Billing
         DateTime? ContractCloseDate { get; }
         IClient Client { get; }
         ITerminal Terminal { get; }
+        ITariffPlan TariffPlan { get; }
     }
 }

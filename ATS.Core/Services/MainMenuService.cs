@@ -1,5 +1,4 @@
 ﻿using ATS.Core.Interfaces;
-using ATS.Core.Mapper;
 using ATS.DAL;
 using ATS.DAL.Constants;
 
@@ -9,16 +8,20 @@ namespace ATS.Core.Services
     {
         private readonly IPrintService _printService;
         private readonly IInputService _inputService;
+        private readonly IDataService _dataService;
         private readonly DataContext _context;
+        private int chosenClientId;
 
-        public MainMenuService(IPrintService printService, IInputService inputService, DataContext context)
+
+        public MainMenuService(IPrintService printService, IInputService inputService, IDataService dataService, DataContext context)
         {
             _printService = printService;
             _inputService = inputService;
+            _dataService = dataService;
             _context = context;
         }
 
-        public void OpenClientMenu()
+        public void ClientMenuHandler()
         {
             bool isWorking = true;
 
@@ -39,12 +42,20 @@ namespace ATS.Core.Services
                             break;
 
                         case ClientMenuItems.ShowCurrentClient:
+                            PrintBasicData();
                             break;
 
-                        case ClientMenuItems.ChooseClient:
+                        case ClientMenuItems.ChooseClientHandle:
+                            _printService.PrintDataArray(_dataService.GetClients());
+                            _printService.PrintChooseClient();
+                            chosenClientId = _inputService.ReadInputKey();
                             break;
 
                         case ClientMenuItems.ConnectTerminal:
+                            _printService.PrintChooseTerminalToCall();
+                            _printService.PrintDataArray(_dataService.GetTerminals());
+                            _printService.PrintInputProposal();
+                            _inputService.ReadInputKey();
                             break;
 
                         case ClientMenuItems.DisconnectTerminal:
@@ -70,7 +81,7 @@ namespace ATS.Core.Services
             }
         }
 
-        public void OpenStationMenu()
+        public void StationMenuHandler()
         {
             bool isWorking = true;
 
@@ -101,9 +112,13 @@ namespace ATS.Core.Services
             }
         }
 
-        public void ShowAllData()
+        public void PrintBasicData()
         {
-            //_printService.PrintData();
+            _printService.PrintData(_dataService.GetClientById(chosenClientId));
+            _printService.PrintData(_dataService.GetContractByClientId(chosenClientId));
+            _printService.PrintData(_dataService.GetPortByClientId(chosenClientId));
+            _printService.PrintData(_dataService.GetTerminalByClientId(chosenClientId));
+            _printService.PrintData(_dataService.GetTariffPlanByClientId(chosenClientId));
         }
     }
 }

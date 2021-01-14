@@ -8,6 +8,6 @@ namespace ATS.DAL.Models.Responds
         public int Id { get; set; }
         public Request Request { get; set; }
         public string SourcePhoneNumber { get; set; }
-        public RespondState State { get; set; }
+        public RequestRespondState State { get; set; }
     }
 }

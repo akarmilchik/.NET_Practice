@@ -1,4 +1,5 @@
 ﻿using ATS.DAL.Interfaces.Services;
+using ATS.DAL.Models;
 using ATS.DAL.Models.Requests;
 using ATS.DAL.Models.Responds;
 using System;
@@ -8,6 +9,8 @@ namespace ATS.DAL.Interfaces
     public interface ITerminal : IClearEventsService, IEntity
     {
         string PhoneNumber { get; set; }
+
+        Port ProvidedPort { get; set; }
 
         event EventHandler<Request> OutgoingConnection;
 
