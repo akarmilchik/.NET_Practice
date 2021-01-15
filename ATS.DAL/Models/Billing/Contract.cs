@@ -17,9 +17,16 @@ namespace ATS.DAL.Models.Billing
         {
         }
 
+        public event EventHandler ContractConclude;
+
+        protected virtual void OnContractConclude(EventArgs e)
+        {
+            ContractConclude?.Invoke(this, e);
+        }
+
         public override string ToString()
         {
-            return $"   Contract\n      Start date: {ContractStartDate:d}\n      Close date: {ContractCloseDate:d}";
+            return $"   Contract\n      Start date: {ContractStartDate:d}\n      Close date: {ContractCloseDate:d}\n      Client:{Client.FirstName} {Client.LastName}";
         }
         
     }

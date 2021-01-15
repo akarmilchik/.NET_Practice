@@ -1,26 +1,18 @@
-﻿using ATS.DAL.Interfaces;
-using ATS.DAL.Interfaces.Billing;
-using System.Collections.Generic;
-
-namespace ATS.Core.Interfaces
+﻿namespace ATS.Core.Interfaces
 {
     public interface IPrintService
     {
-        void PrintChooseClient();
-        void PrintChooseClientToConcludeContract();
-        void PrintChooseTerminalToCall();
+        void ContractConcluded();
+        void PrintChooseProposal(string value);
         void PrintClientsMenu();
-
-        void PrintDataArray(IEnumerable<IClient> clients);
-        void PrintDataArray(IEnumerable<ITerminal> terminals);
         void PrintExit();
-
         void PrintIncorrectChoose();
+        void PrintInputCloseDate();
         void PrintInputProposal();
+        void PrintItemValue(string value);
+        void PrintLine();
         void PrintMainMenu();
-
         void PrintStationMenu();
-
         void PrintWelcome();
     }
 }

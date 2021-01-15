@@ -1,9 +1,5 @@
 ﻿using ATS.Core.Interfaces;
-using ATS.DAL.Interfaces;
-using ATS.DAL.Interfaces.Billing;
-using ATS.DAL.Models;
 using System;
-using System.Collections.Generic;
 
 namespace ATS.Core.Services
 {
@@ -17,7 +13,7 @@ namespace ATS.Core.Services
 
         public void PrintMainMenu()
         {
-            Console.WriteLine("\nActions:\n 1. See all data about clients and tariffs \n 2. Open station menu \n 3. Open clients menu \n 0. Close");
+            Console.WriteLine("\nActions:\n 1. Show all clients \n 2. Open station menu \n 3. Open clients menu \n 0. Close");
             Console.Write("Input: ");
         }
 
@@ -33,10 +29,24 @@ namespace ATS.Core.Services
             Console.Write("Input: ");
         }
 
-        public void PrintChooseClient()
+        public void PrintChooseProposal(string value)
         {
-            Console.Write("\nChoose client number from the list: ");
-            Console.Write("Input: ");
+            Console.Write($"\nChoose {value} from the list: ");
+        }
+
+        public void PrintItemValue(string value)
+        {
+            Console.WriteLine(value);
+        }
+
+        public void PrintInputCloseDate()
+        {
+            Console.Write($"\n\nInput close date in format (dd.mm.yy): ");
+        }
+
+        public void ContractConcluded()
+        {
+            Console.WriteLine("Contract was concluded!");
         }
 
         public void PrintInputProposal()
@@ -44,35 +54,14 @@ namespace ATS.Core.Services
             Console.Write("Input: ");
         }
 
-        public void PrintChooseTerminalToCall()
-        {
-            Console.WriteLine("\nChoose terminal number from the list: ");
-        }
-
-        public void PrintChooseClientToConcludeContract()
-        {
-            Console.WriteLine("\nChoose client to coclude a contract: ");
-        }
-
         public void PrintIncorrectChoose()
         {
             Console.WriteLine("\n\nPlease input correct number.");
         }
 
-        public void PrintDataArray(IEnumerable<IClient> clients)
+        public void PrintLine()
         {
-            foreach (var client in clients)
-            {
-                Console.WriteLine($"Client №{client.Id}: {client.FirstName} {client.LastName}");
-            }
-        }
-
-        public void PrintDataArray(IEnumerable<ITerminal> terminals)
-        {
-            foreach (var terminal in terminals)
-            {
-                Console.WriteLine($"Terminal №{terminal.Id}. Number:{terminal.PhoneNumber}");
-            }
+            Console.WriteLine("\n");
         }
 
         public void PrintExit()

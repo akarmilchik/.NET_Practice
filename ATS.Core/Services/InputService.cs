@@ -15,5 +15,10 @@ namespace ATS.Core.Services
         {
             return Console.ReadKey().KeyChar.ToInt();
         }
+
+        public DateTime ReadInputDate()
+        {
+            return DateTime.Parse(Console.ReadLine());
+        }
     }
 }

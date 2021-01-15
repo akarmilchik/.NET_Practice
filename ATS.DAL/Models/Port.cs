@@ -33,9 +33,11 @@ namespace ATS.DAL.Models
         }
 
         public event EventHandler<PortState> StateChanged;
+
         public event EventHandler<PortState> StateChanging;
 
         protected virtual void OnStateChanged(object sender, PortState state) => StateChanged?.Invoke(sender, state);
+
         protected virtual void OnStateChanging(object sender, PortState newState) => StateChanging?.Invoke(sender, newState);
 
 
@@ -64,6 +66,7 @@ namespace ATS.DAL.Models
         public void Dispose()
         {
             StateChanged = null;
+
             StateChanging = null;
         }
     }

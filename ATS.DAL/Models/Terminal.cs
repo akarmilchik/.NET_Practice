@@ -1,5 +1,6 @@
 ﻿using ATS.DAL.Constants;
 using ATS.DAL.Interfaces;
+using ATS.DAL.Interfaces.Billing;
 using ATS.DAL.Models.Requests;
 using ATS.DAL.Models.Responds;
 using System;
@@ -112,6 +113,12 @@ namespace ATS.DAL.Models
             };
         }
 
+        public virtual void RegisterEventHandlersForContract(IContract contract)
+        {
+            contract.ContractConclude += OnOnline;
+            contract.ContractConclude += OnConnect;
+        }
+
         public event EventHandler<Request> OutgoingConnection;
         public event EventHandler<Request> IncomingRequest;
         public event EventHandler<Respond> IncomingRespond;
@@ -142,7 +149,7 @@ namespace ATS.DAL.Models
 
         public override string ToString()
         {
-            return $"   Terminal\n      Number: {PhoneNumber}";
+            return $"Terminal №{Id}. Number:{PhoneNumber}";
         }
 
         public void Dispose()

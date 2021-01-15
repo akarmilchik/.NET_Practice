@@ -33,26 +33,23 @@ namespace ATS
 
         private static readonly List<TerminalEntity> Terminals = new List<TerminalEntity>
         {
-            new TerminalEntity { PhoneNumber = "100" },
-            new TerminalEntity { PhoneNumber = "222" },
-            new TerminalEntity { PhoneNumber = "300" },
-            new TerminalEntity { PhoneNumber = "440" }
+            new TerminalEntity { PhoneNumber = "100", IsOnline = false },
+            new TerminalEntity { PhoneNumber = "222", IsOnline = false },
+            new TerminalEntity { PhoneNumber = "300", IsOnline = false },
+            new TerminalEntity { PhoneNumber = "440", IsOnline = false }
         };
 
         private static readonly List<PortEntity> Ports = new List<PortEntity>
         {
+            new PortEntity { PortState = PortState.Enabled, },
             new PortEntity { PortState = PortState.Enabled },
-            new PortEntity { PortState = PortState.Disabled },
-            new PortEntity { PortState = PortState.Calling },
+            new PortEntity { PortState = PortState.Enabled },
             new PortEntity { PortState = PortState.Enabled }
         };
 
         private static readonly List<ContractEntity> Contracts = new List<ContractEntity>
         {
-            new ContractEntity { Client_Id = Clients[0].Id, ContractStartDate = new DateTime(2020, 10, 01), ContractCloseDate = new DateTime(2020, 12, 31), Terminal_Id = Terminals[2].Id },
-            new ContractEntity { Client_Id = Clients[2].Id, ContractStartDate = new DateTime(2020, 11, 01), ContractCloseDate = new DateTime(2021, 04, 30), Terminal_Id = Terminals[3].Id },
-            new ContractEntity { Client_Id = Clients[1].Id, ContractStartDate = new DateTime(2020, 12, 15), ContractCloseDate = new DateTime(2021, 03, 15), Terminal_Id = Terminals[1].Id },
-            new ContractEntity { Client_Id = Clients[3].Id, ContractStartDate = new DateTime(2020, 09, 01), ContractCloseDate = new DateTime(2021, 01, 31), Terminal_Id = Terminals[0].Id }
+            new ContractEntity { Client_Id = Clients[0].Id, ContractStartDate = new DateTime(2020, 10, 01), ContractCloseDate = new DateTime(2020, 12, 31), Terminal_Id = Terminals[2].Id, TariffPlan_Id = TariffPlans[0].Id }
         };
 
         private static readonly List<StationEntity> Stations = new List<StationEntity>

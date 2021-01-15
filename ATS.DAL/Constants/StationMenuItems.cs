@@ -3,6 +3,7 @@
     public enum StationMenuItems
     {
         BackToMain,
-        ConcludeAContract
+        ConcludeAContract,
+        ShowAllContracts
     }
 }

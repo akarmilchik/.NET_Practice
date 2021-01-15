@@ -3,6 +3,7 @@ using ATS.Core.Services;
 using ATS.DAL.Constants;
 using ATS.Helpers;
 using System;
+using System.Linq;
 
 namespace ATS
 {
@@ -49,8 +50,15 @@ namespace ATS
                             printService.PrintExit();
                             break;
 
-                        case MainMenuItems.PrintBasicData:
-                            printService.PrintDataArray(dataService.GetClients());
+                        case MainMenuItems.PrintClientsData:
+
+                            var res = dataService.GetClients().ToList();
+
+                            printService.PrintLine();
+
+
+                            res.ForEach(c => printService.PrintItemValue(c.ToString()));
+
                             break;
 
                         case MainMenuItems.OpenStationMenu:

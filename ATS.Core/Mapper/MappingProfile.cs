@@ -13,31 +13,30 @@ namespace ATS.Core.Mapper
         
         public MappingProfile()
         {
-            CreateMap<Client, ClientEntity>();
+            CreateMap<ClientEntity, Client>();
 
-            CreateMap<Contract, ContractEntity>()
-                .ForMember(c => c.Client_Id, opt => opt.MapFrom(ce => ce.Client.Id))
-                .ForMember(c => c.Terminal_Id, opt => opt.MapFrom(ce => ce.Terminal.Id))
-                .ForMember(c => c.TariffPlan_ID, opt => opt.MapFrom(ce => ce.TariffPlan.Id));
+            CreateMap<ContractEntity, Contract>()
+                .ForPath(ce => ce.Client.Id, opt => opt.MapFrom(c => c.Client_Id))
+                .ForPath(ce => ce.Terminal.Id, opt => opt.MapFrom(c => c.Terminal_Id))
+                .ForPath(ce => ce.TariffPlan.Id, opt => opt.MapFrom(c => c.TariffPlan_Id));
 
+            CreateMap<SecondMinuteTariffPlanEntity, SecondMinuteTariffPlan>();
 
-            CreateMap<SecondMinuteTariffPlan, SecondMinuteTariffPlanEntity>();
+            CreateMap<CallDetailsEntity, CallDetails>();
 
-            CreateMap<CallDetails, CallDetailsEntity>();
+            CreateMap<OutgoingRequestEntity, OutgoingRequest>().IncludeBase<RequestEntity, Request>();
 
-            CreateMap<OutgoingRequest, OutgoingRequestEntity>().IncludeBase<Request, RequestEntity>();
-
-            CreateMap<Port, PortEntity>();
+            CreateMap<PortEntity, Port>();
                 
-            CreateMap<Request, RequestEntity>();
+            CreateMap<RequestEntity, Request>();
                 
-            CreateMap<Respond, RespondEntity>()
-                .ForMember(r => r.Request_Id, opt => opt.MapFrom(r => r.Request.Id));
+            CreateMap<RespondEntity, Respond>()
+                .ForPath(r => r.Request.Id, opt => opt.MapFrom(r => r.Request_Id));
 
-            CreateMap<Station, StationEntity>();
+            CreateMap<StationEntity, Station>();
 
-            CreateMap<Terminal, TerminalEntity>()
-                .ForMember(p => p.ProvidedPort_Id, opt => opt.MapFrom(p => p.ProvidedPort.Id)); ;
+            CreateMap<TerminalEntity, Terminal>()
+                .ForPath(p => p.ProvidedPort.Id, opt => opt.MapFrom(p => p.ProvidedPort_Id)); ;
         }
     }
 }

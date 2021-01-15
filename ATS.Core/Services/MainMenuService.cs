@@ -1,6 +1,8 @@
 ﻿using ATS.Core.Interfaces;
 using ATS.DAL;
 using ATS.DAL.Constants;
+using ATS.DAL.Models;
+using System.Linq;
 
 namespace ATS.Core.Services
 {
@@ -45,8 +47,12 @@ namespace ATS.Core.Services
                             break;
 
                         case ClientMenuItems.ChooseClientHandle:
-                            _printService.PrintDataArray(_dataService.GetClients());
-                            _printService.PrintChooseClient();
+                            _printService.PrintLine();
+
+                            _dataService.GetClients().ToList().ForEach(c => _printService.PrintItemValue(c.ToString()));
+
+                            _printService.PrintChooseProposal("client");
+
                             chosenCliendId = _inputService.ReadInputKey();
                             break;
 
@@ -59,11 +65,7 @@ namespace ATS.Core.Services
                             break;
 
                         case ClientMenuItems.Call:
-                            _printService.PrintChooseTerminalToCall();
-                            _printService.PrintDataArray(_dataService.GetTerminals());
-                            _printService.PrintInputProposal();
-                            var targetTerminalId = _inputService.ReadInputKey();
-                            _dataService.ConnectToTerminal(chosenCliendId, targetTerminalId);
+                            Call(chosenCliendId);
                             break;
 
                         case ClientMenuItems.DropCall:
@@ -107,6 +109,10 @@ namespace ATS.Core.Services
                             ConcludeContract();
                             break;
 
+                        case StationMenuItems.ShowAllContracts:
+                            PrintBasicContractsData();
+                            break;
+
                         default:
                             _printService.PrintIncorrectChoose();
                             break;
@@ -131,14 +137,64 @@ namespace ATS.Core.Services
             }
         }
 
+        public void PrintBasicContractsData()
+        {
+            _dataService.GetContracts().ToList().ForEach(c => _printService.PrintItemValue(c.ToString()));
+        }
+
+
+        public void Call(int chosenCliendId)
+        {
+            _printService.PrintChooseProposal("terminal");
+
+            _dataService.GetTerminals().ToList().ForEach(t => _printService.PrintItemValue(t.ToString()));
+
+            _printService.PrintInputProposal();
+
+            var targetTerminalId = _inputService.ReadInputKey();
+
+            _dataService.ConnectToTerminal(chosenCliendId, targetTerminalId);
+        }
+
         public void ConcludeContract()
         {
-            _printService.PrintChooseClientToConcludeContract();
-            _printService.PrintDataArray(_dataService.GetClients());
+            _printService.PrintInputCloseDate();
+
+            var clodeDate = _inputService.ReadInputDate();
+
+            _printService.PrintChooseProposal("client");
+
+            _printService.PrintLine();
+
+            _dataService.GetClients().ToList().ForEach(c => _printService.PrintItemValue(c.ToString()));
+
             _printService.PrintInputProposal();
 
             var targetClientId = _inputService.ReadInputKey();
 
+            _printService.PrintChooseProposal("terminal");
+
+            _printService.PrintLine();
+
+            _dataService.GetTerminals().ToList().ForEach(t => _printService.PrintItemValue(t.ToString()));
+
+            _printService.PrintInputProposal();
+
+            var targetTerminalId = _inputService.ReadInputKey();
+
+            _printService.PrintChooseProposal("Port");
+
+            _printService.PrintLine();
+
+            _dataService.GetPorts().ToList().ForEach(p => _printService.PrintItemValue(p.ToString()));
+
+            _printService.PrintInputProposal();
+
+            var targetPortId = _inputService.ReadInputKey();
+
+            _dataService.ConcludeContract(targetClientId, targetPortId, targetTerminalId, clodeDate);
+
+            _printService.ContractConcluded();
         }
     }
 }

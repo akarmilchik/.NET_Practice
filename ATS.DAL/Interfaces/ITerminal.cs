@@ -1,4 +1,5 @@
-﻿using ATS.DAL.Models;
+﻿using ATS.DAL.Interfaces.Billing;
+using ATS.DAL.Models;
 using ATS.DAL.Models.Requests;
 using ATS.DAL.Models.Responds;
 using System;
@@ -36,5 +37,6 @@ namespace ATS.DAL.Interfaces
         void IncomingRequestFrom(string source);
 
         void RegisterEventHandlersForPort(IPort port);
+        void RegisterEventHandlersForContract(IContract contract);
     }
 }

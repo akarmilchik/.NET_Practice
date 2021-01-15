@@ -38,12 +38,13 @@ namespace ATS.DAL.Models
         }
 
         public event EventHandler<CallDetails> CallDetailsPrepared;
-        public event EventHandler<Contract> TerminateContract;
 
+        public event EventHandler<Contract> TerminateContract;
 
         public void OnIncomingCallRespond(object sender, Respond respond)
         {
             var registeredCallInfo = GetConnectionInfo(respond.SourcePhoneNumber);
+
             if (registeredCallInfo != null)
             {
                 switch (respond.State)
