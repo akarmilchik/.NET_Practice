@@ -11,7 +11,7 @@ namespace ATS.Core.Interfaces
     {
         void AddContractToDb(Contract contract);
         void ConcludeContract(int clientId, int portId, int terminalId, DateTime closeDate);
-        void ConnectToTerminal(int chosenCliendId, int targetTerminalId);
+        void CallToTerminal(int chosenCliendId, int targetTerminalId);
         IClient GetClientById(int clientId);
         IEnumerable<IClient> GetClients();
         IContract GetContractByClientId(int clientId);
@@ -29,5 +29,10 @@ namespace ATS.Core.Interfaces
         string GetTerminalPhoneNumberById(int terminalId);
         IEnumerable<ITerminal> GetTerminals();
         void RemoveContractFromDb(Contract contract);
+        void ConnectTerminalToPort(int chosenCliendId);
+        void DisconnectTerminalFromPort(int chosenCliendId);
+        void DropCall(int chosenClientId);
+        void AnswerCall(int chosenCliendId);
+        void CreateReport(int chosenClientId);
     }
 }

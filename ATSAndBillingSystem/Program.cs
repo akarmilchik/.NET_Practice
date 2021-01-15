@@ -9,7 +9,7 @@ namespace ATS
 {
     internal class Program
     {
-        private static void Main(string[] args)
+        static void Main(string[] args)
         {
             bool isWorking = true;
 
@@ -19,6 +19,8 @@ namespace ATS
 
             context.Database.EnsureCreated();
 
+            InitData.InitializeData(context);
+
             MainMenuItems mainMenuItems;
 
             IPrintService printService = new PrintService();
@@ -27,9 +29,7 @@ namespace ATS
 
             IDataService dataService = new DataService(context);
 
-            IMainMenuService mainMenuService = new MainMenuService(printService, inputService, dataService, context);
-
-            InitData.InitializeData(context);
+            IMainMenuService mainMenuService = new MainMenuService(printService, inputService, dataService);
 
             while (isWorking)
             {
@@ -51,14 +51,8 @@ namespace ATS
                             break;
 
                         case MainMenuItems.PrintClientsData:
-
-                            var res = dataService.GetClients().ToList();
-
                             printService.PrintLine();
-
-
-                            res.ForEach(c => printService.PrintItemValue(c.ToString()));
-
+                            dataService.GetClients().ToList().ForEach(c => printService.PrintItemValue(c.ToString()));
                             break;
 
                         case MainMenuItems.OpenStationMenu:

@@ -6,8 +6,10 @@ using System;
 
 namespace ATS.DAL.Interfaces
 {
-    public interface ITerminal : IEntity, IDisposable
+    public interface ITerminal : IDisposable
     {
+        int Id { get; set; }
+
         string PhoneNumber { get; set; }
 
         Port ProvidedPort { get; set; }
@@ -37,6 +39,9 @@ namespace ATS.DAL.Interfaces
         void IncomingRequestFrom(string source);
 
         void RegisterEventHandlersForPort(IPort port);
+
         void RegisterEventHandlersForContract(IContract contract);
+
+        void Connect(IPort port);
     }
 }

@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ATS.DAL.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210113185248_ChangeSomeEntities")]
-    partial class ChangeSomeEntities
+    [Migration("20210115153544_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -50,7 +50,7 @@ namespace ATS.DAL.Migrations
                     b.Property<DateTime>("ContractStartDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("TariffPlan_ID")
+                    b.Property<int>("TariffPlan_Id")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("Terminal_Id")
@@ -102,26 +102,6 @@ namespace ATS.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("CallsDetails");
-                });
-
-            modelBuilder.Entity("ATS.DAL.ModelsEntities.OutgoingRequestEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("SourcePhoneNumber")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("State")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("TargetPhoneNumber")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("OutgoingRequests");
                 });
 
             modelBuilder.Entity("ATS.DAL.ModelsEntities.PortEntity", b =>
@@ -207,6 +187,25 @@ namespace ATS.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Terminals");
+                });
+
+            modelBuilder.Entity("ATS.DAL.ModelsEntities.OutgoingRequestEntity", b =>
+                {
+                    b.HasBaseType("ATS.DAL.ModelsEntities.RequestEntity");
+
+                    b.Property<string>("TargetPhoneNumber")
+                        .HasColumnType("TEXT");
+
+                    b.ToTable("OutgoingRequests");
+                });
+
+            modelBuilder.Entity("ATS.DAL.ModelsEntities.OutgoingRequestEntity", b =>
+                {
+                    b.HasOne("ATS.DAL.ModelsEntities.RequestEntity", null)
+                        .WithOne()
+                        .HasForeignKey("ATS.DAL.ModelsEntities.OutgoingRequestEntity", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

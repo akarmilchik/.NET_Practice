@@ -10,14 +10,14 @@ namespace ATS.DAL.Models.Billing
     {
         public int Id { get; set; }
 
-        private readonly decimal _minuteCost = 0.01m;
+        private decimal _minuteCost = 0.1m;
 
         public string Name { get; set; }
 
         public decimal MinuteCost
         {
             get { return _minuteCost; }
-            set { MinuteCost = _minuteCost; }
+            set { _minuteCost = value; }
         }
 
         public SecondMinuteTariffPlan()
@@ -42,7 +42,7 @@ namespace ATS.DAL.Models.Billing
 
         public override string ToString()
         {
-            return $"   Tariff plan\n      Name: {Name}\n      Minute cost: {MinuteCost}$";
+            return $"   Tariff plan\n      Name: {Name}\n      Minute cost: {_minuteCost}$";
         }
     }
 }

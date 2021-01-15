@@ -2,10 +2,11 @@
 
 namespace ATS.DAL.Interfaces.Billing
 {
-    public interface ITariffPlan : IEntity
-    { 
-        public string Name { get; set; }
-        public decimal MinuteCost { get; set; }
+    public interface ITariffPlan
+    {
+        int Id { get; set; }
+        string Name { get; set; }
+        decimal MinuteCost { get; set; }
         decimal CalculateCallCost(ICallDetails callDetails, IEnumerable<ICallDetails> callsForBillingPeriod);
     }
 }

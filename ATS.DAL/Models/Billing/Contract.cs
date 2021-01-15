@@ -8,7 +8,7 @@ namespace ATS.DAL.Models.Billing
     {
         public int Id { get; set; }
         public DateTime ContractStartDate { get; set; }
-        public DateTime? ContractCloseDate { get; set; }
+        public DateTime ContractCloseDate { get; set; }
         public IClient Client { get; set; }
         public ITerminal Terminal { get; set; }
         public ITariffPlan TariffPlan { get; set; }

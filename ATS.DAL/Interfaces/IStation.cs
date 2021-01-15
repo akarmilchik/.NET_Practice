@@ -4,18 +4,20 @@ using System;
 
 namespace ATS.DAL.Interfaces
 {
-    public interface IStation : IEntity, IDisposable
+    public interface IStation : IDisposable
     {
+        int Id { get; set; }
+
         string Name { get; set; }
+
+        event EventHandler<CallDetails> CallDetailsPrepared;
+
+        event EventHandler<Contract> TerminateContract;
 
         void RegisterEventHandlersForTerminal(ITerminal terminal);
 
         void RegisterEventHandlersForPort(IPort port);
 
-        void onTerminateContract(object sender, Contract contract);
-
-        event EventHandler<CallDetails> CallDetailsPrepared;
-
-        event EventHandler<Contract> TerminateContract;
+        void OnTerminateContract(object sender, Contract contract);
     }
 }

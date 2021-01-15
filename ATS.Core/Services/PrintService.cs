@@ -19,13 +19,13 @@ namespace ATS.Core.Services
 
         public void PrintClientsMenu()
         {
-            Console.WriteLine("\n\nActions:\n 1. Show current client \n 2. Choose client as current \n 3. Connect to station port \n 4. Disconnect from station port \n 5. Make call to another client \n 6. Drop an incoming call \n 7. Answer an incoming call \n 8. Show calls report \n 0. Back to main menu ");
+            Console.WriteLine("\n\nClients menu\nActions:\n 1. Show current client \n 2. Choose client as current \n 3. Connect to station port \n 4. Disconnect from station port \n 5. Make call to another client \n 6. Drop an incoming call \n 7. Answer an incoming call \n 8. Show calls report \n 0. Back to main menu ");
             Console.Write("Input: ");
         }
 
         public void PrintStationMenu()
         {
-            Console.WriteLine("\n\nActions:\n 1. Conclude contract with client \n 0. Back to main menu");
+            Console.WriteLine("\n\nStation menu\nActions:\n 1. Conclude contract with client \n 0. Back to main menu");
             Console.Write("Input: ");
         }
 
@@ -57,6 +57,21 @@ namespace ATS.Core.Services
         public void PrintIncorrectChoose()
         {
             Console.WriteLine("\n\nPlease input correct number.");
+        }
+
+        public void PrintSuccessConnect()
+        {
+            Console.WriteLine("Succesfully connected terminal to port!");
+        }
+
+        public void PrintSuccessDisonnect()
+        {
+            Console.WriteLine("Succesfully disconnected terminal from port!");
+        }
+
+        public void PrintCallState(string state)
+        {
+            Console.WriteLine($"Call successfully {state}!");
         }
 
         public void PrintLine()

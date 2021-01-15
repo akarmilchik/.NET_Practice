@@ -31,25 +31,25 @@ namespace ATS
             new ClientEntity { FirstName = "Scarlett", LastName = "Johansson" }
         };
 
-        private static readonly List<TerminalEntity> Terminals = new List<TerminalEntity>
-        {
-            new TerminalEntity { PhoneNumber = "100", IsOnline = false },
-            new TerminalEntity { PhoneNumber = "222", IsOnline = false },
-            new TerminalEntity { PhoneNumber = "300", IsOnline = false },
-            new TerminalEntity { PhoneNumber = "440", IsOnline = false }
-        };
-
         private static readonly List<PortEntity> Ports = new List<PortEntity>
         {
-            new PortEntity { PortState = PortState.Enabled, },
+            new PortEntity { PortState = PortState.Enabled },
             new PortEntity { PortState = PortState.Enabled },
             new PortEntity { PortState = PortState.Enabled },
             new PortEntity { PortState = PortState.Enabled }
         };
 
+        private static readonly List<TerminalEntity> Terminals = new List<TerminalEntity>
+        {
+            new TerminalEntity { PhoneNumber = "100", IsOnline = false, ProvidedPort_Id = 1 },
+            new TerminalEntity { PhoneNumber = "222", IsOnline = false },
+            new TerminalEntity { PhoneNumber = "300", IsOnline = false },
+            new TerminalEntity { PhoneNumber = "440", IsOnline = false }
+        };
+
         private static readonly List<ContractEntity> Contracts = new List<ContractEntity>
         {
-            new ContractEntity { Client_Id = Clients[0].Id, ContractStartDate = new DateTime(2020, 10, 01), ContractCloseDate = new DateTime(2020, 12, 31), Terminal_Id = Terminals[2].Id, TariffPlan_Id = TariffPlans[0].Id }
+            new ContractEntity { Client_Id = 1, ContractStartDate = new DateTime(2020, 10, 01), ContractCloseDate = new DateTime(2020, 12, 31), Terminal_Id = 1, TariffPlan_Id = 1 }
         };
 
         private static readonly List<StationEntity> Stations = new List<StationEntity>
@@ -85,7 +85,6 @@ namespace ATS
                 {
                     _context.Contracts.AddRange(Contracts);
                 }
-
                 if (!_context.Stations.Any())
                 {
                     _context.Stations.AddRange(Stations);

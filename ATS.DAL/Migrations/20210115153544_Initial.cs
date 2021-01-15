@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ATS.DAL.Migrations
 {
@@ -47,41 +47,12 @@ namespace ATS.DAL.Migrations
                     ContractStartDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     ContractCloseDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Client_Id = table.Column<int>(type: "INTEGER", nullable: false),
-                    Terminal_Id = table.Column<int>(type: "INTEGER", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Contracts", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ContractToTariffPlanBindings",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    BindingDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Contract_Id = table.Column<int>(type: "INTEGER", nullable: false),
+                    Terminal_Id = table.Column<int>(type: "INTEGER", nullable: false),
                     TariffPlan_Id = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ContractToTariffPlanBindings", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "OutgoingRequests",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    SourcePhoneNumber = table.Column<string>(type: "TEXT", nullable: true),
-                    TargetPhoneNumber = table.Column<string>(type: "TEXT", nullable: true),
-                    State = table.Column<int>(type: "INTEGER", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_OutgoingRequests", x => x.Id);
+                    table.PrimaryKey("PK_Contracts", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -146,8 +117,7 @@ namespace ATS.DAL.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", nullable: true),
-                    MinuteCost = table.Column<decimal>(type: "TEXT", nullable: false),
-                    CostCalculator_Id = table.Column<int>(type: "INTEGER", nullable: false)
+                    MinuteCost = table.Column<decimal>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -161,11 +131,31 @@ namespace ATS.DAL.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     PhoneNumber = table.Column<string>(type: "TEXT", nullable: true),
-                    IsOnline = table.Column<bool>(type: "INTEGER", nullable: false)
+                    IsOnline = table.Column<bool>(type: "INTEGER", nullable: false),
+                    ProvidedPort_Id = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Terminals", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "OutgoingRequests",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    TargetPhoneNumber = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OutgoingRequests", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_OutgoingRequests_Requests_Id",
+                        column: x => x.Id,
+                        principalTable: "Requests",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
         }
 
@@ -181,16 +171,10 @@ namespace ATS.DAL.Migrations
                 name: "Contracts");
 
             migrationBuilder.DropTable(
-                name: "ContractToTariffPlanBindings");
-
-            migrationBuilder.DropTable(
                 name: "OutgoingRequests");
 
             migrationBuilder.DropTable(
                 name: "Ports");
-
-            migrationBuilder.DropTable(
-                name: "Requests");
 
             migrationBuilder.DropTable(
                 name: "Responds");
@@ -203,6 +187,9 @@ namespace ATS.DAL.Migrations
 
             migrationBuilder.DropTable(
                 name: "Terminals");
+
+            migrationBuilder.DropTable(
+                name: "Requests");
         }
     }
 }

@@ -160,11 +160,12 @@ namespace ATS.DAL.Models
 
         protected void UnMapTerminalFromPort(ITerminal terminal, IPort port)
         {
-            _portMapping.Remove(terminal.PhoneNumber);
+            using (terminal)
+            using (port)
+            {
+                _portMapping.Remove(terminal.PhoneNumber);
 
-            terminal.Dispose();
-
-            port.Dispose();
+            }
         }
 
         protected void SetPortStateWhenConnectionInterrupted(string source, string target)
@@ -222,7 +223,7 @@ namespace ATS.DAL.Models
         }
 
 
-        public void onTerminateContract(object sender, Contract contract)
+        public void OnTerminateContract(object sender, Contract contract)
         {
             TerminateContract?.Invoke(sender, contract);
         }

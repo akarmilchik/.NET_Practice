@@ -3,8 +3,10 @@ using System;
 
 namespace ATS.DAL.Interfaces
 {
-    public interface IPort : IEntity, IDisposable
+    public interface IPort : IDisposable
     {
+        int Id { get; set; }
+
         PortState PortState { get; set; }
 
         event EventHandler<PortState> StateChanged;

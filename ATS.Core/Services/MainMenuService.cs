@@ -1,7 +1,5 @@
 ﻿using ATS.Core.Interfaces;
-using ATS.DAL;
 using ATS.DAL.Constants;
-using ATS.DAL.Models;
 using System.Linq;
 
 namespace ATS.Core.Services
@@ -11,20 +9,19 @@ namespace ATS.Core.Services
         private readonly IPrintService _printService;
         private readonly IInputService _inputService;
         private readonly IDataService _dataService;
-        private readonly DataContext _context;
 
-        public MainMenuService(IPrintService printService, IInputService inputService, IDataService dataService, DataContext context)
+        public MainMenuService(IPrintService printService, IInputService inputService, IDataService dataService)
         {
             _printService = printService;
             _inputService = inputService;
             _dataService = dataService;
-            _context = context;
         }
 
         public void ClientMenuHandler()
         {
             var isWorking = true;
-            var chosenCliendId = 1;
+
+            var chosenClientId = 1;
 
             while (isWorking)
             {
@@ -39,46 +36,73 @@ namespace ATS.Core.Services
                     switch (clientMenuItem)
                     {
                         case ClientMenuItems.BackToMain:
+
                             isWorking = false;
+
                             break;
 
                         case ClientMenuItems.ShowCurrentClient:
-                            PrintBasicClientData(chosenCliendId);
+
+                            PrintBasicClientData(chosenClientId);
+
                             break;
 
                         case ClientMenuItems.ChooseClientHandle:
+
                             _printService.PrintLine();
 
                             _dataService.GetClients().ToList().ForEach(c => _printService.PrintItemValue(c.ToString()));
 
                             _printService.PrintChooseProposal("client");
 
-                            chosenCliendId = _inputService.ReadInputKey();
+                            chosenClientId = _inputService.ReadInputKey();
+
                             break;
 
                         case ClientMenuItems.ConnectTerminal:
-                            //switch to online
+
+                            ConnectTerminal(chosenClientId);
 
                             break;
 
                         case ClientMenuItems.DisconnectTerminal:
+
+                            DisonnectTerminal(chosenClientId);
+
                             break;
 
                         case ClientMenuItems.Call:
-                            Call(chosenCliendId);
+
+                            Call(chosenClientId);
+
                             break;
 
                         case ClientMenuItems.DropCall:
+
+                            _dataService.DropCall(chosenClientId);
+
+                            _printService.PrintCallState("dropped");
+
                             break;
 
                         case ClientMenuItems.AnswerCall:
+
+                            _dataService.AnswerCall(chosenClientId);
+
+                            _printService.PrintCallState("answered");
+
                             break;
 
                         case ClientMenuItems.ShowCallReport:
+
+                            _dataService.CreateReport(chosenClientId);
+
                             break;
 
                         default:
+
                             _printService.PrintIncorrectChoose();
+
                             break;
                     }
                 }
@@ -125,11 +149,15 @@ namespace ATS.Core.Services
         {
             if (clientId != 0)
             {
-                _dataService.GetClientById(clientId).ToString();
-                _dataService.GetContractByClientId(clientId).ToString();
-                _dataService.GetPortByClientId(clientId).ToString();
-                _dataService.GetTerminalByClientId(clientId).ToString();
-                _dataService.GetTariffPlanByClientId(clientId).ToString();
+                _printService.PrintItemValue(_dataService.GetClientById(clientId).ToString());
+
+                _printService.PrintItemValue(_dataService.GetContractByClientId(clientId).ToString());
+
+                _printService.PrintItemValue(_dataService.GetPortByClientId(clientId).ToString());
+
+                _printService.PrintItemValue(_dataService.GetTerminalByClientId(clientId).ToString());
+
+                _printService.PrintItemValue(_dataService.GetTariffPlanByClientId(clientId).ToString());
             }
             else 
             {
@@ -142,8 +170,7 @@ namespace ATS.Core.Services
             _dataService.GetContracts().ToList().ForEach(c => _printService.PrintItemValue(c.ToString()));
         }
 
-
-        public void Call(int chosenCliendId)
+        public void Call(int chosenClientId)
         {
             _printService.PrintChooseProposal("terminal");
 
@@ -153,7 +180,23 @@ namespace ATS.Core.Services
 
             var targetTerminalId = _inputService.ReadInputKey();
 
-            _dataService.ConnectToTerminal(chosenCliendId, targetTerminalId);
+            _dataService.CallToTerminal(chosenClientId, targetTerminalId);
+
+            _printService.PrintCallState("started");
+        }
+
+        public void ConnectTerminal(int chosenCliendId)
+        {
+            _dataService.ConnectTerminalToPort(chosenCliendId);
+
+            _printService.PrintSuccessConnect();
+        }
+
+        public void DisonnectTerminal(int chosenCliendId)
+        {
+            _dataService.DisconnectTerminalFromPort(chosenCliendId);
+
+            _printService.PrintSuccessDisonnect();
         }
 
         public void ConcludeContract()

@@ -24,24 +24,28 @@ namespace ATS.DAL
 
         public override int SaveChanges() => base.SaveChanges();
 
-        /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlite($"{ReadConfig.ReadSetting("DBConnection")}");
-        }*/
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<ClientEntity>().ToTable("Clients");
+
             modelBuilder.Entity<ContractEntity>().ToTable("Contracts");
+
             modelBuilder.Entity<SecondMinuteTariffPlanEntity>().ToTable("TariffPlans");
+
             modelBuilder.Entity<RequestEntity>().ToTable("Requests");
+
             modelBuilder.Entity<OutgoingRequestEntity>().ToTable("OutgoingRequests");
+
             modelBuilder.Entity<RespondEntity>().ToTable("Responds");
-            modelBuilder.Entity<CallDetailsEntity>().ToTable("CallsDetails");
+
+            modelBuilder.Entity<CallDetailsEntity>().ToTable("CallDetails");
+
             modelBuilder.Entity<PortEntity>().ToTable("Ports");
+
             modelBuilder.Entity<StationEntity>().ToTable("Stations");
+
             modelBuilder.Entity<TerminalEntity>().ToTable("Terminals");
         }
     }

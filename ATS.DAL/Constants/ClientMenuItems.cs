@@ -3,8 +3,8 @@
     public enum ClientMenuItems
     {
         BackToMain,
-        ChooseClientHandle,
         ShowCurrentClient,
+        ChooseClientHandle,
         ConnectTerminal,
         DisconnectTerminal,
         Call,
