@@ -1,12 +1,11 @@
-﻿using ATS.DAL.Interfaces.Services;
-using ATS.DAL.Models;
+﻿using ATS.DAL.Models;
 using ATS.DAL.Models.Requests;
 using ATS.DAL.Models.Responds;
 using System;
 
 namespace ATS.DAL.Interfaces
 {
-    public interface ITerminal : IClearEventsService, IEntity
+    public interface ITerminal : IEntity, IDisposable
     {
         string PhoneNumber { get; set; }
 
@@ -22,13 +21,15 @@ namespace ATS.DAL.Interfaces
 
         event EventHandler Offline;
 
+        public event EventHandler Connecting;
+
+        public event EventHandler Disconnecting;
+
         void Call(string targetPhoneNumber);
 
         void Drop();
 
         void Answer();
-
-        void Connect(IPort port);
 
         void Disconect(IPort port);
 

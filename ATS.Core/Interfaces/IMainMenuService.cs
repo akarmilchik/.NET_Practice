@@ -6,6 +6,7 @@
 
         void StationMenuHandler();
 
-        void PrintBasicData();
+        void PrintBasicClientData(int clientId);
+        void ConcludeContract();
     }
 }

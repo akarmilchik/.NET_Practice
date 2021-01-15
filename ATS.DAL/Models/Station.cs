@@ -1,6 +1,5 @@
 ﻿using ATS.DAL.Constants;
 using ATS.DAL.Interfaces;
-using ATS.DAL.Interfaces.Billing;
 using ATS.DAL.Models.Billing;
 using ATS.DAL.Models.Requests;
 using ATS.DAL.Models.Responds;
@@ -38,6 +37,10 @@ namespace ATS.DAL.Models
             _tariffPlans = tariffPlans;
         }
 
+        public event EventHandler<CallDetails> CallDetailsPrepared;
+        public event EventHandler<Contract> TerminateContract;
+
+
         public void OnIncomingCallRespond(object sender, Respond respond)
         {
             var registeredCallInfo = GetConnectionInfo(respond.SourcePhoneNumber);
@@ -71,6 +74,7 @@ namespace ATS.DAL.Models
         public void Add(Terminal terminal)
         {
             var freePort = _ports.Except(_portMapping.Values).FirstOrDefault();
+
             if (freePort != null)
             {
                 _terminals.Add(terminal);
@@ -82,13 +86,6 @@ namespace ATS.DAL.Models
             }
         }
 
-        public event EventHandler<CallDetails> CallDetailsPrepared;
-
-        public void ClearEvents()
-        {
-            this.CallDetailsPrepared = null;
-        }
-
         public virtual void RegisterEventHandlersForPort(IPort port)
         {
             port.StateChanged += (sender, state) => { Console.WriteLine("Station detected the port changed its State to {0}", state); };
@@ -96,13 +93,8 @@ namespace ATS.DAL.Models
 
         public virtual void RegisterEventHandlersForTerminal(ITerminal terminal)
         {
-            terminal.OutgoingConnection += this.OnOutgoingRequest;
+            terminal.OutgoingConnection += OnOutgoingRequest;
             terminal.IncomingRespond += OnIncomingCallRespond;
-        }
-
-        protected virtual void OnCallDetailsPrepared(object sender, CallDetails callDetails)
-        {
-            CallDetailsPrepared?.Invoke(sender, callDetails);
         }
 
         protected ITerminal GetTerminalByPhoneNumber(string number)
@@ -141,7 +133,7 @@ namespace ATS.DAL.Models
                 }
                 else
                 {
-                    OnCallDetailsPrepared(this, callDetails);
+                    CallDetailsPrepared?.Invoke(this, callDetails);
                 }
             }
         }
@@ -169,9 +161,9 @@ namespace ATS.DAL.Models
         {
             _portMapping.Remove(terminal.PhoneNumber);
 
-            terminal.ClearEvents();
+            terminal.Dispose();
 
-            port.ClearEvents();
+            port.Dispose();
         }
 
         protected void SetPortStateWhenConnectionInterrupted(string source, string target)
@@ -197,7 +189,7 @@ namespace ATS.DAL.Models
 
             SetPortStateWhenConnectionInterrupted(callDetails.Source, callDetails.Target);
 
-            OnCallDetailsPrepared(this, callDetails);
+            CallDetailsPrepared?.Invoke(this, callDetails);
         }
 
         protected void InterruptActiveCall(CallDetails callDetails)
@@ -208,7 +200,7 @@ namespace ATS.DAL.Models
 
             SetPortStateWhenConnectionInterrupted(callDetails.Source, callDetails.Target);
 
-            OnCallDetailsPrepared(this, callDetails);
+            CallDetailsPrepared?.Invoke(this, callDetails);
         }
 
         protected void MakeCallActive(CallDetails callDetails)
@@ -228,11 +220,21 @@ namespace ATS.DAL.Models
             }
         }
 
-        public event EventHandler<Contract> TerminateContract;
 
         public void onTerminateContract(object sender, Contract contract)
         {
             TerminateContract?.Invoke(sender, contract);
+        }
+
+        public override string ToString()
+        {
+            return $"Station: {Name}";
+        }
+
+        public void Dispose()
+        {
+            CallDetailsPrepared = null;
+            TerminateContract = null;
         }
     }
 }

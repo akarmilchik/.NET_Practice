@@ -24,6 +24,16 @@ namespace ATS.Core.Services
             _mapper = MapperFactory.InitMapper();
         }
 
+        public void ConnectToTerminal(int chosenCliendId, int targetTerminalId)
+        {
+            var contract = GetContractByClientId(chosenCliendId);
+
+            contract.Terminal.Call(GetTerminalPhoneNumberById(targetTerminalId));
+
+            _context.SaveChanges();
+        }
+
+
         public void AddContractToDb(ContractEntity contract)
         {
             _context.Contracts.Add(contract);
@@ -51,6 +61,7 @@ namespace ATS.Core.Services
         public int GetTerminalIdByClientId(int clientId) => _context.Contracts.Where(c => c.Client_Id == clientId).Select(c => c.Terminal_Id).FirstOrDefault();
         public int GetPortIdByTerminalId(int terminalId) => _context.Terminals.Where(t => t.Id == terminalId).Select(t => t.ProvidedPort_Id).FirstOrDefault();
         public int GetTariffPlanIdByClientId(int clientId) => _context.Contracts.Where(c => c.Client_Id == clientId).Select(c => c.TariffPlan_ID).FirstOrDefault();
+        public string GetTerminalPhoneNumberById(int terminalId) => _context.Terminals.Where(t => t.Id == terminalId).Select(t => t.PhoneNumber).FirstOrDefault();
 
         public IPort GetPortByClientId(int clientId)
         {

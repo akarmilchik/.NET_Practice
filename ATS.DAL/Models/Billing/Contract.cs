@@ -16,5 +16,11 @@ namespace ATS.DAL.Models.Billing
         public Contract()
         {
         }
+
+        public override string ToString()
+        {
+            return $"   Contract\n      Start date: {ContractStartDate:d}\n      Close date: {ContractCloseDate:d}";
+        }
+        
     }
 }

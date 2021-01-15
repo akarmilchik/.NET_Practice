@@ -12,11 +12,12 @@ namespace ATS.Core.Interfaces
         IClient GetClientById(int clientId);
         IEnumerable<IClient> GetClients();
         IEnumerable<IContract> GetContracts();
+        IEnumerable<ITerminal> GetTerminals();
         IContract GetContractByClientId(int clientId);
         IPort GetPortByClientId(int clientId);
         ITerminal GetTerminalByClientId(int clientId);
         int GetTariffPlanIdByClientId(int clientId);
         ITariffPlan GetTariffPlanByClientId(int clientId);
-        IEnumerable<ITerminal> GetTerminals();
+        void ConnectToTerminal(int chosenCliendId, int targetTerminalId);
     }
 }

@@ -11,24 +11,25 @@ namespace ATS.Core.Services
     {
         public void PrintWelcome()
         {
-            Console.WriteLine("Welcome to ATS And Billing Station, please choose what you would like to do!");
+            Console.Title = "ATS and Billing system";
+            Console.WriteLine("\n\nWelcome to ATS And Billing system, please choose what you would like to do!");
         }
 
         public void PrintMainMenu()
         {
-            Console.WriteLine("\nActions:\n 1. See all data about clients and tariffs \n 2. Open clients menu \n 3. Open station menu \n 0. Close");
+            Console.WriteLine("\nActions:\n 1. See all data about clients and tariffs \n 2. Open station menu \n 3. Open clients menu \n 0. Close");
             Console.Write("Input: ");
         }
 
         public void PrintClientsMenu()
         {
-            Console.WriteLine("\nActions:\n 1. See all data about clients and tariffs \n 2. Open clients menu \n 3. Open station menu \n 0. Close");
+            Console.WriteLine("\n\nActions:\n 1. Show current client \n 2. Choose client as current \n 3. Connect to station port \n 4. Disconnect from station port \n 5. Make call to another client \n 6. Drop an incoming call \n 7. Answer an incoming call \n 8. Show calls report \n 0. Back to main menu ");
             Console.Write("Input: ");
         }
 
         public void PrintStationMenu()
         {
-            Console.WriteLine("\nActions:\n 1. Conclude contract with client \n 0. Close");
+            Console.WriteLine("\n\nActions:\n 1. Conclude contract with client \n 0. Back to main menu");
             Console.Write("Input: ");
         }
 
@@ -45,41 +46,17 @@ namespace ATS.Core.Services
 
         public void PrintChooseTerminalToCall()
         {
-            Console.Write("\nChoose terminal number from the list: ");
+            Console.WriteLine("\nChoose terminal number from the list: ");
+        }
+
+        public void PrintChooseClientToConcludeContract()
+        {
+            Console.WriteLine("\nChoose client to coclude a contract: ");
         }
 
         public void PrintIncorrectChoose()
         {
-            Console.WriteLine("\n\nPlease choose correct menu item.");
-        }
-
-        public void PrintData(ITerminal terminal)
-        {
-            Console.WriteLine($"   Terminal\n      Number: {terminal.PhoneNumber}");
-        }
-
-        public void PrintData(IPort port)
-        {
-            Console.WriteLine($"   Provided port\n      №: {port.Id}\n      State: {port.PortState}");
-        }
-
-        public void PrintData(IContract contract)
-        {
-            Console.WriteLine($"   Contract\n      Start date: {contract.ContractStartDate}\n      Close date: {contract.ContractCloseDate}");
-        }
-
-        public void PrintData(ITariffPlan tariffPlan)
-        {
-            Console.WriteLine($"   Tariff plan\n      Name: {tariffPlan.Name}\n      Minute cost: {tariffPlan.MinuteCost}$");
-        }
-
-        public void PrintData(IStation station)
-        {
-            Console.WriteLine($"Station: {station.Name}");
-        }
-        public void PrintData(IClient client)
-        {
-            Console.WriteLine($"Client №{client.Id}: {client.FirstName} {client.LastName}");
+            Console.WriteLine("\n\nPlease input correct number.");
         }
 
         public void PrintDataArray(IEnumerable<IClient> clients)

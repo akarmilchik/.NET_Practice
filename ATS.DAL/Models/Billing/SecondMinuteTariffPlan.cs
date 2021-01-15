@@ -27,8 +27,8 @@ namespace ATS.DAL.Models.Billing
         public SecondMinuteTariffPlan(int id, string planName, decimal minuteCost)
         {
             Id = id;
-            _minuteCost = minuteCost;
             Name = planName;
+            _minuteCost = minuteCost;
         }
 
         public decimal CalculateCallCost(ICallDetails callDetails, IEnumerable<ICallDetails> callsForBillingPeriod)
@@ -38,6 +38,11 @@ namespace ATS.DAL.Models.Billing
             callsForBillingPeriod.Aggregate(sum, (seed, x) => seed + x.DurationTime);
 
             return (decimal)(sum.TotalMinutes + callDetails.DurationTime.TotalMinutes) * _minuteCost;
+        }
+
+        public override string ToString()
+        {
+            return $"   Tariff plan\n      Name: {Name}\n      Minute cost: {MinuteCost}$";
         }
     }
 }

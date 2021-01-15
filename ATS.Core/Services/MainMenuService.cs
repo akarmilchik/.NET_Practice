@@ -10,8 +10,6 @@ namespace ATS.Core.Services
         private readonly IInputService _inputService;
         private readonly IDataService _dataService;
         private readonly DataContext _context;
-        private int chosenClientId = 1;
-
 
         public MainMenuService(IPrintService printService, IInputService inputService, IDataService dataService, DataContext context)
         {
@@ -23,7 +21,8 @@ namespace ATS.Core.Services
 
         public void ClientMenuHandler()
         {
-            bool isWorking = true;
+            var isWorking = true;
+            var chosenCliendId = 1;
 
             while (isWorking)
             {
@@ -42,26 +41,29 @@ namespace ATS.Core.Services
                             break;
 
                         case ClientMenuItems.ShowCurrentClient:
-                            //PrintBasicData();
+                            PrintBasicClientData(chosenCliendId);
                             break;
 
                         case ClientMenuItems.ChooseClientHandle:
                             _printService.PrintDataArray(_dataService.GetClients());
                             _printService.PrintChooseClient();
-                            chosenClientId = _inputService.ReadInputKey();
+                            chosenCliendId = _inputService.ReadInputKey();
                             break;
 
                         case ClientMenuItems.ConnectTerminal:
-                            _printService.PrintChooseTerminalToCall();
-                            _printService.PrintDataArray(_dataService.GetTerminals());
-                            _printService.PrintInputProposal();
-                            _inputService.ReadInputKey();
+                            //switch to online
+
                             break;
 
                         case ClientMenuItems.DisconnectTerminal:
                             break;
 
                         case ClientMenuItems.Call:
+                            _printService.PrintChooseTerminalToCall();
+                            _printService.PrintDataArray(_dataService.GetTerminals());
+                            _printService.PrintInputProposal();
+                            var targetTerminalId = _inputService.ReadInputKey();
+                            _dataService.ConnectToTerminal(chosenCliendId, targetTerminalId);
                             break;
 
                         case ClientMenuItems.DropCall:
@@ -102,6 +104,7 @@ namespace ATS.Core.Services
                             break;
 
                         case StationMenuItems.ConcludeAContract:
+                            ConcludeContract();
                             break;
 
                         default:
@@ -112,13 +115,30 @@ namespace ATS.Core.Services
             }
         }
 
-        public void PrintBasicData()
+        public void PrintBasicClientData(int clientId)
         {
-            _printService.PrintData(_dataService.GetClientById(chosenClientId));
-            _printService.PrintData(_dataService.GetContractByClientId(chosenClientId));
-            _printService.PrintData(_dataService.GetPortByClientId(chosenClientId));
-            _printService.PrintData(_dataService.GetTerminalByClientId(chosenClientId));
-            _printService.PrintData(_dataService.GetTariffPlanByClientId(chosenClientId));
+            if (clientId != 0)
+            {
+                _dataService.GetClientById(clientId).ToString();
+                _dataService.GetContractByClientId(clientId).ToString();
+                _dataService.GetPortByClientId(clientId).ToString();
+                _dataService.GetTerminalByClientId(clientId).ToString();
+                _dataService.GetTariffPlanByClientId(clientId).ToString();
+            }
+            else 
+            {
+                _printService.PrintIncorrectChoose();
+            }
+        }
+
+        public void ConcludeContract()
+        {
+            _printService.PrintChooseClientToConcludeContract();
+            _printService.PrintDataArray(_dataService.GetClients());
+            _printService.PrintInputProposal();
+
+            var targetClientId = _inputService.ReadInputKey();
+
         }
     }
 }

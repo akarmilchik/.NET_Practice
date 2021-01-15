@@ -28,17 +28,16 @@ namespace ATS.DAL.Models
             }
         }
 
-        public event EventHandler<PortState> StateChanged;
-
         public Port()
         {
-            StateChanged += OnStateChanged;
         }
 
-        protected virtual void OnStateChanged(object sender, PortState state)
-        {
-            StateChanged?.Invoke(sender, state);
-        }
+        public event EventHandler<PortState> StateChanged;
+        public event EventHandler<PortState> StateChanging;
+
+        protected virtual void OnStateChanged(object sender, PortState state) => StateChanged?.Invoke(sender, state);
+        protected virtual void OnStateChanging(object sender, PortState newState) => StateChanging?.Invoke(sender, newState);
+
 
         public void OnOutgoingCall(object sender, Request request)
         {
@@ -48,18 +47,24 @@ namespace ATS.DAL.Models
             }
         }
 
-        public void ClearEvents()
-        {
-            StateChanged = null;
-        }
-
         public virtual void RegisterEventHandlersForTerminal(ITerminal terminal)
         {
-            terminal.OutgoingConnection += this.OnOutgoingCall;
+            terminal.OutgoingConnection += OnOutgoingCall;
 
             terminal.Online += (port, args) => { PortState = PortState.Enabled; };
 
             terminal.Offline += (port, args) => { PortState = PortState.Disabled; };
+        }
+
+        public override string ToString()
+        {
+            return $"   Provided port\n      №: {Id}\n      State: {PortState}";
+        }
+
+        public void Dispose()
+        {
+            StateChanged = null;
+            StateChanging = null;
         }
     }
 }
