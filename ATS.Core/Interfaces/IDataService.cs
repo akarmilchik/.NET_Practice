@@ -34,5 +34,7 @@ namespace ATS.Core.Interfaces
         void DropCall(int chosenClientId);
         void AnswerCall(int chosenCliendId);
         void CreateReport(int chosenClientId);
+        IEnumerable<ITerminal> GetUnmappedTerminals();
+        IEnumerable<IPort> GetUnmappedPorts();
     }
 }

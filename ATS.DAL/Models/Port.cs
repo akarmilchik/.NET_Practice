@@ -28,10 +28,6 @@ namespace ATS.DAL.Models
             }
         }
 
-        public Port()
-        {
-        }
-
         public event EventHandler<PortState> StateChanged;
 
         public event EventHandler<PortState> StateChanging;

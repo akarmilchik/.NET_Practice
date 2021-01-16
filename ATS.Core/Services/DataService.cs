@@ -1,6 +1,7 @@
 ﻿using ATS.Core.Interfaces;
 using ATS.Core.Mapper;
 using ATS.DAL;
+using ATS.DAL.Constants;
 using ATS.DAL.Interfaces;
 using ATS.DAL.Interfaces.Billing;
 using ATS.DAL.Models;
@@ -148,7 +149,11 @@ namespace ATS.Core.Services
 
         public IEnumerable<IPort> GetPorts() => _mapper.Map<IEnumerable<PortEntity>, IEnumerable<Port>>(_context.Ports.AsEnumerable());
 
+        public IEnumerable<IPort> GetUnmappedPorts() => _mapper.Map<IEnumerable<PortEntity>, IEnumerable<Port>>(_context.Ports.Where(p => p.PortState == PortState.Disabled).AsEnumerable());
+
         public IEnumerable<IContract> GetContracts() => _mapper.Map<IEnumerable<ContractEntity>, IEnumerable<Contract>>(_context.Contracts.AsEnumerable());
+
+        public IEnumerable<ITerminal> GetUnmappedTerminals() => _mapper.Map<IEnumerable<TerminalEntity>, IEnumerable<Terminal>>(_context.Terminals.Where(t => t.ProvidedPort_Id == 0).AsEnumerable());
 
         public IClient GetClientById(int clientId) => _mapper.Map<ClientEntity, Client>(_context.Clients.Where(c => c.Id == clientId).FirstOrDefault());
 

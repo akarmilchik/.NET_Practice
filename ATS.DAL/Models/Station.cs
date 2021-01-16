@@ -22,10 +22,6 @@ namespace ATS.DAL.Models
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public Station()
-        {
-        }
-
         public Station(ICollection<Terminal> terminals, ICollection<Port> ports, ICollection<Contract> contracts, ICollection<SecondMinuteTariffPlan> tariffPlans)
         {
             _terminals = terminals;

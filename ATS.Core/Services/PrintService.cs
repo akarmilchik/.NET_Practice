@@ -41,7 +41,7 @@ namespace ATS.Core.Services
 
         public void PrintInputCloseDate()
         {
-            Console.Write($"\n\nInput close date in format (dd.mm.yy): ");
+            Console.Write($"\n\nInput the closing date of the contract in format (dd.mm.yy): ");
         }
 
         public void ContractConcluded()

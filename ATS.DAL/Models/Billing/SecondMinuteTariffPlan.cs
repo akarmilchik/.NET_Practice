@@ -20,10 +20,6 @@ namespace ATS.DAL.Models.Billing
             set { _minuteCost = value; }
         }
 
-        public SecondMinuteTariffPlan()
-        {
-        }
-
         public SecondMinuteTariffPlan(int id, string planName, decimal minuteCost)
         {
             Id = id;

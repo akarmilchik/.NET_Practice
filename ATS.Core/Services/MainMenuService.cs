@@ -219,7 +219,7 @@ namespace ATS.Core.Services
 
             _printService.PrintLine();
 
-            _dataService.GetTerminals().ToList().ForEach(t => _printService.PrintItemValue(t.ToString()));
+            _dataService.GetUnmappedTerminals().ToList().ForEach(t => _printService.PrintItemValue(t.ToString()));
 
             _printService.PrintInputProposal();
 
@@ -229,13 +229,15 @@ namespace ATS.Core.Services
 
             _printService.PrintLine();
 
-            _dataService.GetPorts().ToList().ForEach(p => _printService.PrintItemValue(p.ToString()));
+            _dataService.GetUnmappedPorts().ToList().ForEach(p => _printService.PrintItemValue(p.ToString()));
 
             _printService.PrintInputProposal();
 
             var targetPortId = _inputService.ReadInputKey();
 
             _dataService.ConcludeContract(targetClientId, targetPortId, targetTerminalId, clodeDate);
+
+            _printService.PrintLine();
 
             _printService.ContractConcluded();
         }

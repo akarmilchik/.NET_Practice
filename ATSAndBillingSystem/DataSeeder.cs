@@ -34,9 +34,9 @@ namespace ATS
         private static readonly List<PortEntity> Ports = new List<PortEntity>
         {
             new PortEntity { PortState = PortState.Enabled },
-            new PortEntity { PortState = PortState.Enabled },
-            new PortEntity { PortState = PortState.Enabled },
-            new PortEntity { PortState = PortState.Enabled }
+            new PortEntity { PortState = PortState.Disabled },
+            new PortEntity { PortState = PortState.Disabled },
+            new PortEntity { PortState = PortState.Disabled }
         };
 
         private static readonly List<TerminalEntity> Terminals = new List<TerminalEntity>

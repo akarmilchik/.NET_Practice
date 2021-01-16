@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace ATS.Core.Mapper
 {
@@ -7,11 +6,14 @@ namespace ATS.Core.Mapper
     {
         public static IMapper InitMapper()
         {
-            var mappingProfile = new MappingProfile();
+            var entityToModelProfile = new EntityToModelMappingProfile();
+            var modelToEntityProfile = new ModelToEntityMappingProfile();
 
-            var mapperConfig = new MapperConfiguration(cfg => cfg.AddProfile(mappingProfile));
+            var mapperConfig = new MapperConfiguration(cfg => cfg.AddProfiles(new Profile[] { entityToModelProfile, modelToEntityProfile}));
 
-            return mapperConfig.CreateMapper();
+            //return mapperConfig.CreateMapper();
+
+            return new AutoMapper.Mapper(mapperConfig);
 
         }
     }

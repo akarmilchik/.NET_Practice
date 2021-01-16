@@ -13,10 +13,6 @@ namespace ATS.DAL.Models.Billing
         public ITerminal Terminal { get; set; }
         public ITariffPlan TariffPlan { get; set; }
 
-        public Contract()
-        {
-        }
-
         public event EventHandler ContractConclude;
 
         protected virtual void OnContractConclude(EventArgs e)

@@ -18,7 +18,15 @@ namespace ATS.Core.Services
 
         public DateTime ReadInputDate()
         {
-            return DateTime.Parse(Console.ReadLine());
+            try
+            {
+                return DateTime.Parse(Console.ReadLine());
+            }
+            catch (FormatException e)
+            {
+                Console.WriteLine($"Enter invalid date: {e.Message}");
+                return new DateTime(9999, 1, 1);
+            }
         }
     }
 }

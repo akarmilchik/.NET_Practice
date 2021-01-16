@@ -9,21 +9,11 @@ namespace ATS.DAL.Models
 {
     public class Terminal : ITerminal
     {
-        private readonly string _phoneNumber;
         private Request ServerIncomingRequest { get; set; }
         protected bool IsOnline { get; private set; }
         public int Id { get; set; }
         public string PhoneNumber { get; set; }
         public Port ProvidedPort { get; set; }
-
-        public Terminal()
-        {
-        }
-
-        public Terminal(string phoneNumber)
-        {
-            _phoneNumber = phoneNumber;
-        }
 
         public void Answer()
         {
@@ -31,7 +21,7 @@ namespace ATS.DAL.Models
             {
                 var respond =  new Respond()
                 {
-                    SourcePhoneNumber = _phoneNumber,
+                    SourcePhoneNumber = PhoneNumber,
                     State = RequestRespondState.Accept,
                     Request = ServerIncomingRequest
                 };
@@ -48,7 +38,7 @@ namespace ATS.DAL.Models
             {
                 ServerIncomingRequest = new OutgoingRequest()
                 {
-                    SourcePhoneNumber = _phoneNumber,
+                    SourcePhoneNumber = PhoneNumber,
                     TargetPhoneNumber = targetPhoneNumber
                 };
 
@@ -79,7 +69,7 @@ namespace ATS.DAL.Models
             {
                 var respond = new Respond()
                 {
-                    SourcePhoneNumber = _phoneNumber,
+                    SourcePhoneNumber = PhoneNumber,
                     State = RequestRespondState.Drop,
                     Request = ServerIncomingRequest
                 };

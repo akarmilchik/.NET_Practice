@@ -8,10 +8,9 @@ using AutoMapper;
 
 namespace ATS.Core.Mapper
 {
-    public class MappingProfile : Profile
+    public class EntityToModelMappingProfile : Profile
     {
-        
-        public MappingProfile()
+        public EntityToModelMappingProfile()
         {
             CreateMap<ClientEntity, Client>();
 
@@ -36,7 +35,7 @@ namespace ATS.Core.Mapper
             CreateMap<StationEntity, Station>();
 
             CreateMap<TerminalEntity, Terminal>()
-                .ForPath(p => p.ProvidedPort.Id, opt => opt.MapFrom(p => p.ProvidedPort_Id)); ;
+                .ForPath(p => p.ProvidedPort.Id, opt => opt.MapFrom(p => p.ProvidedPort_Id));
         }
     }
 }
