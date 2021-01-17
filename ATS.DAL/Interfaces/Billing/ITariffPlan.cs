@@ -7,6 +7,6 @@ namespace ATS.DAL.Interfaces.Billing
         int Id { get; set; }
         string Name { get; set; }
         decimal MinuteCost { get; set; }
-        decimal CalculateCallCost(ICallDetails callDetails, IEnumerable<ICallDetails> callsForBillingPeriod);
+        decimal CalculateCallCost(IEnumerable<ICallDetails> callsForBillingPeriod);
     }
 }

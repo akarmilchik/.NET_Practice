@@ -8,6 +8,7 @@ using ATS.DAL.Models;
 using ATS.DAL.Models.Billing;
 using ATS.DAL.ModelsEntities;
 using ATS.DAL.ModelsEntities.Billing;
+using ATS.DAL.Repository;
 using AutoMapper;
 using System;
 using System.Collections.Generic;
@@ -21,10 +22,31 @@ namespace ATS.Core.Services
 
         private readonly IMapper _mapper;
 
+        private DataGenericRepository<ClientEntity> clientRepo;
+        public DataGenericRepository<ContractEntity> contractRepo;
+        private DataGenericRepository<SecondMinuteTariffPlanEntity> tariffPlanRepo;
+        private DataGenericRepository<OutgoingRequestEntity> outgoingRequestRepo;
+        private DataGenericRepository<RequestEntity> requestRepo;
+        private DataGenericRepository<RespondEntity> respondRepo;
+        private DataGenericRepository<CallDetailsEntity> callDetailsRepo;
+        private DataGenericRepository<PortEntity> portRepo;
+        private DataGenericRepository<StationEntity> stationRepo;
+        private DataGenericRepository<TerminalEntity> terimnalRepo;
+
         public DataService(DataContext context)
         {
             _context = context;
             _mapper = MapperFactory.InitMapper();
+            clientRepo = new DataGenericRepository<ClientEntity>(context);
+            contractRepo = new DataGenericRepository<ContractEntity>(context);
+            tariffPlanRepo = new DataGenericRepository<SecondMinuteTariffPlanEntity>(context);
+            outgoingRequestRepo = new DataGenericRepository<OutgoingRequestEntity>(context);
+            requestRepo = new DataGenericRepository<RequestEntity>(context);
+            respondRepo = new DataGenericRepository<RespondEntity>(context);
+            portRepo = new DataGenericRepository<PortEntity>(context);
+            stationRepo = new DataGenericRepository<StationEntity>(context);
+            terimnalRepo = new DataGenericRepository<TerminalEntity>(context);
+            callDetailsRepo = new DataGenericRepository<CallDetailsEntity>(context);
         }
 
         public void CallToTerminal(int chosenCliendId, int targetTerminalId)
@@ -40,7 +62,7 @@ namespace ATS.Core.Services
         {
             var contract = GetContractByClientId(chosenCliendId);
 
-            contract.Terminal.Drop();
+            contract.Terminal.DropIncomingRespond();
 
             _context.SaveChanges();
         }
@@ -58,14 +80,14 @@ namespace ATS.Core.Services
         {
             var terminal = GetTerminalByClientId(chosenCliendId);
 
-            terminal.Connect(terminal.ProvidedPort);
+            terminal.ConnectToPort(terminal.ProvidedPort);
         }
 
         public void DisconnectTerminalFromPort(int chosenCliendId)
         {
             var terminal = GetTerminalByClientId(chosenCliendId);
 
-            terminal.Disconect(terminal.ProvidedPort);
+            terminal.DisconectFromPort(terminal.ProvidedPort);
         }
 
         public void ConcludeContract(int clientId, int portId, int terminalId, DateTime closeDate)
@@ -74,25 +96,32 @@ namespace ATS.Core.Services
             {
                 ContractStartDate = DateTime.Today,
                 ContractCloseDate = closeDate,
-                Client = GetClientById(clientId),
-                Terminal = GetTerminalById(terminalId),
-                TariffPlan = GetTariffPlan()
+                Client = GetClientById(clientId) as Client,
+                Terminal = GetTerminalById(terminalId) as Terminal,
+                TariffPlan = GetTariffPlan() as SecondMinuteTariffPlan
             };
 
-            contract.Terminal.RegisterEventHandlersForContract(contract);
+            contract.OnContractConcluded(contract.Terminal as Terminal);
 
-            AddContractToDb(contract);
+            contractRepo.Add(_mapper.Map<Contract, ContractEntity>(contract));
         }
 
-        public void CreateReport(int chosenClientId)
+        public decimal CalculateMonthCallCost(int chosenClientId, IEnumerable<ICallDetails> callsDetails)
         {
             var contract = GetContractByClientId(chosenClientId);
 
-            var callsDetails = _context.CallsDetails.Where(cd => cd.Target == contract.Terminal.PhoneNumber).FirstOrDefault();
-
-            //contract.TariffPlan.CalculateCallCost(callsDetails, )
+            return contract.TariffPlan.CalculateCallCost(callsDetails);
         }
-        /*
+
+        public IEnumerable<ICallDetails> GetCallDetailsInPeriod(int chosenClientId, DateTime startReportDay, DateTime lastReportDay)
+        {
+            var contract = GetContractByClientId(chosenClientId);
+
+            var callsDetails = callDetailsRepo.Get().Where(cd => cd.Source == contract.Terminal.PhoneNumber && cd.StartedTime >= startReportDay && cd.StartedTime.AddSeconds(cd.DurationTime.TotalSeconds) <= lastReportDay).AsEnumerable();
+            
+            return _mapper.Map<IEnumerable<CallDetailsEntity>, IEnumerable<CallDetails>>(callsDetails);
+        }
+
         public void CalculateCost(ICallDetails callDetails)
         {
             if (callDetails == null)
@@ -100,51 +129,34 @@ namespace ATS.Core.Services
                 throw new ArgumentNullException("Source terminal is null");
             }
 
-            var contract = GetActiveContractForTerminal(callDetails.Source, callDetails.StartedTime);
+            var contract = GetActiveContractForTerminal(GetTerminalByPhoneNumber(callDetails.Source), callDetails.StartedTime);
+
             if (contract == null)
             {
-                throw new ArgumentException(String.Format("No active contract is for terminal {0} on {1}", callDetails.Source.TerminalNumber, callDetails.StartedTime));
+                throw new ArgumentException(String.Format("No active contract is for terminal {0} on {1}", callDetails.Source, callDetails.StartedTime));
             }
 
-            var plan = GetActiveBillingPlanForContract(contract, callDetails.StartedTime);
-            if (plan == null)
+            if (contract.TariffPlan == null)
             {
                 throw new ArgumentException(String.Format("No plan is active for contract"));
             }
 
             DateTime periodStart = new DateTime(Math.Max(contract.ContractStartDate.Ticks, callDetails.StartedTime.AddMonths(-1).Ticks));
-            var previous = GetCallInfos(
-                x => x.Started >= periodStart
-                && System.Data.Entity.DbFunctions.AddMilliseconds(
-                    x.Started,
-                    System.Data.Entity.DbFunctions.DiffMilliseconds(x.Duration, TimeSpan.Zero))
-                        < callInfo.Started);
-            callDet*ails.Cost = plan.CalculateCost(callDetails, previous);
-        }
-        */
 
+            var previous = _mapper.Map<IEnumerable<CallDetailsEntity>, IEnumerable<CallDetails>>(callDetailsRepo.Get()
+                .Where(c => c.StartedTime >= periodStart &&
+                       c.StartedTime.AddSeconds(1) < callDetails.StartedTime));
 
-
-        public void AddContractToDb(Contract contract)
-        {
-            var contractEntity = _mapper.Map<Contract, ContractEntity>(contract);
-
-            _context.Contracts.Add(contractEntity);
-
-            _context.SaveChanges();
+            callDetails.Cost = contract.TariffPlan.CalculateCallCost(previous);
         }
 
-        public void RemoveContractFromDb(Contract contract)
+        protected IContract GetActiveContractForTerminal(ITerminal terminal, DateTime startedTime)
         {
-            var contractEntity = _mapper.Map<Contract, ContractEntity>(contract);
-
-            _context.Contracts.Remove(contractEntity);
-
-            _context.SaveChanges();
+            return _mapper.Map<IEnumerable<ContractEntity>, IEnumerable<Contract>>(contractRepo.Get()).FirstOrDefault();
         }
 
         public IEnumerable<IClient> GetClients() => _mapper.Map<IEnumerable<ClientEntity>, IEnumerable<Client>>(_context.Clients.AsEnumerable());
-        
+
         public IEnumerable<ITerminal> GetTerminals() => _mapper.Map<IEnumerable<TerminalEntity>, IEnumerable<Terminal>>(_context.Terminals.AsEnumerable());
 
         public IEnumerable<IPort> GetPorts() => _mapper.Map<IEnumerable<PortEntity>, IEnumerable<Port>>(_context.Ports.AsEnumerable());
@@ -180,8 +192,12 @@ namespace ATS.Core.Services
 
         public ITerminal GetTerminalById(int terminalId) => _mapper.Map<TerminalEntity, Terminal>(_context.Terminals.Where(t => t.Id == terminalId).FirstOrDefault());
 
+        public ITerminal GetTerminalByPhoneNumber(string number) => _mapper.Map<TerminalEntity, Terminal>(_context.Terminals.Where(t => t.PhoneNumber == number).FirstOrDefault());
+
         public ITariffPlan GetTariffPlan() => _mapper.Map<SecondMinuteTariffPlanEntity, SecondMinuteTariffPlan>(_context.TariffPlans.FirstOrDefault());
 
         public ITariffPlan GetTariffPlanByClientId(int clientId) => _mapper.Map<SecondMinuteTariffPlanEntity, SecondMinuteTariffPlan>(_context.TariffPlans.Where(t => t.Id == GetTariffPlanIdByClientId(clientId)).FirstOrDefault());
+
+        public ITariffPlan GetCallDetails() => _mapper.Map<SecondMinuteTariffPlanEntity, SecondMinuteTariffPlan>(_context.TariffPlans.FirstOrDefault());
     }
 }

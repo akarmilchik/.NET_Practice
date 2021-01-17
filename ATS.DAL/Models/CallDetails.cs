@@ -11,5 +11,9 @@ namespace ATS.DAL.Models
         public string Source { get; set; }
         public string Target { get; set; }
         public decimal Cost { get; set; }
+        public override string ToString()
+        {
+            return $"   Call details\n      №: {Id}\n. Duration: {DurationTime}. Cost:{Cost}. To number:{Target}";
+        }
     }
 }

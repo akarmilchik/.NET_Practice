@@ -6,15 +6,11 @@ namespace ATS.Core.Mapper
     {
         public static IMapper InitMapper()
         {
-            var entityToModelProfile = new EntityToModelMappingProfile();
-            var modelToEntityProfile = new ModelToEntityMappingProfile();
+            var mappingProfile = new MappingProfile();
 
-            var mapperConfig = new MapperConfiguration(cfg => cfg.AddProfiles(new Profile[] { entityToModelProfile, modelToEntityProfile}));
-
-            //return mapperConfig.CreateMapper();
+            var mapperConfig = new MapperConfiguration(cfg => cfg.AddProfile(mappingProfile));
 
             return new AutoMapper.Mapper(mapperConfig);
-
         }
     }
 }

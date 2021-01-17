@@ -12,12 +12,12 @@ namespace ATS.DAL.Interfaces
 
         event EventHandler<CallDetails> CallDetailsPrepared;
 
-        event EventHandler<Contract> TerminateContract;
+        event EventHandler<Contract> ContractTerminated;
 
         void RegisterEventHandlersForTerminal(ITerminal terminal);
 
         void RegisterEventHandlersForPort(IPort port);
 
-        void OnTerminateContract(object sender, Contract contract);
+        void OnContractTerminated(object sender, Contract contract);
     }
 }

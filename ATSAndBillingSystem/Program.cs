@@ -1,35 +1,37 @@
 ﻿using ATS.Core.Interfaces;
 using ATS.Core.Services;
+using ATS.DAL;
 using ATS.DAL.Constants;
 using ATS.Helpers;
-using System;
 using System.Linq;
 
 namespace ATS
 {
-    internal class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static IPrintService printService = new PrintService();
+
+        public static IInputService inputService = new InputService();
+
+        public static IDataService dataService;
+
+        public static MainMenuItems mainMenuItems;
+
+        public static IMainMenuService mainMenuService;
+
+        public static DataContext context;
+
+        static void Main()
         {
             bool isWorking = true;
 
-            var contextFactory = new DataContextFactory();
+            CreateContext();
 
-            var context = contextFactory.CreateDbContext(args);
+            InitDataBase();
 
-            context.Database.EnsureCreated();
+            InitDataService(context);
 
-            InitData.InitializeData(context);
-
-            MainMenuItems mainMenuItems;
-
-            IPrintService printService = new PrintService();
-
-            IInputService inputService = new InputService();
-
-            IDataService dataService = new DataService(context);
-
-            IMainMenuService mainMenuService = new MainMenuService(printService, inputService, dataService);
+            InitMenuService();
 
             while (isWorking)
             {
@@ -69,6 +71,30 @@ namespace ATS
                     }
                 }
             }
+        }
+
+        public static void InitDataService(DataContext context)
+        {
+            dataService = new DataService(context);
+        }
+
+        public static void InitMenuService()
+        {
+            mainMenuService = new MainMenuService(printService, inputService, dataService);
+        }
+
+        public static void CreateContext()
+        {
+            var contextFactory = new DataContextFactory();
+
+            context = contextFactory.CreateDbContext(null);
+        }
+
+        public static void InitDataBase()
+        {
+            context.Database.EnsureCreated();
+
+            InitData.InitializeData(context);
         }
     }
 }

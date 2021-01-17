@@ -35,7 +35,7 @@ namespace ATS.DAL.Models
 
         public event EventHandler<CallDetails> CallDetailsPrepared;
 
-        public event EventHandler<Contract> TerminateContract;
+        public event EventHandler<Contract> ContractTerminated;
 
         public void OnIncomingCallRespond(object sender, Respond respond)
         {
@@ -90,8 +90,8 @@ namespace ATS.DAL.Models
 
         public virtual void RegisterEventHandlersForTerminal(ITerminal terminal)
         {
-            terminal.OutgoingConnection += OnOutgoingRequest;
-            terminal.IncomingRespond += OnIncomingCallRespond;
+            terminal.OutgoingConnectionEstablished += OnOutgoingRequest;
+            terminal.IncomingRespondEstablished += OnIncomingCallRespond;
         }
 
         protected ITerminal GetTerminalByPhoneNumber(string number)
@@ -126,7 +126,7 @@ namespace ATS.DAL.Models
 
                     targetPort.PortState = PortState.Calling;
 
-                    targetTerminal.IncomingRequestFrom(request.SourcePhoneNumber);
+                    targetTerminal.ReceiveIncomingRequest(request.SourcePhoneNumber);
                 }
                 else
                 {
@@ -219,9 +219,9 @@ namespace ATS.DAL.Models
         }
 
 
-        public void OnTerminateContract(object sender, Contract contract)
+        public void OnContractTerminated(object sender, Contract contract)
         {
-            TerminateContract?.Invoke(sender, contract);
+            ContractTerminated?.Invoke(sender, contract);
         }
 
         public override string ToString()
@@ -232,7 +232,7 @@ namespace ATS.DAL.Models
         public void Dispose()
         {
             CallDetailsPrepared = null;
-            TerminateContract = null;
+            ContractTerminated = null;
         }
     }
 }

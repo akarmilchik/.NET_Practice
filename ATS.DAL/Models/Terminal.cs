@@ -9,11 +9,16 @@ namespace ATS.DAL.Models
 {
     public class Terminal : ITerminal
     {
-        private Request ServerIncomingRequest { get; set; }
+        public Request ServerIncomingRequest { get; set; }
         protected bool IsOnline { get; private set; }
         public int Id { get; set; }
         public string PhoneNumber { get; set; }
         public Port ProvidedPort { get; set; }
+
+
+        public Terminal()
+        {
+        }
 
         public void Answer()
         {
@@ -26,9 +31,9 @@ namespace ATS.DAL.Models
                     Request = ServerIncomingRequest
                 };
 
-                IncomingRespond?.Invoke(this, respond);
+                IncomingRespondEstablished?.Invoke(this, respond);
 
-                OnOnline(this, null);
+                OnTurnedToOn(this, null);
             }
         }
 
@@ -42,28 +47,28 @@ namespace ATS.DAL.Models
                     TargetPhoneNumber = targetPhoneNumber
                 };
 
-                OutgoingConnection?.Invoke(this, ServerIncomingRequest);
+                OutgoingConnectionEstablished?.Invoke(this, ServerIncomingRequest);
 
-                OnOnline(this, null);
+                OnTurnedToOn(this, null);
             }
         }
 
-        public void Connect(IPort port)
+        public void ConnectToPort(IPort port)
         {
-            OnConnect(this, null);
+            OnPortConnectionEstablished(this, null);
         }
 
-        public void Disconect(IPort port)
+        public void DisconectFromPort(IPort port)
         {
             if (IsOnline)
             {
-                Drop();
+                DropIncomingRespond();
 
-                OnDisconnect(this, null);
+                OnPortConnectionInterrupted(this, null);
             }
         }
 
-        public void Drop()
+        public void DropIncomingRespond()
         {
             if (ServerIncomingRequest != null)
             {
@@ -74,20 +79,20 @@ namespace ATS.DAL.Models
                     Request = ServerIncomingRequest
                 };
 
-                IncomingRespond?.Invoke(this, respond);
+                IncomingRespondEstablished?.Invoke(this, respond);
 
                 if (IsOnline)
                 {
-                    OnOffline(this, null);
+                    OnTurnedToOff(this, null);
                 }
             }
         }
 
-        public void IncomingRequestFrom(string source)
+        public void ReceiveIncomingRequest(string source)
         {
             var request = new Request { SourcePhoneNumber = source };
 
-            IncomingRequest?.Invoke(this, request);
+            IncomingRequestReceived?.Invoke(this, request);
 
             ServerIncomingRequest = request;
         }
@@ -98,44 +103,44 @@ namespace ATS.DAL.Models
             {
                 if (IsOnline && state == PortState.Enabled)
                 {
-                    OnOffline(sender, null);
+                    OnTurnedToOff(sender, null);
                 }
             };
         }
 
-        public virtual void RegisterEventHandlersForContract(IContract contract)
+        public virtual void OnContractConcluded(IContract contract)
         {
-            contract.ContractConclude += OnOnline;
-            contract.ContractConclude += OnConnect;
+            contract.ContractConcluded += OnTurnedToOn;
+            contract.ContractConcluded += OnPortConnectionEstablished;
         }
 
-        public event EventHandler<Request> OutgoingConnection;
-        public event EventHandler<Request> IncomingRequest;
-        public event EventHandler<Respond> IncomingRespond;
-        public event EventHandler Online;
-        public event EventHandler Offline;
-        public event EventHandler Connecting;
-        public event EventHandler Disconnecting;
+        public event EventHandler<Request> OutgoingConnectionEstablished;
+        public event EventHandler<Request> IncomingRequestReceived;
+        public event EventHandler<Respond> IncomingRespondEstablished;
+        public event EventHandler TurnedToOn;
+        public event EventHandler TurnedToOff;
+        public event EventHandler PortConnectionEstablished;
+        public event EventHandler PortConnectionInterrupted;
 
-        protected virtual void OnOnline(object sender, EventArgs args)
-        {
-            Online?.Invoke(sender, args);
+        protected virtual void OnTurnedToOn(object sender, ITerminal terminal)
+        { 
+            TurnedToOn?.Invoke(sender, null);
             
             IsOnline = true;
         }
 
-        protected virtual void OnOffline(object sender, EventArgs args)
+        protected virtual void OnTurnedToOff(object sender, EventArgs args)
         {
-            Offline?.Invoke(sender, args);
+            TurnedToOff?.Invoke(sender, args);
 
             ServerIncomingRequest = null;
             
             IsOnline = false;
         }
 
-        protected virtual void OnConnect(object sender, EventArgs args) => Connecting?.Invoke(sender, args);
+        protected virtual void OnPortConnectionEstablished(object sender, ITerminal terminal) => PortConnectionEstablished?.Invoke(sender, null);
 
-        protected virtual void OnDisconnect(object sender, EventArgs args) => Disconnecting?.Invoke(sender, args);
+        protected virtual void OnPortConnectionInterrupted(object sender, EventArgs args) => PortConnectionInterrupted?.Invoke(sender, args);
 
         public override string ToString()
         {
@@ -144,13 +149,13 @@ namespace ATS.DAL.Models
 
         public void Dispose()
         {
-            IncomingRequest = null;
-            IncomingRespond = null;
-            Online = null;
-            Offline = null;
-            OutgoingConnection = null;
-            Connecting = null;
-            Disconnecting = null;
+            IncomingRequestReceived = null;
+            IncomingRespondEstablished = null;
+            TurnedToOn = null;
+            TurnedToOff = null;
+            OutgoingConnectionEstablished = null;
+            PortConnectionEstablished = null;
+            PortConnectionInterrupted = null;
         }
     }
 }

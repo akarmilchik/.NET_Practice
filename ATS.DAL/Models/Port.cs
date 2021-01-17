@@ -11,6 +11,11 @@ namespace ATS.DAL.Models
 
         public int Id { get; set; }
 
+        public Port()
+        {
+            
+        }
+
         public PortState PortState
         {
             get
@@ -47,11 +52,9 @@ namespace ATS.DAL.Models
 
         public virtual void RegisterEventHandlersForTerminal(ITerminal terminal)
         {
-            terminal.OutgoingConnection += OnOutgoingCall;
+            terminal.TurnedToOn += (port, args) => { PortState = PortState.Enabled; };
 
-            terminal.Online += (port, args) => { PortState = PortState.Enabled; };
-
-            terminal.Offline += (port, args) => { PortState = PortState.Disabled; };
+            terminal.TurnedToOff += (port, args) => { PortState = PortState.Disabled; };
         }
 
         public override string ToString()

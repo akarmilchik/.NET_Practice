@@ -1,5 +1,7 @@
 ﻿using ATS.Core.Interfaces;
 using ATS.DAL.Constants;
+using ATS.DAL.ModelsEntities.Billing;
+using ATS.DAL.Repository;
 using System.Linq;
 
 namespace ATS.Core.Services
@@ -7,13 +9,18 @@ namespace ATS.Core.Services
     public class MainMenuService : IMainMenuService
     {
         private readonly IPrintService _printService;
+
         private readonly IInputService _inputService;
+
         private readonly IDataService _dataService;
+
 
         public MainMenuService(IPrintService printService, IInputService inputService, IDataService dataService)
         {
             _printService = printService;
+
             _inputService = inputService;
+
             _dataService = dataService;
         }
 
@@ -95,7 +102,7 @@ namespace ATS.Core.Services
 
                         case ClientMenuItems.ShowCallReport:
 
-                            _dataService.CreateReport(chosenClientId);
+                            PrintReport(chosenClientId);
 
                             break;
 
@@ -167,7 +174,13 @@ namespace ATS.Core.Services
 
         public void PrintBasicContractsData()
         {
-            _dataService.GetContracts().ToList().ForEach(c => _printService.PrintItemValue(c.ToString()));
+            var contracts =_dataService.GetContracts().ToList();
+
+            foreach (var contract in contracts)
+            {
+                //contract.Client = _dataService.GetClientById(contract.Client.Id));
+                _printService.PrintItemValue(contract.ToString());
+            }
         }
 
         public void Call(int chosenClientId)
@@ -201,7 +214,7 @@ namespace ATS.Core.Services
 
         public void ConcludeContract()
         {
-            _printService.PrintInputCloseDate();
+            _printService.PrintInputCloseDate("contract");
 
             var clodeDate = _inputService.ReadInputDate();
 
@@ -240,6 +253,27 @@ namespace ATS.Core.Services
             _printService.PrintLine();
 
             _printService.ContractConcluded();
+        }
+
+        public void PrintReport(int chosenClientId)
+        {
+            _printService.PrintInputStartDate("payment period");
+
+            var startDate = _inputService.ReadInputDate();
+
+            _printService.PrintInputCloseDate("payment period");
+
+            var lastDate = _inputService.ReadInputDate();
+
+            var monthDetails = _dataService.GetCallDetailsInPeriod(chosenClientId, startDate, lastDate).ToList();
+
+            foreach (var details in monthDetails)
+            {
+                _printService.PrintItemValue(details.ToString());
+            }
+
+
+            var cost = _dataService.CalculateMonthCallCost(chosenClientId, monthDetails);
         }
     }
 }

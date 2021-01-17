@@ -14,34 +14,36 @@ namespace ATS.DAL.Interfaces
 
         Port ProvidedPort { get; set; }
 
-        event EventHandler<Request> OutgoingConnection;
+        Request ServerIncomingRequest { get; set; }
 
-        event EventHandler<Request> IncomingRequest;
+        event EventHandler<Request> OutgoingConnectionEstablished;
 
-        event EventHandler<Respond> IncomingRespond;
+        event EventHandler<Request> IncomingRequestReceived;
 
-        event EventHandler Online;
+        event EventHandler<Respond> IncomingRespondEstablished;
 
-        event EventHandler Offline;
+        event EventHandler TurnedToOn;
 
-        public event EventHandler Connecting;
+        event EventHandler TurnedToOff;
 
-        public event EventHandler Disconnecting;
+        public event EventHandler PortConnectionEstablished;
+
+        public event EventHandler PortConnectionInterrupted;
 
         void Call(string targetPhoneNumber);
 
-        void Drop();
+        void DropIncomingRespond();
 
         void Answer();
 
-        void Disconect(IPort port);
+        void DisconectFromPort(IPort port);
 
-        void IncomingRequestFrom(string source);
+        void ReceiveIncomingRequest(string source);
 
         void RegisterEventHandlersForPort(IPort port);
 
-        void RegisterEventHandlersForContract(IContract contract);
+        void OnContractConcluded(IContract contract);
 
-        void Connect(IPort port);
+        void ConnectToPort(IPort port);
     }
 }

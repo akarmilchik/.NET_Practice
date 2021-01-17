@@ -9,21 +9,25 @@ namespace ATS.DAL.Models.Billing
         public int Id { get; set; }
         public DateTime ContractStartDate { get; set; }
         public DateTime ContractCloseDate { get; set; }
-        public IClient Client { get; set; }
-        public ITerminal Terminal { get; set; }
-        public ITariffPlan TariffPlan { get; set; }
+        public Client Client { get; set; }
+        public Terminal Terminal { get; set; }
+        public SecondMinuteTariffPlan TariffPlan { get; set; }
 
-        public event EventHandler ContractConclude;
-
-        protected virtual void OnContractConclude(EventArgs e)
+        public Contract()
         {
-            ContractConclude?.Invoke(this, e);
+            
+        }
+
+        public event EventHandler<Terminal> ContractConcluded;
+
+        public virtual void OnContractConcluded(Terminal terminal)
+        {
+            ContractConcluded?.Invoke(this, terminal);
         }
 
         public override string ToString()
         {
             return $"   Contract\n      Start date: {ContractStartDate:d}\n      Close date: {ContractCloseDate:d}\n      Client:{Client.FirstName} {Client.LastName}";
         }
-        
     }
 }

@@ -42,20 +42,47 @@ namespace ATS
         private static readonly List<TerminalEntity> Terminals = new List<TerminalEntity>
         {
             new TerminalEntity { PhoneNumber = "100", IsOnline = false, ProvidedPort_Id = 1 },
-            new TerminalEntity { PhoneNumber = "222", IsOnline = false },
+            new TerminalEntity { PhoneNumber = "222", IsOnline = false, ProvidedPort_Id = 2 },
             new TerminalEntity { PhoneNumber = "300", IsOnline = false },
             new TerminalEntity { PhoneNumber = "440", IsOnline = false }
         };
 
         private static readonly List<ContractEntity> Contracts = new List<ContractEntity>
         {
-            new ContractEntity { Client_Id = 1, ContractStartDate = new DateTime(2020, 10, 01), ContractCloseDate = new DateTime(2020, 12, 31), Terminal_Id = 1, TariffPlan_Id = 1 }
+            new ContractEntity { Client_Id = 1, ContractStartDate = new DateTime(2020, 10, 01), ContractCloseDate = new DateTime(2021, 06, 30), Terminal_Id = 1, TariffPlan_Id = 1 },
+            new ContractEntity { Client_Id = 2, ContractStartDate = new DateTime(2021, 01, 01), ContractCloseDate = new DateTime(2020, 12, 31), Terminal_Id = 2, TariffPlan_Id = 1 }
         };
 
         private static readonly List<StationEntity> Stations = new List<StationEntity>
         {
             new StationEntity { Name = "A1 Station" }
         };
+
+        private static readonly List<CallDetailsEntity> CallDetails = new List<CallDetailsEntity>
+        {
+            new CallDetailsEntity { StartedTime = new DateTime(2021, 01, 05, 15, 0, 0), DurationTime = new TimeSpan(0, 5, 36), Cost = 33.6m, Source = "100", Target = "222" },
+            new CallDetailsEntity { StartedTime = new DateTime(2021, 01, 14, 15, 0, 0), DurationTime = new TimeSpan(0, 14, 16), Cost = 85.6m, Source = "222", Target = "100" }
+        };
+
+        private static readonly List<RequestEntity> Requests = new List<RequestEntity>
+        {
+            new RequestEntity { SourcePhoneNumber = "100", State = RequestRespondState.Accept },
+            new RequestEntity { SourcePhoneNumber = "222", State = RequestRespondState.Accept }
+        };
+
+        private static readonly List<OutgoingRequestEntity> OutgoingRequests = new List<OutgoingRequestEntity>
+        {
+            new OutgoingRequestEntity { TargetPhoneNumber = "222" },
+            new OutgoingRequestEntity { TargetPhoneNumber = "100" },
+        };
+
+        private static readonly List<RespondEntity> Responds = new List<RespondEntity>
+        {
+            new RespondEntity { Request_Id = 1, SourcePhoneNumber = "100", State = RequestRespondState.Accept },
+            new RespondEntity { Request_Id = 2, SourcePhoneNumber = "222", State = RequestRespondState.Accept }
+        };
+
+
 
         public void SeedData()
         {
@@ -88,6 +115,22 @@ namespace ATS
                 if (!_context.Stations.Any())
                 {
                     _context.Stations.AddRange(Stations);
+                }
+                if (!_context.CallsDetails.Any())
+                {
+                    _context.CallsDetails.AddRange(CallDetails);
+                }
+                if (!_context.Requests.Any())
+                {
+                    _context.Requests.AddRange(Requests);
+                }
+                if (!_context.OutgoingRequests.Any())
+                {
+                    _context.OutgoingRequests.AddRange(OutgoingRequests);
+                }
+                if (!_context.Responds.Any())
+                {
+                    _context.Responds.AddRange(Responds);
                 }
 
                 _context.SaveChanges();

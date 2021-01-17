@@ -20,20 +20,17 @@ namespace ATS.DAL.Models.Billing
             set { _minuteCost = value; }
         }
 
-        public SecondMinuteTariffPlan(int id, string planName, decimal minuteCost)
+        public SecondMinuteTariffPlan()
         {
-            Id = id;
-            Name = planName;
-            _minuteCost = minuteCost;
         }
 
-        public decimal CalculateCallCost(ICallDetails callDetails, IEnumerable<ICallDetails> callsForBillingPeriod)
+        public decimal CalculateCallCost(IEnumerable<ICallDetails> callsForBillingPeriod)
         {
             TimeSpan sum = new TimeSpan();
 
             callsForBillingPeriod.Aggregate(sum, (seed, x) => seed + x.DurationTime);
 
-            return (decimal)(sum.TotalMinutes + callDetails.DurationTime.TotalMinutes) * _minuteCost;
+            return Convert.ToDecimal(sum.TotalMinutes) * _minuteCost;
         }
 
         public override string ToString()

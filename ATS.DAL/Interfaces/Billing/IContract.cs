@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ATS.DAL.Models;
+using ATS.DAL.Models.Billing;
+using System;
 
 namespace ATS.DAL.Interfaces.Billing
 {
@@ -7,10 +9,10 @@ namespace ATS.DAL.Interfaces.Billing
         int Id { get; set; }
         DateTime ContractStartDate { get; }
         DateTime ContractCloseDate { get; }
-        IClient Client { get; }
-        ITerminal Terminal { get; }
-        ITariffPlan TariffPlan { get; }
+        Client Client { get; }
+        Terminal Terminal { get; }
+        SecondMinuteTariffPlan TariffPlan { get; }
 
-        public event EventHandler ContractConclude;
+        public event EventHandler<Terminal> ContractConcluded;
     }
 }

@@ -25,7 +25,7 @@ namespace ATS.Core.Services
 
         public void PrintStationMenu()
         {
-            Console.WriteLine("\n\nStation menu\nActions:\n 1. Conclude contract with client \n 0. Back to main menu");
+            Console.WriteLine("\n\nStation menu\nActions:\n 1. Conclude contract with client \n 2. Show all concluded contracts\n 0. Back to main menu");
             Console.Write("Input: ");
         }
 
@@ -39,9 +39,14 @@ namespace ATS.Core.Services
             Console.WriteLine(value);
         }
 
-        public void PrintInputCloseDate()
+        public void PrintInputStartDate(string value)
         {
-            Console.Write($"\n\nInput the closing date of the contract in format (dd.mm.yy): ");
+            Console.Write($"\n\nInput the start date of the {value} in format (dd.mm.yy): ");
+        }
+
+        public void PrintInputCloseDate(string value)
+        {
+            Console.Write($"\n\nInput the closing date of the {value} in format (dd.mm.yy): ");
         }
 
         public void ContractConcluded()

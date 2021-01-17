@@ -9,7 +9,6 @@ namespace ATS.Core.Interfaces
 {
     public interface IDataService
     {
-        void AddContractToDb(Contract contract);
         void ConcludeContract(int clientId, int portId, int terminalId, DateTime closeDate);
         void CallToTerminal(int chosenCliendId, int targetTerminalId);
         IClient GetClientById(int clientId);
@@ -28,13 +27,15 @@ namespace ATS.Core.Interfaces
         int GetTerminalIdByClientId(int clientId);
         string GetTerminalPhoneNumberById(int terminalId);
         IEnumerable<ITerminal> GetTerminals();
-        void RemoveContractFromDb(Contract contract);
         void ConnectTerminalToPort(int chosenCliendId);
         void DisconnectTerminalFromPort(int chosenCliendId);
         void DropCall(int chosenClientId);
         void AnswerCall(int chosenCliendId);
-        void CreateReport(int chosenClientId);
         IEnumerable<ITerminal> GetUnmappedTerminals();
         IEnumerable<IPort> GetUnmappedPorts();
+        ITerminal GetTerminalByPhoneNumber(string number);
+        IEnumerable<ICallDetails> GetCallDetailsInPeriod(int chosenClientId, DateTime startReportDay, DateTime lastReportDay);
+        void CalculateCost(ICallDetails callDetails);
+        decimal CalculateMonthCallCost(int chosenClientId, IEnumerable<ICallDetails> callsDetails);
     }
 }

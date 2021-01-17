@@ -17,5 +17,7 @@
         void DisonnectTerminal(int chosenClientId);
 
         void PrintBasicContractsData();
+
+        void PrintReport(int chosenClientId);
     }
 }

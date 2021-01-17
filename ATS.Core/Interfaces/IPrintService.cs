@@ -8,7 +8,8 @@
         void PrintClientsMenu();
         void PrintExit();
         void PrintIncorrectChoose();
-        void PrintInputCloseDate();
+        void PrintInputStartDate(string value);
+        void PrintInputCloseDate(string value);
         void PrintInputProposal();
         void PrintItemValue(string value);
         void PrintLine();
