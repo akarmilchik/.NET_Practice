@@ -42,7 +42,7 @@ namespace ATS.DAL.Interfaces
 
         void RegisterEventHandlersForPort(IPort port);
 
-        void OnContractConcluded(IContract contract);
+        void SubscribeToContractEvents(IContract contract);
 
         void ConnectToPort(IPort port);
     }

@@ -91,7 +91,7 @@ namespace ATS.Core.Services
 
         public void PrintLine()
         {
-            Console.WriteLine("\n");
+            Console.WriteLine(Environment.NewLine);
         }
 
         public void PrintExit()

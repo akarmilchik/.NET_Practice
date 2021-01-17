@@ -104,7 +104,7 @@ namespace ATS.DAL.Models
             };
         }
 
-        public virtual void OnContractConcluded(IContract contract)
+        public virtual void SubscribeToContractEvents(IContract contract)
         {
             contract.ContractConcluded += OnTurnedToOn;
 

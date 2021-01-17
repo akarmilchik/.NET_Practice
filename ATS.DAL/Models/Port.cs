@@ -49,7 +49,7 @@ namespace ATS.DAL.Models
             }
         }
 
-        public virtual void RegisterEventHandlersForTerminal(ITerminal terminal)
+        public virtual void SubscribeToTerminalEvents(ITerminal terminal)
         {
             terminal.TurnedToOn += (port, args) => { PortState = PortState.Enabled; };
 

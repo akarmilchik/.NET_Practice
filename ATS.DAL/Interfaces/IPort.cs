@@ -13,6 +13,6 @@ namespace ATS.DAL.Interfaces
 
         event EventHandler<PortState> StateChanging;
 
-        void RegisterEventHandlersForTerminal(ITerminal terminal);
+        void SubscribeToTerminalEvents(ITerminal terminal);
     }
 }

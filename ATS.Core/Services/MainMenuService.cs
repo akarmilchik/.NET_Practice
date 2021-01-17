@@ -1,6 +1,7 @@
 ﻿using ATS.Core.Interfaces;
 using ATS.DAL.Constants;
 using ATS.DAL.Models;
+using System;
 using System.Linq;
 
 namespace ATS.Core.Services
@@ -92,6 +93,8 @@ namespace ATS.Core.Services
                             break;
                         case ClientMenuItems.DropOutgoingCall:
 
+                            _printService.PrintLine();
+
                             var terminal = _dataService.GetTerminalByClientId(chosenClientId);
 
                             _dataService.DropOutgoingCall(chosenClientId, terminal.Id);
@@ -178,15 +181,24 @@ namespace ATS.Core.Services
 
             if (clientId != 0)
             {
-                _printService.PrintItemValue(_dataService.GetClientById(clientId).ToString());
+                try
+                {
+                    _printService.PrintItemValue(_dataService.GetClientById(clientId).ToString());
 
-                _printService.PrintItemValue(_dataService.GetContractByClientId(clientId).ToString());
+                    _printService.PrintItemValue(_dataService.GetContractByClientId(clientId).ToString());
 
-                _printService.PrintItemValue(_dataService.GetPortByClientId(clientId).ToString());
+                    _printService.PrintItemValue(_dataService.GetPortByClientId(clientId).ToString());
 
-                _printService.PrintItemValue(_dataService.GetTerminalByClientId(clientId).ToString());
+                    _printService.PrintItemValue(_dataService.GetTerminalByClientId(clientId).ToString());
 
-                _printService.PrintItemValue(_dataService.GetTariffPlanByClientId(clientId).ToString());
+                    _printService.PrintItemValue(_dataService.GetTariffPlanByClientId(clientId).ToString());
+                }
+                catch(NullReferenceException e)
+                {
+                    _printService.PrintLine();
+
+                    Console.WriteLine($"Error: can't find data by Id. {e.Message}");
+                }
             }
             else 
             {
@@ -197,6 +209,7 @@ namespace ATS.Core.Services
         public void PrintBasicContractsData()
         {
             _printService.PrintLine();
+
             var contracts =_dataService.GetContracts().ToList();
 
             foreach (var contract in contracts)

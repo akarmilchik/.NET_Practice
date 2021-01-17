@@ -36,25 +36,25 @@ namespace ATS.DAL
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<ClientEntity>().ToTable("Clients");
+            modelBuilder.Entity<ClientEntity>().ToTable("Clients").HasKey(e => e.Id);
 
-            modelBuilder.Entity<ContractEntity>().ToTable("Contracts");
+            modelBuilder.Entity<ContractEntity>().ToTable("Contracts").HasKey(c => c.Id);
 
-            modelBuilder.Entity<SecondMinuteTariffPlanEntity>().ToTable("TariffPlans");
+            modelBuilder.Entity<SecondMinuteTariffPlanEntity>().ToTable("TariffPlans").HasKey(t => t.Id);
 
-            modelBuilder.Entity<RequestEntity>().ToTable("Requests");
+            modelBuilder.Entity<RequestEntity>().ToTable("Requests").HasKey(r => r.Id);
 
             modelBuilder.Entity<OutgoingRequestEntity>().ToTable("OutgoingRequests");
 
-            modelBuilder.Entity<RespondEntity>().ToTable("Responds");
+            modelBuilder.Entity<RespondEntity>().ToTable("Responds").HasKey(r => r.Id);
 
-            modelBuilder.Entity<CallDetailsEntity>().ToTable("CallDetails");
+            modelBuilder.Entity<CallDetailsEntity>().ToTable("CallDetails").HasKey(d => d.Id);
 
-            modelBuilder.Entity<PortEntity>().ToTable("Ports");
+            modelBuilder.Entity<PortEntity>().ToTable("Ports").HasKey(p => p.Id);
 
-            modelBuilder.Entity<StationEntity>().ToTable("Stations");
+            modelBuilder.Entity<StationEntity>().ToTable("Stations").HasKey(s => s.Id);
 
-            modelBuilder.Entity<TerminalEntity>().ToTable("Terminals");
+            modelBuilder.Entity<TerminalEntity>().ToTable("Terminals").HasKey(t => t.Id);
         }
     }
 }

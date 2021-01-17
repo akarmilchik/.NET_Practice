@@ -25,6 +25,7 @@ namespace ATS.Core.Services
             catch (FormatException e)
             {
                 Console.WriteLine($"Enter invalid date: {e.Message}");
+
                 return new DateTime(9999, 1, 1);
             }
         }

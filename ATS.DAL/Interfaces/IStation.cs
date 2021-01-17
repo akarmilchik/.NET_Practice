@@ -14,9 +14,9 @@ namespace ATS.DAL.Interfaces
 
         event EventHandler<Contract> ContractTerminated;
 
-        void RegisterEventHandlersForTerminal(ITerminal terminal);
+        void SubscribeToTerminalEvents(ITerminal terminal);
 
-        void RegisterEventHandlersForPort(IPort port);
+        void SubscribeToPortEvents(IPort port);
 
         void OnContractTerminated(object sender, Contract contract);
     }

@@ -6,13 +6,13 @@ using System.Linq.Expressions;
 
 namespace ATS.DAL.Repository
 {
-    public class DataGenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
+    public class DataRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {
         DataContext _context;
 
         DbSet<TEntity> _dbSet;
 
-        public DataGenericRepository(DataContext context)
+        public DataRepository(DataContext context)
         {
             _context = context;
 

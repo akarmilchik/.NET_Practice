@@ -47,16 +47,14 @@ namespace ATS.Core.Interfaces
 
         IEnumerable<IPort> GetUnmappedPorts();
 
-        ITerminal GetTerminalByPhoneNumber(string number);
-
         IEnumerable<ICallDetails> GetCallDetailsInPeriod(int chosenClientId, DateTime startReportDay, DateTime lastReportDay);
 
         decimal CalculateMonthCallCost(int chosenClientId, IEnumerable<ICallDetails> callsDetails);
 
         IEnumerable<ICallDetails> GetCallDetailsByPhoneNumberAndPeriod(string phoneNumber, DateTime startDate, DateTime lastDate);
 
-        void DropOutgoingCall(int chosenClientId, int sourceTerminalId);
-
         IEnumerable<ITariffPlan> GetTariffPlans();
+
+        void DropOutgoingCall(int chosenClientId, int sourceTerminalId);
     }
 }

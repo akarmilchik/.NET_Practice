@@ -43,7 +43,7 @@ namespace ATS.DAL.Models
                 {
                     case RequestRespondState.Drop:
                         {
-                            InterruptConnection(registeredCallInfo);
+                            TerminateConnection(registeredCallInfo);
                             break;
                         }
                     case RequestRespondState.Accept:
@@ -59,17 +59,17 @@ namespace ATS.DAL.Models
 
                 if (currentCallInfo != null)
                 {
-                    this.InterruptActiveCall(currentCallInfo);
+                    this.TerminateActiveCall(currentCallInfo);
                 }
             }
         }
 
-        public virtual void RegisterEventHandlersForPort(IPort port)
+        public virtual void SubscribeToPortEvents(IPort port)
         {
             port.StateChanged += (sender, state) => { Console.WriteLine("Station detected the port changed its State to {0}", state); };
         }
 
-        public virtual void RegisterEventHandlersForTerminal(ITerminal terminal)
+        public virtual void SubscribeToTerminalEvents(ITerminal terminal)
         {
             terminal.OutgoingConnectionEstablished += OnOutgoingRequest;
             terminal.IncomingRespondEstablished += OnIncomingCallRespond;
@@ -130,7 +130,7 @@ namespace ATS.DAL.Models
         {
             _portMapping.Add(terminal.PhoneNumber, port);
 
-            port.RegisterEventHandlersForTerminal(terminal);
+            port.SubscribeToTerminalEvents(terminal);
 
             terminal.RegisterEventHandlersForPort(port);
         }
@@ -161,7 +161,7 @@ namespace ATS.DAL.Models
             }
         }
 
-        protected void InterruptConnection(CallDetails callDetails)
+        protected void TerminateConnection(CallDetails callDetails)
         {
             _callCollection.Remove(callDetails);
 
@@ -170,7 +170,7 @@ namespace ATS.DAL.Models
             CallDetailsPrepared?.Invoke(this, callDetails);
         }
 
-        protected void InterruptActiveCall(CallDetails callDetails)
+        protected void TerminateActiveCall(CallDetails callDetails)
         {
             callDetails.DurationTime = DateTime.Now - callDetails.StartedTime;
 
