@@ -1,7 +1,6 @@
 ﻿using ATS.Core.Interfaces;
 using ATS.DAL.Constants;
-using ATS.DAL.ModelsEntities.Billing;
-using ATS.DAL.Repository;
+using ATS.DAL.Models;
 using System.Linq;
 
 namespace ATS.Core.Services
@@ -14,6 +13,7 @@ namespace ATS.Core.Services
 
         private readonly IDataService _dataService;
 
+        public static Station station;
 
         public MainMenuService(IPrintService printService, IInputService inputService, IDataService dataService)
         {
@@ -64,17 +64,24 @@ namespace ATS.Core.Services
 
                             chosenClientId = _inputService.ReadInputKey();
 
+                            _printService.PrintLine();
+
+                            if (chosenClientId > 0)
+                            {
+                                _printService.PrintClientSelected();
+                            }
+
                             break;
 
                         case ClientMenuItems.ConnectTerminal:
 
-                            ConnectTerminal(chosenClientId);
+                            ConnectTerminalToPort(chosenClientId);
 
                             break;
 
                         case ClientMenuItems.DisconnectTerminal:
 
-                            DisonnectTerminal(chosenClientId);
+                            DisonnectTerminalFromPort(chosenClientId);
 
                             break;
 
@@ -83,8 +90,19 @@ namespace ATS.Core.Services
                             Call(chosenClientId);
 
                             break;
+                        case ClientMenuItems.DropOutgoingCall:
+
+                            var terminal = _dataService.GetTerminalByClientId(chosenClientId);
+
+                            _dataService.DropOutgoingCall(chosenClientId, terminal.Id);
+
+                            _printService.PrintCallState("dropped");
+
+                            break;
 
                         case ClientMenuItems.DropCall:
+
+                            _printService.PrintLine();
 
                             _dataService.DropCall(chosenClientId);
 
@@ -93,6 +111,8 @@ namespace ATS.Core.Services
                             break;
 
                         case ClientMenuItems.AnswerCall:
+
+                            _printService.PrintLine();
 
                             _dataService.AnswerCall(chosenClientId);
 
@@ -154,6 +174,8 @@ namespace ATS.Core.Services
 
         public void PrintBasicClientData(int clientId)
         {
+            _printService.PrintLine();
+
             if (clientId != 0)
             {
                 _printService.PrintItemValue(_dataService.GetClientById(clientId).ToString());
@@ -174,20 +196,39 @@ namespace ATS.Core.Services
 
         public void PrintBasicContractsData()
         {
+            _printService.PrintLine();
             var contracts =_dataService.GetContracts().ToList();
 
             foreach (var contract in contracts)
             {
-                //contract.Client = _dataService.GetClientById(contract.Client.Id));
-                _printService.PrintItemValue(contract.ToString());
+                _printService.PrintItemValue(contract.ToString()); 
+                
+                var client = _dataService.GetClientById(contract.Client.Id);
+
+                _printService.PrintItemValue(client.ToString());
+
+                _printService.PrintLine();
             }
         }
 
         public void Call(int chosenClientId)
         {
-            _printService.PrintChooseProposal("terminal");
+            _printService.PrintLine();
 
-            _dataService.GetTerminals().ToList().ForEach(t => _printService.PrintItemValue(t.ToString()));
+            _printService.PrintChooseProposal("client");
+
+            var contracts = _dataService.GetContracts().Where(c => c.Client.Id != chosenClientId).AsEnumerable();
+
+            _printService.PrintLine();
+
+            foreach (var contract in contracts)
+            {
+                _printService.PrintItemValue(_dataService.GetClientById(contract.Client.Id).ToString());
+
+                _printService.PrintItemValue(_dataService.GetTerminalByClientId(contract.Client.Id).ToString());
+
+                _printService.PrintLine();
+            }
 
             _printService.PrintInputProposal();
 
@@ -195,19 +236,25 @@ namespace ATS.Core.Services
 
             _dataService.CallToTerminal(chosenClientId, targetTerminalId);
 
+            _printService.PrintLine();
+
             _printService.PrintCallState("started");
         }
 
-        public void ConnectTerminal(int chosenCliendId)
+        public void ConnectTerminalToPort(int chosenClientId)
         {
-            _dataService.ConnectTerminalToPort(chosenCliendId);
+            _dataService.ConnectTerminalToPort(chosenClientId);
+
+            _printService.PrintLine();
 
             _printService.PrintSuccessConnect();
         }
 
-        public void DisonnectTerminal(int chosenCliendId)
+        public void DisonnectTerminalFromPort(int chosenClientId)
         {
-            _dataService.DisconnectTerminalFromPort(chosenCliendId);
+            _dataService.DisconnectTerminalFromPort(chosenClientId);
+
+            _printService.PrintLine();
 
             _printService.PrintSuccessDisonnect();
         }
@@ -265,15 +312,20 @@ namespace ATS.Core.Services
 
             var lastDate = _inputService.ReadInputDate();
 
-            var monthDetails = _dataService.GetCallDetailsInPeriod(chosenClientId, startDate, lastDate).ToList();
+            var monthCallDetails = _dataService.GetCallDetailsInPeriod(chosenClientId, startDate, lastDate).ToList().OrderBy(c => c.StartedTime);
 
-            foreach (var details in monthDetails)
+            _printService.PrintLine();
+
+            foreach (var details in monthCallDetails)
             {
                 _printService.PrintItemValue(details.ToString());
             }
 
+            _printService.PrintLine();
 
-            var cost = _dataService.CalculateMonthCallCost(chosenClientId, monthDetails);
+            _printService.PrintTotalCost(monthCallDetails.Sum(c => c.Cost));
+
+            var cost = _dataService.CalculateMonthCallCost(chosenClientId, monthCallDetails);
         }
     }
 }

@@ -34,14 +34,14 @@ namespace ATS
         private static readonly List<PortEntity> Ports = new List<PortEntity>
         {
             new PortEntity { PortState = PortState.Enabled },
-            new PortEntity { PortState = PortState.Disabled },
+            new PortEntity { PortState = PortState.Enabled },
             new PortEntity { PortState = PortState.Disabled },
             new PortEntity { PortState = PortState.Disabled }
         };
 
         private static readonly List<TerminalEntity> Terminals = new List<TerminalEntity>
         {
-            new TerminalEntity { PhoneNumber = "100", IsOnline = false, ProvidedPort_Id = 1 },
+            new TerminalEntity { PhoneNumber = "100", IsOnline = false, ProvidedPort_Id = 4 },
             new TerminalEntity { PhoneNumber = "222", IsOnline = false, ProvidedPort_Id = 2 },
             new TerminalEntity { PhoneNumber = "300", IsOnline = false },
             new TerminalEntity { PhoneNumber = "440", IsOnline = false }
@@ -49,8 +49,8 @@ namespace ATS
 
         private static readonly List<ContractEntity> Contracts = new List<ContractEntity>
         {
-            new ContractEntity { Client_Id = 1, ContractStartDate = new DateTime(2020, 10, 01), ContractCloseDate = new DateTime(2021, 06, 30), Terminal_Id = 1, TariffPlan_Id = 1 },
-            new ContractEntity { Client_Id = 2, ContractStartDate = new DateTime(2021, 01, 01), ContractCloseDate = new DateTime(2020, 12, 31), Terminal_Id = 2, TariffPlan_Id = 1 }
+            new ContractEntity { Client_Id = 1, ContractStartDate = new DateTime(2020, 10, 01), ContractCloseDate = new DateTime(2021, 06, 30), Terminal_Id = 4, TariffPlan_Id = 1 },
+            new ContractEntity { Client_Id = 2, ContractStartDate = new DateTime(2021, 01, 01), ContractCloseDate = new DateTime(2020, 12, 31), Terminal_Id = 3, TariffPlan_Id = 1 }
         };
 
         private static readonly List<StationEntity> Stations = new List<StationEntity>
@@ -61,7 +61,10 @@ namespace ATS
         private static readonly List<CallDetailsEntity> CallDetails = new List<CallDetailsEntity>
         {
             new CallDetailsEntity { StartedTime = new DateTime(2021, 01, 05, 15, 0, 0), DurationTime = new TimeSpan(0, 5, 36), Cost = 33.6m, Source = "100", Target = "222" },
-            new CallDetailsEntity { StartedTime = new DateTime(2021, 01, 14, 15, 0, 0), DurationTime = new TimeSpan(0, 14, 16), Cost = 85.6m, Source = "222", Target = "100" }
+            new CallDetailsEntity { StartedTime = new DateTime(2021, 01, 12, 09, 26, 0), DurationTime = new TimeSpan(0, 1, 15), Cost = 7.5m, Source = "100", Target = "222" },
+            new CallDetailsEntity { StartedTime = new DateTime(2021, 01, 26, 23, 40, 15), DurationTime = new TimeSpan(0, 14, 48), Cost = 88.8m, Source = "100", Target = "222" },
+            new CallDetailsEntity { StartedTime = new DateTime(2021, 01, 14, 15, 0, 0), DurationTime = new TimeSpan(0, 14, 16), Cost = 85.6m, Source = "222", Target = "100" },
+            new CallDetailsEntity { StartedTime = new DateTime(2021, 01, 03, 19, 45, 30), DurationTime = new TimeSpan(0, 3, 50), Cost = 23m, Source = "222", Target = "100" },
         };
 
         private static readonly List<RequestEntity> Requests = new List<RequestEntity>
@@ -81,8 +84,6 @@ namespace ATS
             new RespondEntity { Request_Id = 1, SourcePhoneNumber = "100", State = RequestRespondState.Accept },
             new RespondEntity { Request_Id = 2, SourcePhoneNumber = "222", State = RequestRespondState.Accept }
         };
-
-
 
         public void SeedData()
         {

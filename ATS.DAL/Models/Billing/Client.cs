@@ -10,7 +10,7 @@ namespace ATS.DAL.Models.Billing
 
         public override string ToString()
         {
-            return $"Client №{Id}: {FirstName} {LastName}";
+            return $"   Client №{Id}: {FirstName} {LastName}";
         }
     }
 }

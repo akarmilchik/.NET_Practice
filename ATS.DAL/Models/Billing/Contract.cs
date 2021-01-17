@@ -27,7 +27,7 @@ namespace ATS.DAL.Models.Billing
 
         public override string ToString()
         {
-            return $"   Contract\n      Start date: {ContractStartDate:d}\n      Close date: {ContractCloseDate:d}\n      Client:{Client.FirstName} {Client.LastName}";
+            return $"Contract№{Id}\n   Start date: {ContractStartDate:d}\n   Close date: {ContractCloseDate:d}";
         }
     }
 }

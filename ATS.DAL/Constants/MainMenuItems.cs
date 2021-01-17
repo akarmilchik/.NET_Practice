@@ -3,7 +3,7 @@
     public enum MainMenuItems
     {
         CloseApp,
-        PrintClientsData,   
+        PrintClientsData,
         OpenStationMenu,
         OpenClientMenu
     }

@@ -26,9 +26,9 @@ namespace ATS.DAL.Interfaces
 
         event EventHandler TurnedToOff;
 
-        public event EventHandler PortConnectionEstablished;
+        event EventHandler PortConnectionEstablished;
 
-        public event EventHandler PortConnectionInterrupted;
+        event EventHandler PortConnectionInterrupted;
 
         void Call(string targetPhoneNumber);
 

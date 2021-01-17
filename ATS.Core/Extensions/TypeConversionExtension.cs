@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace ATS.Core.Extensions
+﻿namespace ATS.Core.Extensions
 {
     public static class TypeConversionExtension
     {
@@ -13,17 +11,6 @@ namespace ATS.Core.Extensions
 
             resultInt = -1;
             return resultInt;
-        }
-
-        public static IEnumerable<int> ToInt(this string[] inputArray)
-        {
-            foreach (string item in inputArray)
-            {
-                if (int.TryParse(item, out var intItem))
-                {
-                    yield return intItem;
-                }
-            }
         }
     }
 }

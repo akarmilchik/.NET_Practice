@@ -16,8 +16,6 @@ namespace ATS.DAL.Models
         private readonly ICollection<Terminal> _terminals;
         private readonly ICollection<Port> _ports;
         private readonly IDictionary<string, IPort> _portMapping;
-        private readonly ICollection<SecondMinuteTariffPlan> _tariffPlans;
-        private readonly ICollection<Contract> _contracts;
 
         public int Id { get; set; }
         public string Name { get; set; }
@@ -29,8 +27,6 @@ namespace ATS.DAL.Models
             _connectionCollection = new List<CallDetails>();
             _callCollection = new List<CallDetails>();
             _portMapping = new Dictionary<string, IPort>();
-            _contracts = contracts;
-            _tariffPlans = tariffPlans;
         }
 
         public event EventHandler<CallDetails> CallDetailsPrepared;
@@ -65,21 +61,6 @@ namespace ATS.DAL.Models
                 {
                     this.InterruptActiveCall(currentCallInfo);
                 }
-            }
-        }
-
-        public void Add(Terminal terminal)
-        {
-            var freePort = _ports.Except(_portMapping.Values).FirstOrDefault();
-
-            if (freePort != null)
-            {
-                _terminals.Add(terminal);
-
-                MapTerminalToPort(terminal, freePort);
-
-                this.RegisterEventHandlersForTerminal(terminal);
-                this.RegisterEventHandlersForPort(freePort);
             }
         }
 
@@ -160,7 +141,6 @@ namespace ATS.DAL.Models
             using (port)
             {
                 _portMapping.Remove(terminal.PhoneNumber);
-
             }
         }
 
@@ -217,7 +197,6 @@ namespace ATS.DAL.Models
                 RegisterOutgoingRequest(request as OutgoingRequest);
             }
         }
-
 
         public void OnContractTerminated(object sender, Contract contract)
         {

@@ -41,7 +41,6 @@ namespace ATS.DAL.Models
 
         protected virtual void OnStateChanging(object sender, PortState newState) => StateChanging?.Invoke(sender, newState);
 
-
         public void OnOutgoingCall(object sender, Request request)
         {
             if (request.GetType() == typeof(OutgoingRequest) && PortState == PortState.Enabled)

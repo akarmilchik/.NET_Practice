@@ -33,9 +33,11 @@ namespace ATS
 
             InitMenuService();
 
+            printService.PrintWelcome();
+
             while (isWorking)
             {
-                printService.PrintWelcome();
+                printService.PrintLine();
 
                 printService.PrintMainMenu();
 

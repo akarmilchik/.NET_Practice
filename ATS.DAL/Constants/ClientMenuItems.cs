@@ -8,6 +8,7 @@
         ConnectTerminal,
         DisconnectTerminal,
         Call,
+        DropOutgoingCall,
         DropCall,
         AnswerCall,
         ShowCallReport

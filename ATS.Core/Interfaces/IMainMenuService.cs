@@ -10,11 +10,11 @@
 
         void ConcludeContract();
 
-        void ConnectTerminal(int chosenClientId);
+        void ConnectTerminalToPort(int chosenClientId);
 
         void Call(int chosenClientId);
 
-        void DisonnectTerminal(int chosenClientId);
+        void DisonnectTerminalFromPort(int chosenClientId);
 
         void PrintBasicContractsData();
 

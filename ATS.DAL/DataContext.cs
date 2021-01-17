@@ -11,14 +11,23 @@ namespace ATS.DAL
         }
 
         public DbSet<ClientEntity> Clients { get; set; }
+
         public DbSet<ContractEntity> Contracts { get; set; }
+
         public DbSet<SecondMinuteTariffPlanEntity> TariffPlans { get; set; }
+
         public DbSet<RequestEntity> Requests { get; set; }
+
         public DbSet<OutgoingRequestEntity> OutgoingRequests { get; set; }
+
         public DbSet<RespondEntity> Responds { get; set; }
+
         public DbSet<CallDetailsEntity> CallsDetails { get; set; }
+
         public DbSet<PortEntity> Ports { get; set; }
+
         public DbSet<StationEntity> Stations { get; set; }
+
         public DbSet<TerminalEntity> Terminals { get; set; }
 
         public override int SaveChanges() => base.SaveChanges();

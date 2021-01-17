@@ -15,7 +15,6 @@ namespace ATS.DAL.Models
         public string PhoneNumber { get; set; }
         public Port ProvidedPort { get; set; }
 
-
         public Terminal()
         {
         }
@@ -33,7 +32,6 @@ namespace ATS.DAL.Models
 
                 IncomingRespondEstablished?.Invoke(this, respond);
 
-                OnTurnedToOn(this, null);
             }
         }
 
@@ -48,14 +46,12 @@ namespace ATS.DAL.Models
                 };
 
                 OutgoingConnectionEstablished?.Invoke(this, ServerIncomingRequest);
-
-                OnTurnedToOn(this, null);
             }
         }
 
         public void ConnectToPort(IPort port)
         {
-            OnPortConnectionEstablished(this, null);
+            OnTurnedToOn(this, null);
         }
 
         public void DisconectFromPort(IPort port)
@@ -111,6 +107,7 @@ namespace ATS.DAL.Models
         public virtual void OnContractConcluded(IContract contract)
         {
             contract.ContractConcluded += OnTurnedToOn;
+
             contract.ContractConcluded += OnPortConnectionEstablished;
         }
 
