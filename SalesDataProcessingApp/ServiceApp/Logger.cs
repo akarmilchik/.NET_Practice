@@ -28,7 +28,7 @@ namespace ServiceApp
 
             while (enabled)
             {
-                Thread.Sleep(1000);
+                Thread.Sleep(5000);
             }
         }
 
@@ -37,6 +37,11 @@ namespace ServiceApp
             watcher.EnableRaisingEvents = false;
 
             enabled = false;
+
+            watcher.Deleted -= Watcher_Deleted;
+            watcher.Created -= Watcher_Created;
+            watcher.Changed -= Watcher_Changed;
+            watcher.Renamed -= Watcher_Renamed;
         }
 
         private void Watcher_Renamed(object sender, RenamedEventArgs e)
@@ -81,7 +86,7 @@ namespace ServiceApp
             {
                 using (StreamWriter writer = new StreamWriter("D:\\templog.txt", true))
                 {
-                    writer.WriteLine(string.Format($"{DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss")} file {filePath} was been {fileEvent}"));
+                    writer.WriteLine(string.Format($"{DateTime.Now.ToString("G")} file {filePath} was been {fileEvent}"));
 
                     writer.Flush();
                 }

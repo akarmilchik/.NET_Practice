@@ -7,9 +7,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceApp", "ServiceApp\Se
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ManagerApp", "ManagerApp\ManagerApp.csproj", "{125EFD1C-29D5-42E1-A8F6-7B8E1B9858BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "ManagerApp.DAL\DAL.csproj", "{210C7B95-46D9-4236-9E56-849192F175FF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL", "ManagerApp.DAL\DAL.csproj", "{210C7B95-46D9-4236-9E56-849192F175FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{75D6B7F8-DFAF-4736-A4B9-7202CA9616F7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", "{75D6B7F8-DFAF-4736-A4B9-7202CA9616F7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

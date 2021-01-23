@@ -34,7 +34,18 @@ namespace ServiceApp
         internal void TestStartupAndStop(string[] args)
         {
             this.OnStart(args);
-            Console.ReadLine();
+
+            Console.WriteLine("To stop ManagerFileWatchService input \"stop\":");
+
+            var res = Console.ReadLine().Trim();
+
+            while ((res != "stop"))
+            {
+                Console.WriteLine("Wrong input, try again:");
+
+                res = Console.ReadLine().Trim();
+            }
+
             this.OnStop();
         }
     }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace ATS.DAL.Repository
+namespace DAL.Repository
 {
     public interface IGenericRepository<TEntity> where TEntity : class
     {
@@ -17,7 +17,7 @@ namespace ATS.DAL.Repository
         IEnumerable<TEntity> GetWithInclude(params Expression<Func<TEntity, object>>[] includeProperties);
 
         IEnumerable<TEntity> GetWithInclude(Func<TEntity, bool> predicate, params Expression<Func<TEntity, object>>[] includeProperties);
-        
+
         void Remove(TEntity item);
 
         void Update(TEntity item);
