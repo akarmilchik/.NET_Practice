@@ -17,11 +17,6 @@ namespace DAL
 
         public override int SaveChanges() => base.SaveChanges();
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=ProductsSalesDb;Trusted_Connection=True;");
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -36,7 +31,7 @@ namespace DAL
 
             modelBuilder.Entity<ClientEntity>().ToTable("Clients").HasKey(c => c.Id);
 
-            modelBuilder.Entity<ProductEntity>().ToTable("Producta").HasKey(p => p.Id);
+            modelBuilder.Entity<ProductEntity>().ToTable("Products").HasKey(p => p.Id);
         }
     }
 }

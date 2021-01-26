@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ServiceApp.Helpers;
+using System;
 using System.IO;
 using System.Threading;
 
@@ -14,7 +15,7 @@ namespace ServiceApp
 
         public Logger()
         {
-            watcher = new FileSystemWatcher("D:\\Temp");
+            watcher = new FileSystemWatcher(ReadConfig.ReadSetting("DataFilesPath"));
 
             watcher.Deleted += Watcher_Deleted;
             watcher.Created += Watcher_Created;
@@ -46,7 +47,7 @@ namespace ServiceApp
 
         private void Watcher_Renamed(object sender, RenamedEventArgs e)
         {
-            string fileEvent = "renamed to" + e.FullPath;
+            string fileEvent = "renamed to " + e.FullPath;
 
             string filePath = e.OldFullPath;
 

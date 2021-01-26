@@ -1,9 +1,10 @@
-﻿using DAL.ModelsEntities;
+﻿using DAL;
+using DAL.ModelsEntities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DAL
+namespace ConsoleProcessingApp
 {
     public class DataSeeder
     {
@@ -31,7 +32,7 @@ namespace DAL
             new ProductEntity { Name = "Samsung Galaxy Watch Active (40MM, GPS, Bluetooth)", Cost = 149.99m },
             new ProductEntity { Name = "Smart Oven, a Certified for Humans device – plus Echo Dot", Cost = 249.99m },
             new ProductEntity { Name = "Stainless Steel Office Scissors - Pack of 3", Cost = 11.50m },
-            new ProductEntity { Name = "Seagate Portable 2TB External Hard Drive Portable HDD – USB 3.0 for PC, Mac, PS4, & Xbox", Cost = 58.99m },
+            new ProductEntity { Name = "Seagate 2TB External Hard Drive HDD – USB 3.0 for PC, Mac, PS4, & Xbox", Cost = 58.99m },
             new ProductEntity { Name = "Fossil Men's Grant Stainless Steel Chronograph Quartz Watch", Cost = 96.75m },
             new ProductEntity { Name = "Ecosmart Fleece Hooded Sweatshirt", Cost = 12.00m },
             new ProductEntity { Name = "Apera Instruments AI209 Value Series PH20 Waterproof pH Tester Kit", Cost = 49.75m }
