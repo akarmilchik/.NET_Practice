@@ -7,7 +7,7 @@ namespace DAL.ParseMapper
     {
         public OrderMap()
         {
-            Map(x => x.Date).Name("Date");
+            Map(x => x.Date).TypeConverterOption.Format("dd-MM-yyyy HH:mm:ss");
 
             Map(x => x.Client.FirstName).Name("Client");
 

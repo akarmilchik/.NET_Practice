@@ -13,40 +13,51 @@ namespace ServiceApp
             InitializeComponent();
 
             this.CanStop = true;
+
             this.CanPauseAndContinue = true;
+
             this.AutoLog = true;
         }
 
         protected override void OnStart(string[] args)
         {
-
             logger = new Logger();
+
             Thread loggerThread = new Thread(new ThreadStart(logger.Start));
+
             loggerThread.Start();
+
+            Console.WriteLine("Thread start");
         }
 
         protected override void OnStop()
         {
             logger.Stop();
+
             Thread.Sleep(1000);
         }
 
-        internal void TestStartupAndStop(string[] args)
+        internal void WorkAsConsole(string[] args)
         {
-            this.OnStart(args);
+            bool isWorking = true;
 
-            Console.WriteLine("To stop ManagerFileWatchService input \"stop\":");
-
-            var res = Console.ReadLine().Trim();
-
-            while ((res != "stop"))
+            while (isWorking)
             {
-                Console.WriteLine("Wrong input, try again:");
+                this.OnStart(args);
 
-                res = Console.ReadLine().Trim();
+                Console.WriteLine("Searching for files... To stop, please input \"stop\":");
+
+                var input = Console.ReadLine().Trim();
+
+                if (input == "stop")
+                { 
+                    isWorking = false; 
+                }
             }
 
             this.OnStop();
+
+            Console.WriteLine("Exit...");
         }
     }
 }

@@ -17,10 +17,9 @@ namespace ServiceApp
         {
             watcher = new FileSystemWatcher(ReadConfig.ReadSetting("DataFilesPath"));
 
-            watcher.Deleted += Watcher_Deleted;
             watcher.Created += Watcher_Created;
+
             watcher.Changed += Watcher_Changed;
-            watcher.Renamed += Watcher_Renamed;
         }
 
         public void Start()
@@ -39,20 +38,11 @@ namespace ServiceApp
 
             enabled = false;
 
-            watcher.Deleted -= Watcher_Deleted;
             watcher.Created -= Watcher_Created;
+
             watcher.Changed -= Watcher_Changed;
-            watcher.Renamed -= Watcher_Renamed;
         }
 
-        private void Watcher_Renamed(object sender, RenamedEventArgs e)
-        {
-            string fileEvent = "renamed to " + e.FullPath;
-
-            string filePath = e.OldFullPath;
-
-            RecordEntry(fileEvent, filePath);
-        }
 
         private void Watcher_Changed(object sender, FileSystemEventArgs e)
         {
@@ -60,7 +50,7 @@ namespace ServiceApp
 
             string filePath = e.FullPath;
 
-            RecordEntry(fileEvent, filePath);
+            ProcessFile(fileEvent, filePath);
         }
 
         private void Watcher_Created(object sender, FileSystemEventArgs e)
@@ -69,23 +59,17 @@ namespace ServiceApp
 
             string filePath = e.FullPath;
 
-            RecordEntry(fileEvent, filePath);
+            ProcessFile(fileEvent, filePath);
         }
 
-        private void Watcher_Deleted(object sender, FileSystemEventArgs e)
-        {
-            string fileEvent = "deleted";
-
-            string filePath = e.FullPath;
-
-            RecordEntry(fileEvent, filePath);
-        }
-
-        private void RecordEntry(string fileEvent, string filePath)
+        private void ProcessFile(string fileEvent, string filePath)
         {
             lock (obj)
             {
-                using (StreamWriter writer = new StreamWriter("D:\\templog.txt", true))
+                //work with context
+
+
+                using (StreamWriter writer = new StreamWriter(ReadConfig.ReadSetting("LogFilePath"), true))
                 {
                     writer.WriteLine(string.Format($"{DateTime.Now.ToString("G")} file {filePath} was been {fileEvent}"));
 
@@ -93,6 +77,5 @@ namespace ServiceApp
                 }
             }
         }
-        
     }
 }

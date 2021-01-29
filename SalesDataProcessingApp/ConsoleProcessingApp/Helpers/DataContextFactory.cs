@@ -12,6 +12,8 @@ namespace ConsoleProcessingApp.Helpers
 
             optionsBuilder.UseSqlServer(ReadConfig.ReadSetting("DBConnectionString"));
 
+            //optionsBuilder.UseSqlServer("Server = (localdb)\\mssqllocaldb; Database = ProductsSalesDb; Trusted_Connection = True; MultipleActiveResultSets = true;");
+            
             return new DataContext(optionsBuilder.Options);
         }
     }

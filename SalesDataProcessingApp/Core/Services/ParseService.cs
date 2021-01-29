@@ -1,51 +1,47 @@
-﻿using CsvHelper;
+﻿using Core.Interfaces;
+using CsvHelper;
 using DAL.ModelsEntities;
 using DAL.ParseMapper;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
 
 namespace Core.Services
 {
-    public class ParseService
+    public class ParseService : IParseService
     {
+        private object lockObject = new object();
+
         public List<OrderEntity> ReadCSVFile(string location)
         {
+            List<OrderEntity> records;
+
             try
             {
-                using (var reader = new StreamReader(@location, Encoding.Default))
-                using (var csv = new CsvReader(reader))
+                lock (lockObject)
                 {
-                    var res = csv.Configuration.RegisterClassMap<OrderMap>();
+                    Console.WriteLine($"Lock file {location}");
+                    using (var reader = new StreamReader(@location, Encoding.Default))
+                    using (var csv = new CsvReader(reader))
+                    {
+                        csv.Configuration.CultureInfo = new CultureInfo("en-US");
 
-                    var records = csv.GetRecords<OrderEntity>().ToList();
+                        csv.Configuration.RegisterClassMap<OrderMap>();
 
-                    return records;
+                        records = csv.GetRecords<OrderEntity>().ToList();
+                    }
                 }
+
+                Console.WriteLine($"Unlock file {location}");
+
+                return records;
             }
             catch (Exception e)
             {
                 throw new Exception(e.Message);
-            }
-        }
-
-        public void WriteCSVFile(string path, List<OrderEntity> orders)
-        {
-            using (StreamWriter sw = new StreamWriter(path, false, new UTF8Encoding(true)))
-            using (CsvWriter cw = new CsvWriter(sw))
-            {
-                cw.WriteHeader<OrderEntity>();
-
-                cw.NextRecord();
-
-                foreach (OrderEntity order in orders)
-                {
-                    cw.WriteRecord(order);
-
-                    cw.NextRecord();
-                }
             }
         }
     }

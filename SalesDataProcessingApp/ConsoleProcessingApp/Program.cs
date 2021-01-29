@@ -38,7 +38,9 @@ namespace ConsoleProcessingApp
                 var input = Console.ReadLine().Trim();
 
                 if (input == "stop")
-                { isWorking = false; }
+                { 
+                    isWorking = false;
+                }
             }
 
             fileWatcher.StopWatch();

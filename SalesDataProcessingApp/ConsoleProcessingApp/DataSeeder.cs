@@ -18,24 +18,24 @@ namespace ConsoleProcessingApp
         private static readonly List<ClientEntity> Clients = new List<ClientEntity>
         {
             new ClientEntity { FirstName = "Alex", LastName = "Karm" },
-            new ClientEntity { FirstName = "Jeff", LastName = "Bezos" },
+            new ClientEntity { FirstName = "Donald", LastName = "Macdonald" },
             new ClientEntity { FirstName = "Elvis", LastName = "Presley" },
-            new ClientEntity { FirstName = "Marty", LastName = "McFly" },
+            new ClientEntity { FirstName = "Marty", LastName = "Kalkin" },
             new ClientEntity { FirstName = "Scarlett", LastName = "Johansson" }
         };
 
         private static readonly List<ProductEntity> Products = new List<ProductEntity>
         {
-            new ProductEntity { Name = "Lavender Scented Premium Epsom Bath Salt", Cost = 12.42m },
-            new ProductEntity { Name = "Thinsulate Snowboard Snowmobile Cold Weather Gloves", Cost = 18.69m },
-            new ProductEntity { Name = "Nighthawk Smart Wi-Fi Router, R6700 - AC1750 Wireless", Cost = 57.99m },
-            new ProductEntity { Name = "Samsung Galaxy Watch Active (40MM, GPS, Bluetooth)", Cost = 149.99m },
-            new ProductEntity { Name = "Smart Oven, a Certified for Humans device – plus Echo Dot", Cost = 249.99m },
-            new ProductEntity { Name = "Stainless Steel Office Scissors - Pack of 3", Cost = 11.50m },
-            new ProductEntity { Name = "Seagate 2TB External Hard Drive HDD – USB 3.0 for PC, Mac, PS4, & Xbox", Cost = 58.99m },
-            new ProductEntity { Name = "Fossil Men's Grant Stainless Steel Chronograph Quartz Watch", Cost = 96.75m },
+            new ProductEntity { Name = "Lavender Bath Salt", Cost = 12.42m },
+            new ProductEntity { Name = "Snowboard Cold Weather Gloves", Cost = 18.69m },
+            new ProductEntity { Name = "Nighthawk Wi-Fi Router, R6700 Wireless", Cost = 57.99m },
+            new ProductEntity { Name = "Samsung Galaxy Watch Active", Cost = 149.99m },
+            new ProductEntity { Name = "Smart Microwave Oven", Cost = 249.99m },
+            new ProductEntity { Name = "Stainless Steel Office Scissors", Cost = 11.50m },
+            new ProductEntity { Name = "Seagate 2TB Hard Drive HDD", Cost = 58.99m },
+            new ProductEntity { Name = "Fossil Men's Chronograph Quartz Watch", Cost = 96.75m },
             new ProductEntity { Name = "Ecosmart Fleece Hooded Sweatshirt", Cost = 12.00m },
-            new ProductEntity { Name = "Apera Instruments AI209 Value Series PH20 Waterproof pH Tester Kit", Cost = 49.75m }
+            new ProductEntity { Name = "Apera Instruments AI209 Waterproof pH Tester Kit", Cost = 49.75m }
         };
 
         private static readonly List<OrderEntity> Orders = new List<OrderEntity>

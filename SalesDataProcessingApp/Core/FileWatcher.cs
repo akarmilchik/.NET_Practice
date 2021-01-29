@@ -1,4 +1,5 @@
 ﻿using Core.Interfaces;
+using System;
 using System.Threading;
 
 namespace Core
@@ -18,9 +19,11 @@ namespace Core
         {
             _fileHandler = new FileHandler(_filePath, dataService);
 
-            Thread loggerThread = new Thread(new ThreadStart(_fileHandler.Start));
+            Thread handlerThread = new Thread(new ThreadStart(_fileHandler.Start));
 
-            loggerThread.Start();
+            handlerThread.Start();
+
+            Console.WriteLine("Thread start");
         }
 
         public void StopWatch()

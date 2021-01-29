@@ -45,29 +45,31 @@ namespace Core
 
         private void Watcher_Changed(object sender, FileSystemEventArgs e)
         {
-            string fileEvent = "changed";
+            string fileEvent = "updated";
 
             string filePath = e.FullPath;
 
-            ProcessRecord(fileEvent, filePath);
+            ProcessFile(filePath, fileEvent);
         }
 
         private void Watcher_Created(object sender, FileSystemEventArgs e)
         {
-            string fileEvent = "created";
+            string fileEvent = "parsed";
 
             string filePath = e.FullPath;
 
-            ProcessRecord(fileEvent, filePath);
+            ProcessFile(filePath, fileEvent);
         }
 
-        private string ProcessRecord(string fileEvent, string filePath)
+        private void ProcessFile(string filePath, string fileEvent)
         {
-            _dataService.ProcessFiles(filePath);
+            //Thread fileProcessThread = new Thread(new ParameterizedThreadStart(_dataService.ProcessFile()));
 
-            Console.WriteLine(string.Format($"{DateTime.Now.ToString("G")} file {filePath} was been {fileEvent}"));
+            //fileProcessThread.Start(filePath);
 
-            return filePath;
+            Console.WriteLine("Start reading file thread!");
+
+            Console.WriteLine(string.Format($"{DateTime.Now.ToString("G")} file {filePath} was been {fileEvent} in database"));
         }
     }
 }
