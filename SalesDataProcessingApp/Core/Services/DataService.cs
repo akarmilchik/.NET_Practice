@@ -25,7 +25,7 @@ namespace Core.Services
             _productRepo = new DataRepository<ProductEntity>(context);
         }
 
-        public async Task ProcessFile(object filePath)
+        public void ProcessFile(object filePath)
         {
             var orders = _parseService.ReadCSVFile((string)filePath);
 
@@ -51,7 +51,7 @@ namespace Core.Services
                     order.Product = null;
                 }
 
-                await _orderRepo.Add(order);
+                _orderRepo.Add(order);
             }
         }
 

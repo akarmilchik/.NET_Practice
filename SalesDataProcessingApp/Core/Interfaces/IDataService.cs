@@ -1,9 +1,7 @@
-﻿using System.Threading.Tasks;
-
-namespace Core.Interfaces
+﻿namespace Core.Interfaces
 {
     public interface IDataService
     {
-        Task ProcessFile(object filePath);
+        void ProcessFile(object filePath);
     }
 }

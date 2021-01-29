@@ -25,11 +25,11 @@ namespace Core.Services
                 {
                     Console.WriteLine($"Lock file {location}");
                     using (var reader = new StreamReader(@location, Encoding.Default))
-                    using (var csv = new CsvReader(reader))
+                    using (var csv = new CsvReader(reader, new CultureInfo("en-US")))
                     {
-                        csv.Configuration.CultureInfo = new CultureInfo("en-US");
+                        //csv.Configuration.CultureInfo = new CultureInfo("en-US");
 
-                        csv.Configuration.RegisterClassMap<OrderMap>();
+                        //csv.Configuration.RegisterClassMap<OrderMap>();
 
                         records = csv.GetRecords<OrderEntity>().ToList();
                     }

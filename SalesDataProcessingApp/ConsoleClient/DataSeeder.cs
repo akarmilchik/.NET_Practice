@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DAL;
+using DAL.ModelsEntities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -46,7 +48,7 @@ namespace ConsoleClient
 
         public void SeedData()
         {
-            if (_context.Database.CanConnect())
+            if (_context.Database.Exists())
             {
                 if (!_context.Clients.Any())
                 {
@@ -62,7 +64,6 @@ namespace ConsoleClient
                 {
                     _context.Orders.AddRange(Orders);
                 }               
-
                 _context.SaveChanges();
             }
         }

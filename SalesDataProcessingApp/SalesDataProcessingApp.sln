@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceClient", "ServiceApp\ServiceClient.csproj", "{75F67C93-9308-440B-83FE-80ACFAA13785}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceClient", "ServiceClient\ServiceClient.csproj", "{75F67C93-9308-440B-83FE-80ACFAA13785}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleClient", "ConsoleClient\ConsoleClient.csproj", "{13E5C1B8-CD7C-4BFA-A998-90BE7059338F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL_2", "DAL_2\DAL_2.csproj", "{E557D4F0-7F44-42D9-80D9-A2D02102E8E1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{E557D4F0-7F44-42D9-80D9-A2D02102E8E1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core_2", "Core_2\Core_2.csproj", "{E6BF7E67-30E1-4B50-9EFA-B63E1B6C7270}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{E6BF7E67-30E1-4B50-9EFA-B63E1B6C7270}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
