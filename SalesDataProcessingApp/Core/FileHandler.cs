@@ -1,7 +1,7 @@
 ﻿using Core.Interfaces;
+using Core.Services;
 using System;
 using System.IO;
-using System.Threading;
 
 namespace Core
 {
@@ -9,13 +9,15 @@ namespace Core
     {
         private FileSystemWatcher watcher;
 
-        private bool enabled = true;
+        private readonly Serilog.Core.Logger _logger;
 
-        private static IDataService _dataService;
+        private readonly IDataService _dataService;
 
-        public FileHandler(string filesPath, IDataService dataService)
+        public FileHandler(string filesPath, Serilog.Core.Logger logger, IDataService dataService)
         {
             watcher = new FileSystemWatcher(filesPath);
+
+            _logger = logger;
 
             _dataService = dataService;
 
@@ -26,18 +28,11 @@ namespace Core
         public void Start()
         {
             watcher.EnableRaisingEvents = true;
-
-            while (enabled)
-            {
-                Thread.Sleep(1000);
-            }
         }
 
         public void Stop()
         {
             watcher.EnableRaisingEvents = false;
-
-            enabled = false;
 
             watcher.Created -= Watcher_Created;
             watcher.Changed -= Watcher_Changed;
@@ -63,13 +58,12 @@ namespace Core
 
         private void ProcessFile(string filePath, string fileEvent)
         {
-            //Thread fileProcessThread = new Thread(new ParameterizedThreadStart(_dataService.ProcessFile()));
 
-            //fileProcessThread.Start(filePath);
+            //конструкция синхронизации, залочить файл
 
-            Console.WriteLine("Start reading file thread!");
+            _logger.Information("Start process file in handler.");
 
-            Console.WriteLine(string.Format($"{DateTime.Now.ToString("G")} file {filePath} was been {fileEvent} in database"));
+            _dataService.ProcessFile(filePath);
         }
     }
 }

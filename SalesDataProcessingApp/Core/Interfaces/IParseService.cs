@@ -5,6 +5,6 @@ namespace Core.Interfaces
 {
     public interface IParseService
     {
-        List<OrderEntity> ReadCSVFile(string location);
+        List<OrderEntity> ReadCSVFile(string location, Serilog.Core.Logger logger);
     }
 }

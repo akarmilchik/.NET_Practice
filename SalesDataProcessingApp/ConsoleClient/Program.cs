@@ -1,8 +1,11 @@
 ﻿using ConsoleClient.Helpers;
 using Core;
+using Core.Helpers;
 using Core.Interfaces;
+using Core.Logger;
 using Core.Services;
 using DAL;
+using Serilog.Core;
 using System;
 
 namespace ConsoleClient
@@ -15,35 +18,41 @@ namespace ConsoleClient
 
         public static FileWatcher fileWatcher;
 
+        public static Logger logger;
+
         static void Main(string[] args)
         {
             bool isWorking = true;
 
             CreateContext();
 
-            InitDataBase();
+            InitLogger();
 
-            InitDataService(context);
+            InitData.InitializeData(context, logger);
+
+            InitDataService();
 
             InitWatcher();
 
-            Console.WriteLine("Hello effective manager!");
+            logger.Information("Hello effective manager! Starting console client...");
 
             while (isWorking)
             {
                 fileWatcher.StartWatch(dataService);
 
-                Console.WriteLine("Searching for files... To stop, please input \"stop\":");
+                logger.Information("Searching for files... To stop, please input \"stop\":");
 
                 var input = Console.ReadLine().Trim();
 
                 if (input == "stop")
-                { isWorking = false; }
+                {
+                    isWorking = false;
+                }
             }
 
             fileWatcher.StopWatch();
 
-            Console.WriteLine("Exit...");
+            logger.Information("Exit...");
         }
 
         public static void CreateContext()
@@ -51,21 +60,26 @@ namespace ConsoleClient
             context = new DataContext();
         }
 
-        public static void InitDataBase()
+        public static void InitLogger()
         {
-            context.Database.Exists();
-
-            InitData.InitializeData(context);
+            logger = LoggerCreator.CreateConsoleLogger();
         }
 
-        public static void InitDataService(DataContext context)
+        public static void InitDataService()
         {
-            dataService = new DataService(context);
+            dataService = new DataService(context, logger);
         }
 
         public static void InitWatcher()
         {
-            fileWatcher = new FileWatcher(ReadConfig.ReadSetting("DataFilesPath"));
+            try
+            {
+                fileWatcher = new FileWatcher(ReadConfig.ReadSetting("DataFilesPath"), logger);
+            }
+            catch (Exception e)
+            {
+                logger.Error($"Error initializing watcher: {e.Message}.");
+            }
         }
     }
 }

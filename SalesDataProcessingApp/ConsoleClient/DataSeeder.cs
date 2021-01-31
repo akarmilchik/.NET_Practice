@@ -1,5 +1,6 @@
 ﻿using DAL;
 using DAL.ModelsEntities;
+using Serilog.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +11,13 @@ namespace ConsoleClient
     {
         private readonly DataContext _context;
 
-        public DataSeeder(DataContext context)
+        private readonly Logger _logger;
+
+        public DataSeeder(DataContext context, Logger logger)
         {
             _context = context;
+
+            _logger = logger;
         }
 
         private static readonly List<ClientEntity> Clients = new List<ClientEntity>
@@ -53,16 +58,22 @@ namespace ConsoleClient
                 if (!_context.Clients.Any())
                 {
                     _context.Clients.AddRange(Clients);
+
+                    _logger.Information($"Seeded {Clients} to database.");
                 }
 
                 if (!_context.Products.Any())
                 {
                     _context.Products.AddRange(Products);
+
+                    _logger.Information($"Seeded {Products} to database.");
                 }
 
                 if (!_context.Orders.Any())
                 {
                     _context.Orders.AddRange(Orders);
+
+                    _logger.Information($"Seeded {Orders} to database.");
                 }               
                 _context.SaveChanges();
             }

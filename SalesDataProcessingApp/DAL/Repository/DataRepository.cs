@@ -18,10 +18,10 @@ namespace DAL.Repository
 
             _dbSet = context.Set<TEntity>();
         }
-
-        public async Task<IEnumerable<TEntity>> Get()
+        
+        public IEnumerable<TEntity> Get()
         {
-            return await _dbSet.AsNoTracking().ToListAsync();
+            return _dbSet.AsNoTracking().ToList();
         }
 
         public IEnumerable<TEntity> Get(Func<TEntity, bool> predicate)
@@ -29,9 +29,9 @@ namespace DAL.Repository
             return _dbSet.AsNoTracking().Where(predicate).ToList();
         }
 
-        public async Task<TEntity> FindById(int id)
+        public TEntity FindById(int id)
         {
-            return await _dbSet.FindAsync(id);
+            return  _dbSet.Find(id);
         }
 
         public void Add(TEntity item)
@@ -48,11 +48,11 @@ namespace DAL.Repository
             _context.SaveChanges();
         }
 
-        public async Task Remove(TEntity item)
+        public void Remove(TEntity item)
         {
             _dbSet.Remove(item);
 
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
         }
     }
 }

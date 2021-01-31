@@ -10,16 +10,18 @@ namespace Core.Services
 {
     public class DataService : IDataService
     {
+        private readonly Serilog.Core.Logger _logger;
+
         public ParseService _parseService;
 
         public DataRepository<OrderEntity> _orderRepo;
         public DataRepository<ClientEntity> _clientRepo;
         public DataRepository<ProductEntity> _productRepo;
 
-        public DataService(DataContext context)
+        public DataService(DataContext context, Serilog.Core.Logger logger)
         {
             _parseService = new ParseService();
-
+            _logger = logger;
             _orderRepo = new DataRepository<OrderEntity>(context);
             _clientRepo = new DataRepository<ClientEntity>(context);
             _productRepo = new DataRepository<ProductEntity>(context);
@@ -27,32 +29,46 @@ namespace Core.Services
 
         public void ProcessFile(object filePath)
         {
-            var orders = _parseService.ReadCSVFile((string)filePath);
+            var orders = _parseService.ReadCSVFile((string)filePath, _logger);
 
             orders = SplitClientNames(orders);
 
-            foreach (var order in orders)
+            Task[] taskArray = new Task[orders.Count];
+
+            for (int i = 0; i < taskArray.Length; i++)
             {
-                var existingClient = _clientRepo.Get(c => c.FirstName == order.Client.FirstName && c.LastName == order.Client.LastName).FirstOrDefault();
-
-                var exisitingProduct = _productRepo.Get(o => o.Name == order.Product.Name && o.Cost == order.Product.Cost).FirstOrDefault();
-
-                if (existingClient != null)
-                {
-                    order.ClientId = existingClient.Id;
-
-                    order.Client = null;
-                }
-
-                if (exisitingProduct != null)
-                {
-                    order.ProductId = exisitingProduct.Id;
-
-                    order.Product = null;
-                }
-
-                _orderRepo.Add(order);
+                taskArray[i] = Task.Factory.StartNew(() => ProcessOrderEntity(orders[i]));
             }
+
+            Task.WaitAll(taskArray);
+
+            _logger.Information("All files has been parsed to the database.");
+        }
+
+
+        public void ProcessOrderEntity(OrderEntity orderEntity)
+        {
+            var existingClient = _clientRepo.Get(c => c.FirstName == orderEntity.Client.FirstName && c.LastName == orderEntity.Client.LastName).FirstOrDefault();
+
+            var exisitingProduct = _productRepo.Get(o => o.Name == orderEntity.Product.Name && o.Cost == orderEntity.Product.Cost).FirstOrDefault();
+
+            if (existingClient != null)
+            {
+                orderEntity.ClientId = existingClient.Id;
+
+                orderEntity.Client = null;
+            }
+
+            if (exisitingProduct != null)
+            {
+                orderEntity.ProductId = exisitingProduct.Id;
+
+                orderEntity.Product = null;
+            }
+
+            _orderRepo.Add(orderEntity);
+
+            _logger.Information($"Order was been added/updated to database in async Task.");
         }
 
         public List<OrderEntity> SplitClientNames(List<OrderEntity> orders)

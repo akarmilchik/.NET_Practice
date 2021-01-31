@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace DAL.Repository
 {
@@ -8,13 +7,13 @@ namespace DAL.Repository
     {
         void Add(TEntity entityItem);
 
-        Task<TEntity> FindById(int id);
+        TEntity FindById(int id);
 
-        Task<IEnumerable<TEntity>> Get();
+        IEnumerable<TEntity> Get();
 
         IEnumerable<TEntity> Get(Func<TEntity, bool> predicate);
 
-        Task Remove(TEntity item);
+        void Remove(TEntity item);
 
         void Update(TEntity item);
     }

@@ -1,12 +1,15 @@
 ﻿using DAL;
+using Serilog.Core;
 
 namespace ConsoleClient.Helpers
 {
     public static class InitData
     {
-        public static void InitializeData(DataContext context)
+        public static void InitializeData(DataContext context, Logger logger)
         {
-            var seeder = new DataSeeder(context);
+            context.Database.Exists();
+
+            var seeder = new DataSeeder(context, logger);
 
             seeder.SeedData();
         }
