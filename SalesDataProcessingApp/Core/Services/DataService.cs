@@ -31,18 +31,12 @@ namespace Core.Services
         {
             var orders = _parseService.ReadCSVFile((string)filePath, _logger);
 
-            orders = SplitClientNames(orders);
+            SplitClientNames(ref orders);
 
-            Task[] taskArray = new Task[orders.Count];
-
-            for (int i = 0; i < taskArray.Length; i++)
+            foreach (var order in orders)
             {
-                taskArray[i] = Task.Factory.StartNew(() => ProcessOrderEntity(orders[i]));
+                ProcessOrderEntity(order);
             }
-
-            Task.WaitAll(taskArray);
-
-            _logger.Information("All files has been parsed to the database.");
         }
 
 
@@ -68,10 +62,10 @@ namespace Core.Services
 
             _orderRepo.Add(orderEntity);
 
-            _logger.Information($"Order was been added/updated to database in async Task.");
+            _logger.Information($"Order was been added/updated to database in his own Task.");
         }
 
-        public List<OrderEntity> SplitClientNames(List<OrderEntity> orders)
+        public void SplitClientNames(ref List<OrderEntity> orders)
         {
             foreach (var order in orders)
             {
@@ -81,8 +75,6 @@ namespace Core.Services
 
                 order.Client.LastName = splittedName[1];
             }
-
-            return orders;
         }
     }
 }

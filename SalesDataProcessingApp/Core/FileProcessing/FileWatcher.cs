@@ -1,8 +1,7 @@
 ﻿using Core.Interfaces;
-using Core.Services;
-using System.Threading;
+using System.Threading.Tasks;
 
-namespace Core
+namespace Core.FileProcessing
 {
     public class FileWatcher
     {
@@ -10,22 +9,22 @@ namespace Core
 
         public FileHandler _fileHandler;
 
-        private string _filePath;
+        private string _filesFolderPath;
 
-        public FileWatcher(string filePath, Serilog.Core.Logger logger)
+        public FileWatcher(string filesFolderPath, Serilog.Core.Logger logger)
         {
-            _filePath = filePath;
+            _filesFolderPath = filesFolderPath;
 
             _logger = logger;
         }
 
         public void StartWatch(IDataService dataService)
         {
-            _fileHandler = new FileHandler(_filePath, _logger, dataService);
+            _fileHandler = new FileHandler(_filesFolderPath, _logger, dataService);
 
-            Thread handlerThread = new Thread(_fileHandler.Start);
+            Task handlerTask = new Task(_fileHandler.Start, TaskCreationOptions.AttachedToParent);
 
-            handlerThread.Start();
+            handlerTask.Start();
 
             _logger.Information("Start watcher.");
         }

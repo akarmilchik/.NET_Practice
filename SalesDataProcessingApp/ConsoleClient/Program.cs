@@ -4,13 +4,16 @@ using Core.Helpers;
 using Core.Interfaces;
 using Core.Logger;
 using Core.Services;
+using Core.FileProcessing;
 using DAL;
 using Serilog.Core;
 using System;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace ConsoleClient
 {
-    class Program
+    public class Program
     {
         public static DataContext context;
 
@@ -23,6 +26,8 @@ namespace ConsoleClient
         static void Main(string[] args)
         {
             bool isWorking = true;
+
+            int i = 0;
 
             CreateContext();
 
@@ -38,21 +43,30 @@ namespace ConsoleClient
 
             while (isWorking)
             {
-                fileWatcher.StartWatch(dataService);
+                logger.Information($"Searching for files... [{i++}]");
 
-                logger.Information("Searching for files... To stop, please input \"stop\":");
+                var searchingTask = new Task(() => SearchFiles());
 
-                var input = Console.ReadLine().Trim();
+                searchingTask.Start();
 
-                if (input == "stop")
+                searchingTask.Wait();
+
+                if (i == 100)
                 {
                     isWorking = false;
-                }
+                }    
             }
 
             fileWatcher.StopWatch();
 
             logger.Information("Exit...");
+        }
+
+        public static void SearchFiles()
+        {
+            Thread.Sleep(5000);
+
+            fileWatcher.StartWatch(dataService);
         }
 
         public static void CreateContext()
@@ -62,7 +76,7 @@ namespace ConsoleClient
 
         public static void InitLogger()
         {
-            logger = LoggerCreator.CreateConsoleLogger();
+            logger = LoggerFactory.CreateConsoleLogger();
         }
 
         public static void InitDataService()

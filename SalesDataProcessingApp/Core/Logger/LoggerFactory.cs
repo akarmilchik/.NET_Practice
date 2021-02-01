@@ -3,7 +3,7 @@ using Serilog;
 
 namespace Core.Logger
 {
-    public static class LoggerCreator
+    public static class LoggerFactory
     {
         public static Serilog.Core.Logger CreateConsoleLogger()
         {

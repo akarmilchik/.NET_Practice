@@ -13,42 +13,24 @@ namespace Core.Services
 {
     public class ParseService : IParseService
     {
-        private object _lockObject = new object();
-
         private readonly Serilog.Core.Logger _logger; 
 
         public List<OrderEntity> ReadCSVFile(string location, Serilog.Core.Logger logger)
         {
             List<OrderEntity> records;
 
-            try
+            using (var reader = new StreamReader(@location, Encoding.Default))
+            using (var csv = new CsvReader(reader))
             {
-                lock (_lockObject)
-                {
-                    logger.Information($"Lock file {location}.");
 
-                    using (var reader = new StreamReader(@location, Encoding.Default))
-                    using (var csv = new CsvReader(reader))
-                    {
+                csv.Configuration.CultureInfo = new CultureInfo("en-US");
 
-                        csv.Configuration.CultureInfo = new CultureInfo("en-US");
-
-                        csv.Configuration.RegisterClassMap<OrderMap>();
+                csv.Configuration.RegisterClassMap<OrderMap>();
                         
-                        records = csv.GetRecords<OrderEntity>().ToList();
-                    }
-                }
-
-                logger.Information($"Unlock file {location}.");
-
-                return records;
+                records = csv.GetRecords<OrderEntity>().ToList();
             }
-            catch (Exception e)
-            {
-                logger.Error($"File open error: {e}.");
-
-                throw;
-            }
+                
+            return records;
         }
     }
 }
