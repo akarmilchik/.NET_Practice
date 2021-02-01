@@ -1,7 +1,7 @@
 ﻿using CsvHelper.Configuration;
 using DAL.ModelsEntities;
 
-namespace DAL.ParseMapper
+namespace DAL.ParseMaps
 {
     public sealed class OrderMap : ClassMap<OrderEntity>
     {

@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Core.FileProcessing;
+using Core.Interfaces;
+using Serilog.Core;
+using System;
 using System.ServiceProcess;
 using System.Threading;
 
@@ -6,9 +9,15 @@ namespace ServiceApp
 {
     public partial class FileWatchService : ServiceBase
     {
-        Logger logger;
+        private FileHandler _fileHandler;
 
-        public FileWatchService(string[] Args)
+        private readonly Logger _logger;
+
+        public IDataService _dataService;
+
+        private readonly string _filesFolderPath;
+
+        public FileWatchService(string filesFolderPath, Logger logger, IDataService dataService)
         {
             InitializeComponent();
 
@@ -17,13 +26,19 @@ namespace ServiceApp
             this.CanPauseAndContinue = true;
 
             this.AutoLog = true;
+
+            _filesFolderPath = filesFolderPath;
+
+            _dataService = dataService;
+
+            _logger = logger;
         }
 
         protected override void OnStart(string[] args)
         {
-            logger = new Logger();
+            _fileHandler = new FileHandler(_filesFolderPath, _logger, _dataService);
 
-            Thread loggerThread = new Thread(new ThreadStart(logger.Start));
+            Thread loggerThread = new Thread(new ThreadStart(_fileHandler.Start));
 
             loggerThread.Start();
 
@@ -32,7 +47,7 @@ namespace ServiceApp
 
         protected override void OnStop()
         {
-            logger.Stop();
+            _fileHandler.Stop();
 
             Thread.Sleep(1000);
         }
@@ -45,7 +60,7 @@ namespace ServiceApp
             {
                 this.OnStart(args);
 
-                Console.WriteLine("Searching for files... To stop, please input \"stop\":");
+                _logger.Information("Searching for files...");
 
                 var input = Console.ReadLine().Trim();
 
@@ -57,7 +72,7 @@ namespace ServiceApp
 
             this.OnStop();
 
-            Console.WriteLine("Exit...");
+            _logger.Information("Exit...");
         }
     }
 }

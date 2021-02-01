@@ -5,53 +5,53 @@ namespace Core
 {
     public class Locker
     {
-        private ReaderWriterLockSlim cacheLock = new ReaderWriterLockSlim();
+        private readonly ReaderWriterLockSlim _cacheLock = new ReaderWriterLockSlim();
 
-        private List<string> innerCache = new List<string>();
+        private readonly List<string> _innerCache = new List<string>();
 
         public string Read(int key)
         {
-            cacheLock.EnterReadLock();
+            _cacheLock.EnterReadLock();
             try
             {
-                return innerCache[key];
+                return _innerCache[key];
             }
             finally
             {
-                cacheLock.ExitReadLock();
+                _cacheLock.ExitReadLock();
             }
         }
 
         public void Add(string value)
         {
-            cacheLock.EnterWriteLock();
+            _cacheLock.EnterWriteLock();
             try
             {
-                innerCache.Add(value);
+                _innerCache.Add(value);
             }
             finally
             {
-                cacheLock.ExitWriteLock();
+                _cacheLock.ExitWriteLock();
             }
         }
 
         public void Delete(string value)
         {
-            cacheLock.EnterWriteLock();
+            _cacheLock.EnterWriteLock();
 
             try
             {
-                innerCache.Remove(value);
+                _innerCache.Remove(value);
             }
             finally
             {
-                cacheLock.ExitWriteLock();
+                _cacheLock.ExitWriteLock();
             }
         }
 
         ~Locker()
         {
-            if (cacheLock != null) cacheLock.Dispose();
+            if (_cacheLock != null) _cacheLock.Dispose();
         }
     }
 }

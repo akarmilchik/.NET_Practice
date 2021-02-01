@@ -7,7 +7,7 @@ namespace Core.FileProcessing
 {
     public class FileHandler
     {
-        private FileSystemWatcher _watcher;
+        private readonly FileSystemWatcher _watcher;
 
         private readonly Serilog.Core.Logger _logger;
 
@@ -22,6 +22,7 @@ namespace Core.FileProcessing
             _dataService = dataService;
 
             _watcher.Created += Watcher_Created;
+
             _watcher.Changed += Watcher_Changed;
         }
 
@@ -35,6 +36,7 @@ namespace Core.FileProcessing
             _watcher.EnableRaisingEvents = false;
 
             _watcher.Created -= Watcher_Created;
+
             _watcher.Changed -= Watcher_Changed;
         }
 

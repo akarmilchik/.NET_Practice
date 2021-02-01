@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Configuration;
 
-namespace ServiceApp.Helpers
+namespace ServiceClient.Helpers
 {
     public static class ReadConfig
     {

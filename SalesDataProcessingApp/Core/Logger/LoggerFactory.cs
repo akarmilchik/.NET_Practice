@@ -18,11 +18,10 @@ namespace Core.Logger
         {
             var logger = new LoggerConfiguration()
                 .WriteTo.Console(outputTemplate: "[{Timestamp:dd-MM-yyyy HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}")
-                .WriteTo.File(ReadConfig.ReadSetting("LogFilePath"), rollingInterval: RollingInterval.Day)
+                .WriteTo.File(ReadConfig.ReadSetting("LogFilePath"), outputTemplate: "[{Timestamp:dd-MM-yyyy HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}", rollingInterval: RollingInterval.Minute)
                 .CreateLogger();
 
             return logger;
         }
-
     }
 }

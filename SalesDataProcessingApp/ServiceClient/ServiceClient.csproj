@@ -225,7 +225,6 @@
       <DependentUpon>FileWatchService.cs</DependentUpon>
     </Compile>
     <Compile Include="Helpers\ReadConfig.cs" />
-    <Compile Include="Logger.cs" />
     <Compile Include="ManagerFileWatchServiceInstaller.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -248,6 +247,10 @@
     <ProjectReference Include="..\Core\Core.csproj">
       <Project>{e6bf7e67-30e1-4b50-9efa-b63e1b6c7270}</Project>
       <Name>Core_2</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DAL\DAL.csproj">
+      <Project>{e557d4f0-7f44-42d9-80d9-a2d02102e8e1}</Project>
+      <Name>DAL</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

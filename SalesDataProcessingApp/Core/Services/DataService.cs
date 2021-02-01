@@ -1,7 +1,7 @@
 ﻿using Core.Interfaces;
 using DAL;
 using DAL.ModelsEntities;
-using DAL.Repository;
+using DAL.Repositories;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,15 +15,21 @@ namespace Core.Services
         public ParseService _parseService;
 
         public DataRepository<OrderEntity> _orderRepo;
+
         public DataRepository<ClientEntity> _clientRepo;
+
         public DataRepository<ProductEntity> _productRepo;
 
         public DataService(DataContext context, Serilog.Core.Logger logger)
         {
             _parseService = new ParseService();
+
             _logger = logger;
+
             _orderRepo = new DataRepository<OrderEntity>(context);
+
             _clientRepo = new DataRepository<ClientEntity>(context);
+
             _productRepo = new DataRepository<ProductEntity>(context);
         }
 
@@ -38,7 +44,6 @@ namespace Core.Services
                 ProcessOrderEntity(order);
             }
         }
-
 
         public void ProcessOrderEntity(OrderEntity orderEntity)
         {

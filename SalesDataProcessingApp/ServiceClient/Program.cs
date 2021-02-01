@@ -1,4 +1,9 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using Core.Helpers;
+using Core.Interfaces;
+using Core.Logger;
+using Core.Services;
+using DAL;
+using Serilog.Core;
 using System;
 using System.ServiceProcess;
 
@@ -6,43 +11,58 @@ namespace ServiceApp
 {
     static class Program
     {
+        public static DataContext context;
+
+        public static Logger logger;
+
+        public static IDataService dataService;
+
+        public static FileWatchService fileWatchService;
+
         static void Main(string[] args)
         {
+            InitLogger();
 
-           // CreateHostBuilder(args).Build().Run();
+            InitDataService();
+
+            logger.Information("Hello effective manager! Starting service client...");
 
             if (Environment.UserInteractive)
             {
-                FileWatchService watchService = new FileWatchService(args);
+                //work as console
 
-                watchService.WorkAsConsole(args);
+                fileWatchService = new FileWatchService(ReadConfig.ReadSetting("DataFilesPath"), logger, dataService);
+
+                fileWatchService.WorkAsConsole(args);
             }
             else
             {
+                // work as service
+
                 ServiceBase[] ServicesToRun;
 
                 ServicesToRun = new ServiceBase[]
                 {
-                    new FileWatchService(null)
+                    new FileWatchService(ReadConfig.ReadSetting("DataFilesPath"), logger, dataService)
                 };
 
                 ServiceBase.Run(ServicesToRun);
             }
         }
-        /*
-        public static IHostBuilder CreateHostBuilder(string[] args)
+
+        public static void CreateContext()
         {
-            var host = Host.CreateDefaultBuilder(args)
-                .ConfigureServices((hostContext, services) =>
-                {
-                    var optionsBuilder = new DbContextOptionsBuilder<DataContext>();
-                    optionsBuilder.UseSqlServer("Server=.\\SQLEXPRESS;Database=Soteria;Trusted_Connection=True;");
-                    services.AddScoped<SoteriaDbContext>(s => new SoteriaDbContext(optionsBuilder.Options));
+            context = new DataContext();
+        }
 
-                    services.AddHostedService<Worker>();
-                });
+        public static void InitLogger()
+        {
+            logger = LoggerFactory.CreateFileLogger();
+        }
 
-            return host;
-        }*/
+        public static void InitDataService()
+        {
+            dataService = new DataService(context, logger);
+        }
     }
 }

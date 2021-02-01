@@ -1,15 +1,14 @@
-﻿using ConsoleClient.Helpers;
-using Core;
+﻿using ConsoleCLient.Helpers;
+using Core.FileProcessing;
 using Core.Helpers;
 using Core.Interfaces;
 using Core.Logger;
 using Core.Services;
-using Core.FileProcessing;
 using DAL;
 using Serilog.Core;
 using System;
-using System.Threading.Tasks;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace ConsoleClient
 {
@@ -23,7 +22,7 @@ namespace ConsoleClient
 
         public static Logger logger;
 
-        static void Main(string[] args)
+        public static void Main()
         {
             bool isWorking = true;
 
@@ -66,7 +65,7 @@ namespace ConsoleClient
         {
             Thread.Sleep(5000);
 
-            fileWatcher.StartWatch(dataService);
+            fileWatcher.StartWatch();
         }
 
         public static void CreateContext()
@@ -88,7 +87,7 @@ namespace ConsoleClient
         {
             try
             {
-                fileWatcher = new FileWatcher(ReadConfig.ReadSetting("DataFilesPath"), logger);
+                fileWatcher = new FileWatcher(ReadConfig.ReadSetting("DataFilesPath"), logger, dataService);
             }
             catch (Exception e)
             {

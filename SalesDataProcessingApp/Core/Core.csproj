@@ -98,7 +98,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Constants\AddUpdateStatus.cs" />
     <Compile Include="FileProcessing\FileHandler.cs" />
     <Compile Include="FileProcessing\FileWatcher.cs" />
     <Compile Include="Helpers\ReadConfig.cs" />

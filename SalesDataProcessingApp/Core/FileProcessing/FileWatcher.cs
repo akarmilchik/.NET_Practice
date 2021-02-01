@@ -7,20 +7,24 @@ namespace Core.FileProcessing
     {
         private readonly Serilog.Core.Logger _logger;
 
-        public FileHandler _fileHandler;
+        private readonly string _filesFolderPath;
 
-        private string _filesFolderPath;
+        private readonly IDataService _dataService;
 
-        public FileWatcher(string filesFolderPath, Serilog.Core.Logger logger)
+        private FileHandler _fileHandler;
+
+        public FileWatcher(string filesFolderPath, Serilog.Core.Logger logger, IDataService dataService)
         {
             _filesFolderPath = filesFolderPath;
+
+            _dataService = dataService;
 
             _logger = logger;
         }
 
-        public void StartWatch(IDataService dataService)
+        public void StartWatch()
         {
-            _fileHandler = new FileHandler(_filesFolderPath, _logger, dataService);
+            _fileHandler = new FileHandler(_filesFolderPath, _logger, _dataService);
 
             Task handlerTask = new Task(_fileHandler.Start, TaskCreationOptions.AttachedToParent);
 

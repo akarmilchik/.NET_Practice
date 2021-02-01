@@ -1,11 +1,11 @@
-﻿using DAL;
-using Serilog.Core;
+﻿using ConsoleClient;
+using DAL;
 
-namespace ConsoleClient.Helpers
+namespace ConsoleCLient.Helpers
 {
     public static class InitData
     {
-        public static void InitializeData(DataContext context, Logger logger)
+        public static void InitializeData(DataContext context, Serilog.Core.Logger logger)
         {
             context.Database.Exists();
 

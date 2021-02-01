@@ -1,7 +1,7 @@
 ﻿using Core.Interfaces;
 using CsvHelper;
 using DAL.ModelsEntities;
-using DAL.ParseMapper;
+using DAL.ParseMaps;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -13,24 +13,30 @@ namespace Core.Services
 {
     public class ParseService : IParseService
     {
-        private readonly Serilog.Core.Logger _logger; 
-
         public List<OrderEntity> ReadCSVFile(string location, Serilog.Core.Logger logger)
         {
-            List<OrderEntity> records;
-
-            using (var reader = new StreamReader(@location, Encoding.Default))
-            using (var csv = new CsvReader(reader))
+            try
             {
+                List<OrderEntity> records;
 
-                csv.Configuration.CultureInfo = new CultureInfo("en-US");
+                using (var reader = new StreamReader(@location, Encoding.Default))
+                using (var csv = new CsvReader(reader))
+                {
 
-                csv.Configuration.RegisterClassMap<OrderMap>();
-                        
-                records = csv.GetRecords<OrderEntity>().ToList();
+                    csv.Configuration.CultureInfo = new CultureInfo("en-US");
+
+                    csv.Configuration.RegisterClassMap<OrderMap>();
+
+                    records = csv.GetRecords<OrderEntity>().ToList();
+                }
+
+                return records;
             }
-                
-            return records;
+            catch (Exception e)
+            {
+                logger.Error($"Erro reading file: {e}");
+                throw;
+            }
         }
     }
 }

@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Threading.Tasks;
+using DAL.Interfaces;
 
-namespace DAL.Repository
+namespace DAL.Repositories
 {
     public class DataRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {
-        DataContext _context;
+        private readonly DataContext _context;
 
-        DbSet<TEntity> _dbSet;
+        private readonly DbSet<TEntity> _dbSet;
 
         public DataRepository(DataContext context)
         {
