@@ -5,11 +5,11 @@ namespace ConsoleCLient.Helpers
 {
     public static class InitData
     {
-        public static void InitializeData(DataContext context, Serilog.Core.Logger logger)
+        public static void InitializeData(DataContext context)
         {
             context.Database.Exists();
 
-            var seeder = new DataSeeder(context, logger);
+            var seeder = new DataSeeder(context);
 
             seeder.SeedData();
         }

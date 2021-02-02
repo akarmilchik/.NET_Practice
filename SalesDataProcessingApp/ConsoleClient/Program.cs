@@ -32,7 +32,7 @@ namespace ConsoleClient
 
             InitLogger();
 
-            InitData.InitializeData(context, logger);
+            InitData.InitializeData(context);
 
             InitDataService();
 

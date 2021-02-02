@@ -4,6 +4,7 @@ using DAL.ModelsEntities;
 using DAL.Repositories;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Core.Services
@@ -66,8 +67,6 @@ namespace Core.Services
             }
 
             _orderRepo.Add(orderEntity);
-
-            _logger.Information($"Order was been added/updated to database in his own Task.");
         }
 
         public void SplitClientNames(ref List<OrderEntity> orders)

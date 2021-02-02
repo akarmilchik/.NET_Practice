@@ -62,8 +62,6 @@ namespace Core.FileProcessing
         {
             var locker = new Locker();
 
-            _logger.Information($"Thread: {Task.CurrentId}");
-
             if (locker.Read(file.Path) == null)
             {
                 _logger.Information($"Lock file {file.Name}.");
@@ -71,6 +69,8 @@ namespace Core.FileProcessing
                 Task processFileTask = new Task(() => _dataService.ProcessFile(file.Path));
 
                 processFileTask.Start();
+
+                _logger.Information($"Task id:{processFileTask.Id};  File:{file.Name}");
 
                 locker.Add(file.Path);
 
