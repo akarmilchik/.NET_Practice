@@ -24,13 +24,15 @@ namespace Core.FileProcessing
 
         public void StartWatch()
         {
+            _logger.Information("Start watcher.");
+
             _fileHandler = new FileHandler(_filesFolderPath, _logger, _dataService);
 
-            Task handlerTask = new Task(_fileHandler.Start, TaskCreationOptions.AttachedToParent);
+            //Task handlerTask = new Task(_fileHandler.Start, TaskCreationOptions.AttachedToParent);
 
-            handlerTask.Start();
+            //handlerTask.Start();
 
-            _logger.Information("Start watcher.");
+            _fileHandler.Start();            
         }
 
         public void StopWatch()

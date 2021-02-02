@@ -29,6 +29,8 @@ namespace Core.FileProcessing
         public void Start()
         {
             _watcher.EnableRaisingEvents = true;
+
+            _logger.Information("Start handler.");
         }
 
         public void Stop()
@@ -38,6 +40,8 @@ namespace Core.FileProcessing
             _watcher.Created -= Watcher_Created;
 
             _watcher.Changed -= Watcher_Changed;
+
+            _logger.Information("Stop handler.");
         }
 
         private void Watcher_Changed(object sender, FileSystemEventArgs e)
@@ -54,24 +58,35 @@ namespace Core.FileProcessing
             ProcessFile(file);
         }
 
-        private void ProcessFile(FileModel file)
+        private bool ProcessFile(FileModel file)
         {
             var locker = new Locker();
 
-            _logger.Information($"Lock file {file.Name}.");
+            _logger.Information($"Thread: {Task.CurrentId}");
 
-            Task processFileTask = new Task(() => _dataService.ProcessFile(file.Path));
-
-            processFileTask.Start();
-
-            locker.Add(file.Path);
-
-            if (processFileTask.IsCompleted)
+            if (locker.Read(file.Path) == null)
             {
-                locker.Delete(file.Path);
+                _logger.Information($"Lock file {file.Name}.");
+
+                Task processFileTask = new Task(() => _dataService.ProcessFile(file.Path));
+
+                processFileTask.Start();
+
+                locker.Add(file.Path);
+
+                if (processFileTask.IsCompleted)
+                {
+                    locker.Delete(file.Path);
+
+                    _logger.Information($"Unlock file {file.Name}.");
+
+                    return true;
+                }
+
+                return false;
             }
 
-            _logger.Information($"Unlock file {file.Name}.");
+            return false;
         }
     }
 }

@@ -50,22 +50,29 @@ namespace ConsoleClient
 
                 searchingTask.Wait();
 
+                logger.Information("Exit from DOWN task to main.");
+
                 if (i == 100)
                 {
                     isWorking = false;
                 }    
             }
 
-            fileWatcher.StopWatch();
+            
 
             logger.Information("Exit...");
         }
 
         public static void SearchFiles()
         {
+            fileWatcher.StartWatch();
+
             Thread.Sleep(5000);
 
-            fileWatcher.StartWatch();
+            if (Thread.CurrentThread.IsAlive)
+            {
+                fileWatcher.StopWatch();
+            }
         }
 
         public static void CreateContext()

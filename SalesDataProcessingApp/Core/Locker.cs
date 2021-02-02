@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
+using System.Linq;
 
 namespace Core
 {
@@ -9,12 +10,12 @@ namespace Core
 
         private readonly List<string> _innerCache = new List<string>();
 
-        public string Read(int key)
+        public string Read(string value)
         {
             _cacheLock.EnterReadLock();
             try
             {
-                return _innerCache[key];
+                return _innerCache.Where(c => c == value).FirstOrDefault();
             }
             finally
             {
