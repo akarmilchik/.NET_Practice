@@ -1,10 +1,10 @@
-﻿using ConsoleCLient.Helpers;
-using Core.FileProcessing;
+﻿using Core.FileProcessing;
 using Core.Helpers;
 using Core.Interfaces;
 using Core.Logger;
 using Core.Services;
 using DAL;
+using DAL.Helpers;
 using Serilog.Core;
 using System;
 using System.Threading;
@@ -50,17 +50,8 @@ namespace ConsoleClient
 
                 searchingTask.Wait();
 
-                logger.Information("Exit from DOWN task to main.");
-
-                if (i == 100)
-                {
-                    isWorking = false;
-                }    
+                logger.Information("Exit from DOWN task to main.");   
             }
-
-            
-
-            logger.Information("Exit...");
         }
 
         public static void SearchFiles()

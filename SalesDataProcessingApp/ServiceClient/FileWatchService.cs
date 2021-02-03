@@ -36,43 +36,30 @@ namespace ServiceApp
 
         protected override void OnStart(string[] args)
         {
+            _logger.Information("Start watcher.");
+
             _fileHandler = new FileHandler(_filesFolderPath, _logger, _dataService);
 
-            Thread loggerThread = new Thread(new ThreadStart(_fileHandler.Start));
-
-            loggerThread.Start();
-
-            Console.WriteLine("Thread start");
+            _fileHandler.Start();
         }
 
         protected override void OnStop()
         {
             _fileHandler.Stop();
 
-            Thread.Sleep(1000);
+            _logger.Information("Stop watcher.");
         }
 
         internal void WorkAsConsole(string[] args)
         {
-            bool isWorking = true;
-
-            while (isWorking)
-            {
-                this.OnStart(args);
-
-                _logger.Information("Searching for files...");
-
-                var input = Console.ReadLine().Trim();
-
-                if (input == "stop")
-                { 
-                    isWorking = false; 
-                }
-            }
-
-            this.OnStop();
-
-            _logger.Information("Exit...");
+            this.OnStart(args);
         }
+
+
+        internal void StopAsConsole()
+        {
+            this.OnStop();
+        }
+
     }
 }

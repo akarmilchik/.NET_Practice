@@ -1,6 +1,8 @@
-﻿using Core.Interfaces;
+﻿using Core.Extensions;
+using Core.Interfaces;
 using DAL.Models;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Core.FileProcessing
@@ -58,11 +60,11 @@ namespace Core.FileProcessing
             ProcessFile(file);
         }
 
-        private bool ProcessFile(FileModel file)
+        private void ProcessFile(FileModel file)
         {
-            var locker = new Locker();
+            ReaderWriterLockSlim locker = new ReaderWriterLockSlim();
 
-            if (locker.Read(file.Path) == null)
+            using (locker.Read())
             {
                 _logger.Information($"Lock file {file.Name}.");
 
@@ -71,22 +73,7 @@ namespace Core.FileProcessing
                 processFileTask.Start();
 
                 _logger.Information($"Task id:{processFileTask.Id};  File:{file.Name}");
-
-                locker.Add(file.Path);
-
-                if (processFileTask.IsCompleted)
-                {
-                    locker.Delete(file.Path);
-
-                    _logger.Information($"Unlock file {file.Name}.");
-
-                    return true;
-                }
-
-                return false;
             }
-
-            return false;
         }
     }
 }

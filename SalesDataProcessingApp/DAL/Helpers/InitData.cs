@@ -1,7 +1,4 @@
-﻿using ConsoleClient;
-using DAL;
-
-namespace ConsoleCLient.Helpers
+﻿namespace DAL.Helpers
 {
     public static class InitData
     {

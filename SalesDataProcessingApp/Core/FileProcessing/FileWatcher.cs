@@ -28,10 +28,6 @@ namespace Core.FileProcessing
 
             _fileHandler = new FileHandler(_filesFolderPath, _logger, _dataService);
 
-            //Task handlerTask = new Task(_fileHandler.Start, TaskCreationOptions.AttachedToParent);
-
-            //handlerTask.Start();
-
             _fileHandler.Start();            
         }
 
