@@ -55,7 +55,6 @@ namespace ServiceApp
             this.OnStart(args);
         }
 
-
         internal void StopAsConsole()
         {
             this.OnStop();

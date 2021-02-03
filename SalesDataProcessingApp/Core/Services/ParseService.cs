@@ -34,7 +34,7 @@ namespace Core.Services
             }
             catch (Exception e)
             {
-                logger.Error($"Erro reading file: {e}");
+                logger.Error($"Error reading file: {e}");
                 throw;
             }
         }
