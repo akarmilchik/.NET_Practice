@@ -1,11 +1,10 @@
 ﻿using Core.Interfaces;
 using DAL;
+using DAL.Interfaces;
 using DAL.ModelsEntities;
 using DAL.Repositories;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Core.Services
 {
@@ -13,13 +12,11 @@ namespace Core.Services
     {
         private readonly Serilog.Core.Logger _logger;
 
-        public ParseService _parseService;
+        private readonly ParseService _parseService;
 
-        public DataRepository<OrderEntity> _orderRepo;
+        private readonly IGenericRepository _dataRepo;
 
-        public DataRepository<ClientEntity> _clientRepo;
-
-        public DataRepository<ProductEntity> _productRepo;
+        private readonly DataContext _context;
 
         public DataService(DataContext context, Serilog.Core.Logger logger)
         {
@@ -27,11 +24,9 @@ namespace Core.Services
 
             _logger = logger;
 
-            _orderRepo = new DataRepository<OrderEntity>(context);
+            _context = context;
 
-            _clientRepo = new DataRepository<ClientEntity>(context);
-
-            _productRepo = new DataRepository<ProductEntity>(context);
+            _dataRepo = new DataRepository(context); 
         }
 
         public void ProcessFile(object filePath)
@@ -44,13 +39,15 @@ namespace Core.Services
             {
                 ProcessOrderEntity(order);
             }
+
+            _context.Dispose();
         }
 
         public void ProcessOrderEntity(OrderEntity orderEntity)
         {
-            var existingClient = _clientRepo.Get(c => c.FirstName == orderEntity.Client.FirstName && c.LastName == orderEntity.Client.LastName).FirstOrDefault();
+            var existingClient = _dataRepo.Get<ClientEntity>(c => c.FirstName == orderEntity.Client.FirstName && c.LastName == orderEntity.Client.LastName).FirstOrDefault();
 
-            var exisitingProduct = _productRepo.Get(o => o.Name == orderEntity.Product.Name && o.Cost == orderEntity.Product.Cost).FirstOrDefault();
+            var exisitingProduct = _dataRepo.Get<ProductEntity>(o => o.Name == orderEntity.Product.Name && o.Cost == orderEntity.Product.Cost).FirstOrDefault();
 
             if (existingClient != null)
             {
@@ -66,7 +63,7 @@ namespace Core.Services
                 orderEntity.Product = null;
             }
 
-            _orderRepo.Add(orderEntity);
+            _dataRepo.Add<OrderEntity>(orderEntity);
         }
 
         public void SplitClientNames(ref List<OrderEntity> orders)

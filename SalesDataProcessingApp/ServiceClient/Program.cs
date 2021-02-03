@@ -76,7 +76,7 @@ namespace ServiceApp
 
         public static void SearchFiles(string[] args)
         {
-            fileWatchService = new FileWatchService(ReadConfig.ReadSetting("DataFilesPath"), logger, dataService);
+            fileWatchService = new FileWatchService(ReadConfig.ReadSetting("DataFilesPath"), logger);
 
             fileWatchService.WorkAsConsole(args);
 
@@ -94,7 +94,7 @@ namespace ServiceApp
 
             ServicesToRun = new ServiceBase[]
             {
-                    new FileWatchService(ReadConfig.ReadSetting("DataFilesPath"), logger, dataService)
+                    new FileWatchService(ReadConfig.ReadSetting("DataFilesPath"), logger)
             };
 
             ServiceBase.Run(ServicesToRun);

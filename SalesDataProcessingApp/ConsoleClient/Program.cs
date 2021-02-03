@@ -1,8 +1,6 @@
 ﻿using Core.FileProcessing;
 using Core.Helpers;
-using Core.Interfaces;
 using Core.Logger;
-using Core.Services;
 using DAL;
 using DAL.Helpers;
 using Serilog.Core;
@@ -16,8 +14,6 @@ namespace ConsoleClient
     {
         public static DataContext context;
 
-        public static IDataService dataService;
-
         public static FileWatcher fileWatcher;
 
         public static Logger logger;
@@ -28,13 +24,9 @@ namespace ConsoleClient
 
             int i = 0;
 
-            CreateContext();
+            InitContext();
 
             InitLogger();
-
-            InitData.InitializeData(context);
-
-            InitDataService();
 
             InitWatcher();
 
@@ -66,9 +58,13 @@ namespace ConsoleClient
             }
         }
 
-        public static void CreateContext()
+        public static void InitContext()
         {
             context = new DataContext();
+
+            InitData.InitializeData(context);
+
+            context.Dispose();
         }
 
         public static void InitLogger()
@@ -76,16 +72,11 @@ namespace ConsoleClient
             logger = LoggerFactory.CreateConsoleLogger();
         }
 
-        public static void InitDataService()
-        {
-            dataService = new DataService(context, logger);
-        }
-
         public static void InitWatcher()
         {
             try
             {
-                fileWatcher = new FileWatcher(ReadConfig.ReadSetting("DataFilesPath"), logger, dataService);
+                fileWatcher = new FileWatcher(ReadConfig.ReadSetting("DataFilesPath"), logger);
             }
             catch (Exception e)
             {

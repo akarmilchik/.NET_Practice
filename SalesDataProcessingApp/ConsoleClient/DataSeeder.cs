@@ -1,6 +1,5 @@
 ﻿using DAL;
 using DAL.ModelsEntities;
-using Serilog.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;

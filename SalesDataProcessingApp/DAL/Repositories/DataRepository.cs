@@ -1,35 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
+﻿using DAL.Interfaces;
+using System;
 using System.Linq;
-using DAL.Interfaces;
 
 namespace DAL.Repositories
 {
-    public class DataRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
+    public class DataRepository : IGenericRepository, IDisposable
     {
         private readonly DataContext _context;
-
-        private readonly DbSet<TEntity> _dbSet;
 
         public DataRepository(DataContext context)
         {
             _context = context;
-
-            _dbSet = context.Set<TEntity>();
         }
 
-        public IEnumerable<TEntity> Get(Func<TEntity, bool> predicate)
+        public IQueryable<TEntity> Get<TEntity>(Func<TEntity, bool> predicate) where TEntity : class
         {
-            return _dbSet.AsNoTracking().Where(predicate).ToList();
+            return _context.Set<TEntity>().Where(predicate).AsQueryable();
         }
 
-        public void Add(TEntity item)
+        public void Add<TEntity>(TEntity item) where TEntity : class
         {
-             _dbSet.Add(item);
+            _context.Set<TEntity>().Add(item);
 
-             _context.SaveChanges();
+            _context.SaveChanges();
         }
 
+        public void Dispose()
+        {
+            _context.Dispose();        
+        }
     }
 }

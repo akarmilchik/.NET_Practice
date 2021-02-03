@@ -1,7 +1,4 @@
-﻿using Core.Interfaces;
-using System.Threading.Tasks;
-
-namespace Core.FileProcessing
+﻿namespace Core.FileProcessing
 {
     public class FileWatcher
     {
@@ -9,15 +6,11 @@ namespace Core.FileProcessing
 
         private readonly string _filesFolderPath;
 
-        private readonly IDataService _dataService;
-
         private FileHandler _fileHandler;
 
-        public FileWatcher(string filesFolderPath, Serilog.Core.Logger logger, IDataService dataService)
+        public FileWatcher(string filesFolderPath, Serilog.Core.Logger logger)
         {
             _filesFolderPath = filesFolderPath;
-
-            _dataService = dataService;
 
             _logger = logger;
         }
@@ -26,7 +19,7 @@ namespace Core.FileProcessing
         {
             _logger.Information("Start watcher.");
 
-            _fileHandler = new FileHandler(_filesFolderPath, _logger, _dataService);
+            _fileHandler = new FileHandler(_filesFolderPath, _logger);
 
             _fileHandler.Start();            
         }

@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Linq;
 
 namespace DAL.Interfaces
 {
-    public interface IGenericRepository<TEntity> where TEntity : class
+    public interface IGenericRepository
     {
-        void Add(TEntity entityItem);
-
-        IEnumerable<TEntity> Get(Func<TEntity, bool> predicate);
+        void Add<TEntity>(TEntity item) where TEntity : class;
+        void Dispose();
+        IQueryable<TEntity> Get<TEntity>(Func<TEntity, bool> predicate) where TEntity : class;
     }
 }

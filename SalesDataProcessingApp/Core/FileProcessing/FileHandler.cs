@@ -1,5 +1,7 @@
 ﻿using Core.Extensions;
 using Core.Interfaces;
+using Core.Services;
+using DAL;
 using DAL.Models;
 using System.IO;
 using System.Threading;
@@ -13,15 +15,15 @@ namespace Core.FileProcessing
 
         private readonly Serilog.Core.Logger _logger;
 
-        private readonly IDataService _dataService;
+        private IDataService _dataService;
 
-        public FileHandler(string filesFolderPath, Serilog.Core.Logger logger, IDataService dataService)
+        private DataContext _context;
+
+        public FileHandler(string filesFolderPath, Serilog.Core.Logger logger)
         {
             _watcher = new FileSystemWatcher(filesFolderPath);
 
             _logger = logger;
-
-            _dataService = dataService;
 
             _watcher.Created += Watcher_Created;
 
@@ -68,12 +70,18 @@ namespace Core.FileProcessing
             {
                 _logger.Information($"Lock file {file.Name}.");
 
+                _context = new DataContext();
+
+                _dataService = new DataService(_context, _logger);
+
                 Task processFileTask = new Task(() => _dataService.ProcessFile(file.Path));
 
                 processFileTask.Start();
 
                 _logger.Information($"Task id:{processFileTask.Id};  File:{file.Name}");
             }
+
+            _logger.Information($"Unlock file {file.Name}.");
         }
     }
 }

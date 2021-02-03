@@ -13,11 +13,9 @@ namespace ServiceApp
 
         private readonly Logger _logger;
 
-        public IDataService _dataService;
-
         private readonly string _filesFolderPath;
 
-        public FileWatchService(string filesFolderPath, Logger logger, IDataService dataService)
+        public FileWatchService(string filesFolderPath, Logger logger)
         {
             InitializeComponent();
 
@@ -29,8 +27,6 @@ namespace ServiceApp
 
             _filesFolderPath = filesFolderPath;
 
-            _dataService = dataService;
-
             _logger = logger;
         }
 
@@ -38,7 +34,7 @@ namespace ServiceApp
         {
             _logger.Information("Start watcher.");
 
-            _fileHandler = new FileHandler(_filesFolderPath, _logger, _dataService);
+            _fileHandler = new FileHandler(_filesFolderPath, _logger);
 
             _fileHandler.Start();
         }
