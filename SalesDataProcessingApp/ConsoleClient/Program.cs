@@ -1,9 +1,11 @@
-﻿using Core.FileProcessing;
+﻿using Autofac;
+using Core.Extensions;
+using Core.FileProcessing;
 using Core.Helpers;
-using Core.Logger;
+using Core.Interfaces;
 using DAL;
-using DAL.Helpers;
-using Serilog.Core;
+using DAL.Interfaces;
+using Serilog;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,29 +14,34 @@ namespace ConsoleClient
 {
     public class Program
     {
-        public static DataContext context;
-
+        public static DataContext _context;
         public static FileWatcher fileWatcher;
+        public static ILogger _logger;
+        public static IParseService _parseService;
+        public static IRepository _repository;
+        public static IContainer container;
 
-        public static Logger logger;
+        public Program(ILogger logger, IParseService parseService, IRepository repository, DataContext context)
+        {
+            _logger = logger;
+            _context = context;
+            _parseService = parseService;
+            _repository = repository;
+        }
 
         public static void Main()
         {
+            int i = 0;
             bool isWorking = true;
 
-            int i = 0;
-
-            InitContext();
-
-            InitLogger();
-
+            InitContainer();
             InitWatcher();
 
-            logger.Information("Hello effective manager! Starting console client...");
+            _logger.Information("Hello effective manager! Starting console client...");
 
             while (isWorking)
             {
-                logger.Information($"Searching for files... [{i++}]");
+                _logger.Information($"Searching for files... [{i++}]");
 
                 var searchingTask = new Task(() => SearchFiles());
 
@@ -42,7 +49,7 @@ namespace ConsoleClient
 
                 searchingTask.Wait();
 
-                logger.Information("Exit from DOWN task to main.");   
+                _logger.Information("Exit from DOWN task to main.");
             }
         }
 
@@ -58,29 +65,20 @@ namespace ConsoleClient
             }
         }
 
-        public static void InitContext()
+        public static void InitContainer()
         {
-            context = new DataContext();
-
-            InitData.InitializeData(context);
-
-            context.Dispose();
-        }
-
-        public static void InitLogger()
-        {
-            logger = LoggerFactory.CreateConsoleLogger();
+            container = AutofacConfig.ConfigureContainer();
         }
 
         public static void InitWatcher()
         {
             try
             {
-                fileWatcher = new FileWatcher(ReadConfig.ReadSetting("DataFilesPath"), logger);
+                fileWatcher = new FileWatcher(ReadConfig.ReadSetting("DataFilesPath"), _logger, _parseService, _repository);
             }
             catch (Exception e)
             {
-                logger.Error($"Error initializing watcher: {e.Message}.");
+                _logger.Error($"Error initializing watcher: {e.Message}.");
             }
         }
     }

@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace DAL.Interfaces
 {
-    public interface IGenericRepository
+    public interface IRepository
     {
         void Add<TEntity>(TEntity item) where TEntity : class;
         void Dispose();

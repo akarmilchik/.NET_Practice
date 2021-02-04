@@ -1,10 +1,10 @@
-﻿using Core.Helpers;
+﻿using Autofac;
+using Core.Extensions;
+using Core.Helpers;
 using Core.Interfaces;
-using Core.Logger;
-using Core.Services;
 using DAL;
-using DAL.Helpers;
-using Serilog.Core;
+using DAL.Interfaces;
+using Serilog;
 using System;
 using System.ServiceProcess;
 using System.Threading;
@@ -12,15 +12,21 @@ using System.Threading.Tasks;
 
 namespace ServiceApp
 {
-    static class Program
+    class Program
     {
         public static DataContext context;
-
-        public static Logger logger;
-
-        public static IDataService dataService;
-
+        public static ILogger _logger;
+        public static IParseService _parseService;
+        public static IRepository _repository;
+        public static IContainer container;
         public static FileWatchService fileWatchService;
+
+        public Program(ILogger logger, IParseService parseService, IRepository repository)
+        {
+            _logger = logger;
+            _parseService = parseService;
+            _repository = repository;
+        }
 
         static void Main(string[] args)
         {
@@ -28,15 +34,9 @@ namespace ServiceApp
 
             bool isWorking = true;
 
-            CreateContext();
+            InitContainer();
 
-            InitLogger();
-
-            InitData.InitializeData(context);
-
-            InitDataService();
-
-            logger.Information("Hello effective manager! Starting service client...");
+            _logger.Information("Hello effective manager! Starting service client...");
 
             if (Environment.UserInteractive)
             {
@@ -44,7 +44,7 @@ namespace ServiceApp
 
                 while (isWorking)
                 {
-                    logger.Information($"Searching for files... [{i++}]");
+                    _logger.Information($"Searching for files... [{i++}]");
 
                     var searchingTask = new Task(() => SearchFiles(args));
 
@@ -52,7 +52,7 @@ namespace ServiceApp
 
                     searchingTask.Wait();
 
-                    logger.Information("Exit from DOWN task to main.");
+                    _logger.Information("Exit from DOWN task to main.");
                 }
             }
             else
@@ -61,7 +61,7 @@ namespace ServiceApp
 
                 while (isWorking)
                 {
-                    logger.Information($"Searching for files... [{i++}]");
+                    _logger.Information($"Searching for files... [{i++}]");
 
                     var searchingTask = new Task(() => SearchFilesService());
 
@@ -69,14 +69,14 @@ namespace ServiceApp
 
                     searchingTask.Wait();
 
-                    logger.Information("Exit from DOWN task to main.");
+                    _logger.Information("Exit from DOWN task to main.");
                 }
             }
         }
 
         public static void SearchFiles(string[] args)
         {
-            fileWatchService = new FileWatchService(ReadConfig.ReadSetting("DataFilesPath"), logger);
+            fileWatchService = new FileWatchService(ReadConfig.ReadSetting("DataFilesPath"), _logger, _parseService, _repository);
 
             fileWatchService.WorkAsConsole(args);
 
@@ -94,7 +94,7 @@ namespace ServiceApp
 
             ServicesToRun = new ServiceBase[]
             {
-                    new FileWatchService(ReadConfig.ReadSetting("DataFilesPath"), logger)
+                new FileWatchService(ReadConfig.ReadSetting("DataFilesPath"), _logger, _parseService, _repository)
             };
 
             ServiceBase.Run(ServicesToRun);
@@ -107,19 +107,9 @@ namespace ServiceApp
             }
         }
 
-        public static void CreateContext()
+        public static void InitContainer()
         {
-            context = new DataContext();
-        }
-
-        public static void InitLogger()
-        {
-            logger = LoggerFactory.CreateFileLogger();
-        }
-
-        public static void InitDataService()
-        {
-            dataService = new DataService(context, logger);
+            container = AutofacConfig.ConfigureContainer();
         }
     }
 }

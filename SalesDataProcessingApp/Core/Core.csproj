@@ -121,7 +121,8 @@
     <Compile Include="Helpers\ReadConfig.cs" />
     <Compile Include="Interfaces\IDataService.cs" />
     <Compile Include="Interfaces\IParseService.cs" />
-    <Compile Include="Logger\LoggerFactory.cs" />
+    <Compile Include="Logger\ConsoleLogger.cs" />
+    <Compile Include="Logger\FileLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\DataService.cs" />
     <Compile Include="Services\ParseService.cs" />

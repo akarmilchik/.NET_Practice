@@ -2,7 +2,9 @@
 using Core.Interfaces;
 using Core.Services;
 using DAL;
+using DAL.Interfaces;
 using DAL.Models;
+using Serilog;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,21 +14,18 @@ namespace Core.FileProcessing
     public class FileHandler
     {
         private readonly FileSystemWatcher _watcher;
-
-        private readonly Serilog.Core.Logger _logger;
-
-        private IDataService _dataService;
-
+        private readonly ILogger _logger;
+        private readonly IRepository _repository;
+        private readonly IParseService _parseService;
         private DataContext _context;
 
-        public FileHandler(string filesFolderPath, Serilog.Core.Logger logger)
+        public FileHandler(string filesFolderPath, ILogger logger, IParseService parseService, IRepository repository)
         {
             _watcher = new FileSystemWatcher(filesFolderPath);
-
             _logger = logger;
-
+            _parseService = parseService;
+            _repository = repository;
             _watcher.Created += Watcher_Created;
-
             _watcher.Changed += Watcher_Changed;
         }
 
@@ -70,9 +69,11 @@ namespace Core.FileProcessing
             {
                 _logger.Information($"Lock file {file.Name}.");
 
-                _context = new DataContext();
 
-                _dataService = new DataService(_context, _logger);
+                //here we need to create a new context and datasrvice for this context
+                var _context = new DataContext();
+
+                var _dataService = new DataService(_context, _parseService, _repository);
 
                 Task processFileTask = new Task(() => _dataService.ProcessFile(file.Path));
 

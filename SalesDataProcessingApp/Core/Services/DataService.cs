@@ -2,7 +2,6 @@
 using DAL;
 using DAL.Interfaces;
 using DAL.ModelsEntities;
-using DAL.Repositories;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,28 +9,20 @@ namespace Core.Services
 {
     public class DataService : IDataService
     {
-        private readonly Serilog.Core.Logger _logger;
-
-        private readonly ParseService _parseService;
-
-        private readonly IGenericRepository _dataRepo;
-
+        private readonly IParseService _parseService;
+        private readonly IRepository _repository;
         private readonly DataContext _context;
 
-        public DataService(DataContext context, Serilog.Core.Logger logger)
+        public DataService(DataContext context, IParseService parseService, IRepository repository)
         {
-            _parseService = new ParseService();
-
-            _logger = logger;
-
+            _parseService = parseService;
             _context = context;
-
-            _dataRepo = new DataRepository(context); 
+            _repository = repository; 
         }
 
         public void ProcessFile(object filePath)
         {
-            var orders = _parseService.ReadCSVFile((string)filePath, _logger);
+            var orders = _parseService.ReadCSVFile((string)filePath);
 
             SplitClientNames(ref orders);
 
@@ -45,9 +36,9 @@ namespace Core.Services
 
         public void ProcessOrderEntity(OrderEntity orderEntity)
         {
-            var existingClient = _dataRepo.Get<ClientEntity>(c => c.FirstName == orderEntity.Client.FirstName && c.LastName == orderEntity.Client.LastName).FirstOrDefault();
+            var existingClient = _repository.Get<ClientEntity>(c => c.FirstName == orderEntity.Client.FirstName && c.LastName == orderEntity.Client.LastName).FirstOrDefault();
 
-            var exisitingProduct = _dataRepo.Get<ProductEntity>(o => o.Name == orderEntity.Product.Name && o.Cost == orderEntity.Product.Cost).FirstOrDefault();
+            var exisitingProduct = _repository.Get<ProductEntity>(o => o.Name == orderEntity.Product.Name && o.Cost == orderEntity.Product.Cost).FirstOrDefault();
 
             if (existingClient != null)
             {
@@ -63,7 +54,7 @@ namespace Core.Services
                 orderEntity.Product = null;
             }
 
-            _dataRepo.Add<OrderEntity>(orderEntity);
+            _repository.Add(orderEntity);
         }
 
         public void SplitClientNames(ref List<OrderEntity> orders)

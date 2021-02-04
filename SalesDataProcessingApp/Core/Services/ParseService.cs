@@ -2,6 +2,7 @@
 using CsvHelper;
 using DAL.ModelsEntities;
 using DAL.ParseMaps;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -13,7 +14,14 @@ namespace Core.Services
 {
     public class ParseService : IParseService
     {
-        public List<OrderEntity> ReadCSVFile(string location, Serilog.Core.Logger logger)
+        private readonly ILogger _logger;
+
+        public ParseService(ILogger logger)
+        {
+            _logger = logger;
+        }
+
+        public List<OrderEntity> ReadCSVFile(string location)
         {
             try
             {
@@ -34,7 +42,7 @@ namespace Core.Services
             }
             catch (Exception e)
             {
-                logger.Error($"Error reading file: {e}");
+                _logger.Error($"Error reading file: {e}");
                 throw;
             }
         }
