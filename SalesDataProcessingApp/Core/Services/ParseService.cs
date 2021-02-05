@@ -43,6 +43,7 @@ namespace Core.Services
             catch (Exception e)
             {
                 _logger.Error($"Error reading file: {e}");
+
                 throw;
             }
         }

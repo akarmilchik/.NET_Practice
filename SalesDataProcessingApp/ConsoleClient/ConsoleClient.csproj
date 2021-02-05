@@ -226,7 +226,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataSeeder.cs" />
+    <Compile Include="IoC\AutofacConfig.cs" />
+    <Compile Include="IoC\ConsoleClientModule.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

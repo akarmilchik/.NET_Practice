@@ -12,9 +12,7 @@ namespace DAL
         }
 
         public DbSet<ClientEntity> Clients { get; set; }
-
         public DbSet<OrderEntity> Orders { get; set; }
-
         public DbSet<ProductEntity> Products { get; set; }
 
         public override int SaveChanges()
@@ -37,8 +35,8 @@ namespace DAL
                     ex.Entries.Single().Reload();
                 }
 
-            } while (saveFailed);
-
+            } 
+            while (saveFailed);
 
             return base.SaveChanges();
         }

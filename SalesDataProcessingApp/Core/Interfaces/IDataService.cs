@@ -1,4 +1,5 @@
 ﻿using DAL.ModelsEntities;
+using System.Collections.Generic;
 
 namespace Core.Interfaces
 {
@@ -6,5 +7,6 @@ namespace Core.Interfaces
     {
         void ProcessFile(object filePath);
         void ProcessOrderEntity(OrderEntity orderEntity);
+        void SplitClientNames(ref List<OrderEntity> orders);
     }
 }

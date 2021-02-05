@@ -1,16 +1,14 @@
 ﻿using Serilog;
 
-namespace Core.Logger
+namespace Core.Loggers
 {
     public class ConsoleLogger
     {
-        public Serilog.Core.Logger Create()
+        public static ILogger Create()
         {
-            var logger = new LoggerConfiguration()
+            return new LoggerConfiguration()
                    .WriteTo.Console(outputTemplate: "[{Timestamp:dd-MM-yyyy HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}")
                    .CreateLogger();
-
-            return logger;
         }
     }
 }

@@ -7,7 +7,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{75F67C93-9308-440B-83FE-80ACFAA13785}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <RootNamespace>ServiceApp</RootNamespace>
     <AssemblyName>ServiceApp</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
@@ -235,6 +235,8 @@
     <Compile Include="FileWatchService.Designer.cs">
       <DependentUpon>FileWatchService.cs</DependentUpon>
     </Compile>
+    <Compile Include="IoC\AutofacConfig.cs" />
+    <Compile Include="IoC\ServiceClientModule.cs" />
     <Compile Include="ManagerFileWatchServiceInstaller.cs">
       <SubType>Component</SubType>
     </Compile>

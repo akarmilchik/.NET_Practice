@@ -1,10 +1,6 @@
 ﻿using Autofac;
-using Core.Extensions;
-using Core.Helpers;
-using Core.Interfaces;
-using DAL;
-using DAL.Interfaces;
 using Serilog;
+using ServiceApp.IoC;
 using System;
 using System.ServiceProcess;
 using System.Threading;
@@ -14,69 +10,48 @@ namespace ServiceApp
 {
     class Program
     {
-        public static DataContext context;
         public static ILogger _logger;
-        public static IParseService _parseService;
-        public static IRepository _repository;
         public static IContainer container;
         public static FileWatchService fileWatchService;
 
-        public Program(ILogger logger, IParseService parseService, IRepository repository)
-        {
-            _logger = logger;
-            _parseService = parseService;
-            _repository = repository;
-        }
-
         static void Main(string[] args)
-        {
+        { 
             int i = 0;
 
             bool isWorking = true;
 
+            Task searchingTask;
+
             InitContainer();
 
+            _logger = container.Resolve<ILogger>();
+
             _logger.Information("Hello effective manager! Starting service client...");
-
-            if (Environment.UserInteractive)
+            
+            while (isWorking)
             {
-                //work as console
+                _logger.Information($"Searching for files... [{i++}]");
 
-                while (isWorking)
+                if (Environment.UserInteractive)
                 {
-                    _logger.Information($"Searching for files... [{i++}]");
-
-                    var searchingTask = new Task(() => SearchFiles(args));
-
-                    searchingTask.Start();
-
-                    searchingTask.Wait();
-
-                    _logger.Information("Exit from DOWN task to main.");
+                    searchingTask = new Task(() => SearchFiles(args));
                 }
-            }
-            else
-            {
-                // work as service
-
-                while (isWorking)
+                else 
                 {
-                    _logger.Information($"Searching for files... [{i++}]");
-
-                    var searchingTask = new Task(() => SearchFilesService());
-
-                    searchingTask.Start();
-
-                    searchingTask.Wait();
-
-                    _logger.Information("Exit from DOWN task to main.");
+                    searchingTask = new Task(() => SearchFilesService());
                 }
+
+                searchingTask.Start();
+
+                searchingTask.Wait();
+
+                _logger.Information("Exit from DOWN task to main.");
             }
         }
 
         public static void SearchFiles(string[] args)
         {
-            fileWatchService = new FileWatchService(ReadConfig.ReadSetting("DataFilesPath"), _logger, _parseService, _repository);
+            fileWatchService = container.Resolve<FileWatchService>();
 
             fileWatchService.WorkAsConsole(args);
 
@@ -92,9 +67,11 @@ namespace ServiceApp
         {
             ServiceBase[] ServicesToRun;
 
+            fileWatchService = container.Resolve<FileWatchService>();
+
             ServicesToRun = new ServiceBase[]
             {
-                new FileWatchService(ReadConfig.ReadSetting("DataFilesPath"), _logger, _parseService, _repository)
+                fileWatchService
             };
 
             ServiceBase.Run(ServicesToRun);

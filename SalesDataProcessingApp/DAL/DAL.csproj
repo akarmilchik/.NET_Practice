@@ -85,6 +85,7 @@
     <Compile Include="DataContext.cs" />
     <Compile Include="DataSeeder.cs" />
     <Compile Include="Helpers\InitData.cs" />
+    <Compile Include="IoC\DALModule.cs" />
     <Compile Include="Migrations\202101291925224_Initial.cs" />
     <Compile Include="Migrations\202101291925224_Initial.designer.cs">
       <DependentUpon>202101291925224_Initial.cs</DependentUpon>

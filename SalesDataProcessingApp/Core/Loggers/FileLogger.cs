@@ -1,17 +1,15 @@
 ﻿using Core.Helpers;
 using Serilog;
 
-namespace Core.Logger
+namespace Core.Loggers
 {
     public class FileLogger
     {
-        public Serilog.Core.Logger CreateFileLogger()
+        public static ILogger Create()
         {
-            var logger = new LoggerConfiguration()
+            return new LoggerConfiguration()
                 .WriteTo.File(ReadConfig.ReadSetting("LogFilePath"), outputTemplate: "[{Timestamp:dd-MM-yyyy HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}", rollingInterval: RollingInterval.Day)
                 .CreateLogger();
-
-            return logger;
         }
     }
 }

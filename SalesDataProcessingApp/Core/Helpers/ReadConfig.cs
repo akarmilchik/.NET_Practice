@@ -6,7 +6,6 @@ namespace Core.Helpers
     {
         public static string ReadSetting(string key)
         {
-            
             var appSettings = ConfigurationManager.AppSettings;
 
             var settingString = appSettings[key];

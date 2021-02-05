@@ -1,12 +1,7 @@
 ﻿using Autofac;
-using Core.Extensions;
-using Core.FileProcessing;
-using Core.Helpers;
+using ConsoleClient.IoC;
 using Core.Interfaces;
-using DAL;
-using DAL.Interfaces;
 using Serilog;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,28 +9,19 @@ namespace ConsoleClient
 {
     public class Program
     {
-        public static DataContext _context;
-        public static FileWatcher fileWatcher;
+        public static IFileHandler fileHandler;
         public static ILogger _logger;
-        public static IParseService _parseService;
-        public static IRepository _repository;
         public static IContainer container;
-
-        public Program(ILogger logger, IParseService parseService, IRepository repository, DataContext context)
-        {
-            _logger = logger;
-            _context = context;
-            _parseService = parseService;
-            _repository = repository;
-        }
 
         public static void Main()
         {
             int i = 0;
+
             bool isWorking = true;
 
             InitContainer();
-            InitWatcher();
+
+            _logger = container.Resolve<ILogger>();
 
             _logger.Information("Hello effective manager! Starting console client...");
 
@@ -49,37 +35,27 @@ namespace ConsoleClient
 
                 searchingTask.Wait();
 
-                _logger.Information("Exit from DOWN task to main.");
+                _logger.Information("Exit from inner task to main.");
             }
         }
 
-        public static void SearchFiles()
+        private static void SearchFiles()
         {
-            fileWatcher.StartWatch();
+            fileHandler = container.Resolve<IFileHandler>();
+
+            fileHandler.Start();
 
             Thread.Sleep(5000);
 
             if (Thread.CurrentThread.IsAlive)
             {
-                fileWatcher.StopWatch();
+                fileHandler.Stop();
             }
         }
 
-        public static void InitContainer()
+        private static void InitContainer()
         {
             container = AutofacConfig.ConfigureContainer();
-        }
-
-        public static void InitWatcher()
-        {
-            try
-            {
-                fileWatcher = new FileWatcher(ReadConfig.ReadSetting("DataFilesPath"), _logger, _parseService, _repository);
-            }
-            catch (Exception e)
-            {
-                _logger.Error($"Error initializing watcher: {e.Message}.");
-            }
         }
     }
 }

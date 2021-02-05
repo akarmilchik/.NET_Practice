@@ -8,7 +8,6 @@ namespace ServiceApp
     public partial class ManagerFileWatchServiceInstaller : Installer
     {
         ServiceInstaller serviceInstaller;
-
         ServiceProcessInstaller processInstaller;
 
         public ManagerFileWatchServiceInstaller()
