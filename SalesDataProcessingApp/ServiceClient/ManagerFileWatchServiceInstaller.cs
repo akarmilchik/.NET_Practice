@@ -22,7 +22,7 @@ namespace ServiceApp
 
             processInstaller = new ServiceProcessInstaller
             {
-                Account = ServiceAccount.LocalSystem,
+                Account = ServiceAccount.LocalSystem
             };
 
             Installers.Add(processInstaller);

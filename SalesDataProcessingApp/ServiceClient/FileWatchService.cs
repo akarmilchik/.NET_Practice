@@ -1,4 +1,4 @@
-﻿using Core.FileProcessing;
+﻿using Core.Interfaces;
 using Serilog;
 using System.ServiceProcess;
 
@@ -6,10 +6,10 @@ namespace ServiceApp
 {
     public partial class FileWatchService : ServiceBase
     {
-        private FileHandler _fileHandler;
+        private readonly IFileHandler _fileHandler;
         private readonly ILogger _logger;
 
-        public FileWatchService(ILogger logger, FileHandler fileHandler)
+        public FileWatchService(ILogger logger, IFileHandler fileHandler)
         {
             InitializeComponent();
 

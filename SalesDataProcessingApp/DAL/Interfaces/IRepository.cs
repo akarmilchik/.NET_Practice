@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 
 namespace DAL.Interfaces
 {
@@ -7,6 +6,6 @@ namespace DAL.Interfaces
     {
         void Add<TEntity>(TEntity item) where TEntity : class;
         void Dispose();
-        IQueryable<TEntity> Get<TEntity>(Func<TEntity, bool> predicate) where TEntity : class;
+        TEntity Get<TEntity>(Func<TEntity, bool> predicate) where TEntity : class;
     }
 }

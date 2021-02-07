@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using DAL.Helpers;
 using Serilog;
 using ServiceApp.IoC;
 using System;
@@ -23,6 +24,8 @@ namespace ServiceApp
             Task searchingTask;
 
             InitContainer();
+
+            InitData.InitializeDatatable();
 
             _logger = container.Resolve<ILogger>();
 

@@ -1,4 +1,6 @@
-﻿using DAL.Interfaces;
+﻿using Autofac;
+using DAL.Interfaces;
+using DAL.IoC;
 using System;
 using System.Linq;
 
@@ -6,28 +8,46 @@ namespace DAL.Repositories
 {
     public class Repository : IRepository, IDisposable
     {
-        private readonly DataContext _context;
+        private DataContext _context;
+        private IContainer container;
 
-        public Repository(DataContext context)
+        public Repository()
         {
-            _context = context;
+            InitContainer();
         }
 
-        public IQueryable<TEntity> Get<TEntity>(Func<TEntity, bool> predicate) where TEntity : class
+        public TEntity Get<TEntity>(Func<TEntity, bool> predicate) where TEntity : class
         {
-            return _context.Set<TEntity>().Where(predicate).AsQueryable();
+            using (var scope = container.BeginLifetimeScope())
+            {
+                _context = scope.Resolve<DataContext>();
+
+                var queryable = _context.Set<TEntity>().Where(predicate).AsQueryable();
+
+                return queryable.FirstOrDefault();
+            }
         }
 
         public void Add<TEntity>(TEntity item) where TEntity : class
         {
-            _context.Set<TEntity>().Add(item);
+            using (var scope = container.BeginLifetimeScope())
+            {
+                _context = scope.Resolve<DataContext>();
 
-            _context.SaveChanges();
+                _context.Set<TEntity>().Add(item);
+
+                _context.SaveChanges();
+            }
         }
 
         public void Dispose()
         {
             _context.Dispose();        
+        }
+
+        private void InitContainer()
+        {
+            container = AutofacConfig.ConfigureContainer();
         }
     }
 }

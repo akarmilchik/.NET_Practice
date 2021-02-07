@@ -2,9 +2,11 @@
 {
     public static class InitData
     {
-        public static void InitializeData(DataContext context)
+        public static void InitializeDatatable()
         {
-            context.Database.Exists();
+            var context = new DataContext();
+
+            context.Database.CreateIfNotExists();
 
             var seeder = new DataSeeder(context);
 

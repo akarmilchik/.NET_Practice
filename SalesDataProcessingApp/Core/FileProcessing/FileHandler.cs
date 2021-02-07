@@ -65,11 +65,7 @@ namespace Core.FileProcessing
 
                 //here we need to create a new context and dataservice for this context
 
-                Task processFileTask = new Task(() => _dataService.ProcessFile(file.Path));
-
-                processFileTask.Start();
-
-                _logger.Information($"Task id:{processFileTask.Id};  File:{file.Name}");
+                Parallel.Invoke(() => _dataService.ProcessFile(file.Path));
             }
 
             _logger.Information($"Unlock file {file.Name}.");

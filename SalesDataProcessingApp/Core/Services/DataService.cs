@@ -1,27 +1,29 @@
 ﻿using Core.Interfaces;
-using DAL;
 using DAL.Interfaces;
 using DAL.ModelsEntities;
+using Serilog;
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
 
 namespace Core.Services
 {
     public class DataService : IDataService
     {
         private readonly IParseService _parseService;
-        private readonly IRepository _repository;
-        private readonly DataContext _context;
+        private IRepository _repository;
+        private ILogger _logger;
 
-        public DataService(DataContext context, IParseService parseService, IRepository repository)
+        public DataService(IParseService parseService, IRepository repository, ILogger logger)
         {
             _parseService = parseService;
-            _context = context;
-            _repository = repository; 
+            _repository = repository;
+            _logger = logger;
         }
 
         public void ProcessFile(object filePath)
         {
+            _logger.Information($"Task id:{Task.CurrentId};  File:{filePath}");
+
             var orders = _parseService.ReadCSVFile((string)filePath);
 
             SplitClientNames(ref orders);
@@ -31,14 +33,13 @@ namespace Core.Services
                 ProcessOrderEntity(order);
             }
 
-            _context.Dispose();
         }
 
         public void ProcessOrderEntity(OrderEntity orderEntity)
         {
-            var existingClient = _repository.Get<ClientEntity>(c => c.FirstName == orderEntity.Client.FirstName && c.LastName == orderEntity.Client.LastName).FirstOrDefault();
+            var existingClient = _repository.Get<ClientEntity>(c => c.FirstName == orderEntity.Client.FirstName && c.LastName == orderEntity.Client.LastName);
 
-            var exisitingProduct = _repository.Get<ProductEntity>(o => o.Name == orderEntity.Product.Name && o.Cost == orderEntity.Product.Cost).FirstOrDefault();
+            var exisitingProduct = _repository.Get<ProductEntity>(o => o.Name == orderEntity.Product.Name && o.Cost == orderEntity.Product.Cost);
 
             if (existingClient != null)
             {
@@ -57,7 +58,7 @@ namespace Core.Services
             _repository.Add(orderEntity);
         }
 
-        public void SplitClientNames(ref List<OrderEntity> orders)
+        private void SplitClientNames(ref List<OrderEntity> orders)
         {
             foreach (var order in orders)
             {

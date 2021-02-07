@@ -14,7 +14,7 @@ namespace DAL
         public DbSet<ClientEntity> Clients { get; set; }
         public DbSet<OrderEntity> Orders { get; set; }
         public DbSet<ProductEntity> Products { get; set; }
-
+        
         public override int SaveChanges()
         {
             bool saveFailed;
@@ -52,8 +52,6 @@ namespace DAL
             modelBuilder.Entity<ClientEntity>().ToTable("Clients").HasKey(c => c.Id);
 
             modelBuilder.Entity<ProductEntity>().ToTable("Products").HasKey(p => p.Id);
-
-            base.OnModelCreating(modelBuilder);
         }
     }
 }

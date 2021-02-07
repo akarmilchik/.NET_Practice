@@ -120,6 +120,7 @@
     <Compile Include="Interfaces\IDataService.cs" />
     <Compile Include="Interfaces\IFileHandler.cs" />
     <Compile Include="Interfaces\IParseService.cs" />
+    <Compile Include="IoC\AutofacConfig.cs" />
     <Compile Include="IoC\CoreModule.cs" />
     <Compile Include="Loggers\ConsoleLogger.cs" />
     <Compile Include="Loggers\FileLogger.cs" />

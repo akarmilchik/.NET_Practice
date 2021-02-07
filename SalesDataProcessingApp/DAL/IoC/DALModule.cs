@@ -8,8 +8,8 @@ namespace DAL.IoC
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<DataContext>().AsSelf();
-            builder.RegisterType<Repository>().As<IRepository>();
+            builder.RegisterType<DataContext>().AsSelf().InstancePerLifetimeScope();
+            builder.RegisterType<Repository>().As<IRepository>().InstancePerLifetimeScope();
         }
     }
 }

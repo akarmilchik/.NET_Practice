@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using ConsoleClient.IoC;
 using Core.Interfaces;
+using DAL.Helpers;
 using Serilog;
 using System.Threading;
 using System.Threading.Tasks;
@@ -20,6 +21,8 @@ namespace ConsoleClient
             bool isWorking = true;
 
             InitContainer();
+
+            InitData.InitializeDatatable();
 
             _logger = container.Resolve<ILogger>();
 
