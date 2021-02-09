@@ -21,6 +21,5 @@ namespace ATS.DAL.Repository
         void Remove(TEntity item);
 
         void Update(TEntity item);
-
     }
 }
