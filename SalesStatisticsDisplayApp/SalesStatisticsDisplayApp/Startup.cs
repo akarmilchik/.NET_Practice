@@ -1,15 +1,18 @@
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.Net.Http.Headers;
+using SalesStatistics.Core.Services;
+using SalesStatistics.DAL;
+using SalesStatistics.DAL.Models;
+using System.Text.Json.Serialization;
 
-namespace SalesStatisticsDisplayApp
+namespace SalesStatistics
 {
     public class Startup
     {
@@ -23,6 +26,39 @@ namespace SalesStatisticsDisplayApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc()
+                .AddFluentValidation(f => f.RegisterValidatorsFromAssemblyContaining<Startup>())
+                .AddXmlDataContractSerializerFormatters()
+                .AddMvcOptions(opts =>
+                {
+                    opts.FormatterMappings.SetMediaTypeMappingForFormat("xml",
+                    new MediaTypeHeaderValue("application/xml"));
+                })
+                .AddJsonOptions(opts => opts.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+            //.AddRazorRuntimeCompilation();
+
+            services.AddScoped<IProductsService, ProductsService>();
+            services.AddScoped<IOrdersService, OrdersService>();
+
+            services.AddDbContext<DataContext>(o =>
+            {
+                o.UseSqlServer(Configuration.GetConnectionString("StoreConnection"))
+                    .EnableSensitiveDataLogging();
+            });
+
+            services.AddDefaultIdentity<User>()
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<DataContext>()
+                .AddClaimsPrincipalFactory<StoreClaimsPrincipalFactory>();
+
+            services.AddIdentityServer()
+                .AddApiAuthorization<StoreUser, StoreContext>()
+                .AddProfileService<StoreProfileService>();
+
+            services.AddAuthentication()
+                .AddIdentityServerJwt();
+
+
             services.AddControllersWithViews();
         }
 

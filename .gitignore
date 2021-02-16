@@ -360,3 +360,7 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Sources folders for SalesDataProcessingApp
+SalesDataProcessingApp/Log/
+SalesDataProcessingApp/Data/

@@ -1,6 +1,6 @@
 using System;
 
-namespace SalesStatisticsDisplayApp.Models
+namespace SalesStatistics.Models
 {
     public class ErrorViewModel
     {
