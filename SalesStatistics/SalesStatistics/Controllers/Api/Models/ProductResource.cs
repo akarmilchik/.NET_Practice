@@ -1,4 +1,4 @@
-﻿namespace SalesStatistics.App.Controllers.Api.Models
+﻿namespace SalesStatistics.Controllers.Api.Models
 {
     public class ProductResource
     {

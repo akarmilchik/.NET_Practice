@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
-using SalesStatistics.App.Controllers.Api.Models;
+using SalesStatistics.Controllers.Api.Models;
 using SalesStatistics.DAL.Models;
-using System.Linq;
 
-namespace SalesStatistics.App.Mapper
+namespace SalesStatistics.Mapper
 {
     public class MappingProfile : Profile
     {

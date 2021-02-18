@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SalesStatistics.App", "SalesStatisticsDisplayApp\SalesStatistics.App.csproj", "{7F5BA9E6-5955-4934-8E96-24296E392FE8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SalesStatistics", "SalesStatistics\SalesStatistics.csproj", "{7F5BA9E6-5955-4934-8E96-24296E392FE8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SalesStatistics.DAL", "SalesStatistics.DAL\SalesStatistics.DAL.csproj", "{66331C1A-9475-4C43-9A60-A108875224C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SalesStatistics.DAL", "SalesStatistics.DAL\SalesStatistics.DAL.csproj", "{66331C1A-9475-4C43-9A60-A108875224C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SalesStatistics.Core", "SalesStatistics.Core\SalesStatistics.Core.csproj", "{267D4D38-BEEF-477C-A3AD-E1E537CB4200}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SalesStatistics.Core", "SalesStatistics.Core\SalesStatistics.Core.csproj", "{267D4D38-BEEF-477C-A3AD-E1E537CB4200}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -9,8 +9,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Net.Http.Headers;
-using SalesStatistics.App.Identity;
-using SalesStatistics.App.Mapper;
+using SalesStatistics.Identity;
+using SalesStatistics.Mapper;
 using SalesStatistics.Core.Queries;
 using SalesStatistics.Core.Services;
 using SalesStatistics.DAL;
@@ -34,6 +34,8 @@ namespace SalesStatistics
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllersWithViews();
+
             services.AddMvc()
                 .AddFluentValidation(f => f.RegisterValidatorsFromAssemblyContaining<Startup>())
                 .AddXmlDataContractSerializerFormatters()
@@ -53,11 +55,12 @@ namespace SalesStatistics
                 o.UseSqlServer(Configuration.GetConnectionString("StoreConnection"))
                     .EnableSensitiveDataLogging();
             });
-
+                
             services.AddDefaultIdentity<User>()
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<DataContext>()
                 .AddClaimsPrincipalFactory<StoreClaimsPrincipalFactory>();
+
 
             services.AddIdentityServer()
                 .AddApiAuthorization<User, DataContext>();
@@ -120,7 +123,7 @@ namespace SalesStatistics
                 .AsImplementedInterfaces()
                 .WithScopedLifetime());
 
-            services.AddControllersWithViews();
+           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

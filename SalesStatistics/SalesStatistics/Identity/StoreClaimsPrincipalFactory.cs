@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using SalesStatistics.DAL.Models;
 
-namespace SalesStatistics.App.Identity
+namespace SalesStatistics.Identity
 {
     public class StoreClaimsPrincipalFactory : UserClaimsPrincipalFactory<User>
     {
@@ -15,7 +15,7 @@ namespace SalesStatistics.App.Identity
 
         protected override async Task<ClaimsIdentity> GenerateClaimsAsync(User user)
         {
-            var identity = await base.GenerateClaimsAsync(user)
+            var identity = await base.GenerateClaimsAsync(user);
             return identity;
         }
     }

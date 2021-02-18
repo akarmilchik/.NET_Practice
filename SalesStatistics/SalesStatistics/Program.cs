@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using SalesStatistics.App;
 using SalesStatistics.DAL;
 using SalesStatistics.DAL.Models;
 using System.Threading.Tasks;
