@@ -1,6 +1,5 @@
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Antiforgery;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -9,12 +8,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Net.Http.Headers;
-using SalesStatistics.Identity;
-using SalesStatistics.Mapper;
 using SalesStatistics.Core.Queries;
 using SalesStatistics.Core.Services;
 using SalesStatistics.DAL;
 using SalesStatistics.DAL.Models;
+using SalesStatistics.Mapper;
 using System;
 using System.IO;
 using System.Reflection;
@@ -52,22 +50,12 @@ namespace SalesStatistics
 
             services.AddDbContext<DataContext>(o =>
             {
-                o.UseSqlServer(Configuration.GetConnectionString("StoreConnection"))
+                o.UseSqlServer(Configuration.GetConnectionString("BaseConnection"))
                     .EnableSensitiveDataLogging();
             });
-                
-            services.AddDefaultIdentity<User>()
-                .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<DataContext>()
-                .AddClaimsPrincipalFactory<StoreClaimsPrincipalFactory>();
 
-
-            services.AddIdentityServer()
-                .AddApiAuthorization<User, DataContext>();
-                //.AddProfileService<StoreProfileService>();
-
-            services.AddAuthentication()
-                .AddIdentityServerJwt();
+            services.AddDefaultIdentity<User>().AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<DataContext>();
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -107,13 +95,13 @@ namespace SalesStatistics
                 options.AccessDeniedPath = "/Identity/Account/AccessDenied";
                 options.SlidingExpiration = true;
             });
-
+            /*
             services.AddSwaggerGen(c =>
             {
                 var file = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var path = Path.Combine(AppContext.BaseDirectory, file);
                 c.IncludeXmlComments(path);
-            });
+            });*/
 
             services.AddAutoMapper(typeof(MappingProfile));
 
@@ -122,8 +110,6 @@ namespace SalesStatistics
                 .AddClasses(c => c.AssignableTo(typeof(ISortingProvider<>)))
                 .AsImplementedInterfaces()
                 .WithScopedLifetime());
-
-           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -136,22 +122,21 @@ namespace SalesStatistics
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
-            app.UseSwagger();
+            //app.UseSwagger();
 
             app.UseRouting();
 
             app.UseAuthentication();
-            app.UseIdentityServer();
+
             app.UseAuthorization();
 
-            app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "SaleStatistics API v1"); });
+            //app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "SaleStatistics API v1"); });
 
             app.UseEndpoints(endpoints =>
             {
@@ -159,6 +144,7 @@ namespace SalesStatistics
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllers();
             });
         }
     }

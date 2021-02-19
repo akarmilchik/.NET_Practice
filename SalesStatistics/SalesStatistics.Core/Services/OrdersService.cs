@@ -19,6 +19,11 @@ namespace SalesStatistics.Core.Services
             this.sortingProvider = sortingProvider;
         }
 
+        public OrdersService(DataContext context)
+        {
+            this.context = context;
+        }
+
         public async Task<IEnumerable<Client>> GetClients()
         {
             return await context.Clients.ToArrayAsync();

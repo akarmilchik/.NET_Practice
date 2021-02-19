@@ -10,6 +10,24 @@ namespace SalesStatistics
 {
     public class DataSeeder
     {
+        private readonly DataContext context;
+        private readonly RoleManager<IdentityRole> roleManager;
+        private readonly UserManager<User> userManager;
+
+
+        private static readonly List<User> Users = new List<User>
+        {
+            new User { FirstName = "Alexey", LastName = "Karm", UserName = "alexey.karm@mail.ru", Email = "alexey.karm@mail.ru" },
+            new User { FirstName = "Jominez", LastName = "Maxwell", UserName = "j@mail.ru", Email = "j@mail.ru" },
+            new User { FirstName = "Alibaba", LastName = "Bestseller", UserName = "a@mail.ru", Email = "a@mail.ru" }
+        };
+
+        private static readonly List<IdentityRole> Roles = new List<IdentityRole>
+        {
+            new IdentityRole { Name = "Administrator" },
+            new IdentityRole { Name = "User" }
+        };
+
         private static readonly List<Client> Clients = new List<Client>
         {
             new Client { FirstName = "Alex", LastName = "Karm" },
@@ -32,10 +50,6 @@ namespace SalesStatistics
             new Order { Client = Clients[2], Product = Products[2], Date = new DateTime(2020, 12, 14) }
         };
 
-        private readonly DataContext context;
-        private readonly RoleManager<IdentityRole> roleManager;
-        private readonly UserManager<User> userManager;
-
         public DataSeeder(DataContext context, UserManager<User> userManager,
             RoleManager<IdentityRole> roleManager)
         {
@@ -46,23 +60,72 @@ namespace SalesStatistics
 
         public async Task SeedDataAsync()
         {
-            if (await roleManager.FindByNameAsync("Admin") == null)
-                await roleManager.CreateAsync(new IdentityRole { Name = "Admin" });
-
-            if (await userManager.FindByNameAsync("user1@example.com") == null)
+            if (await context.Database.CanConnectAsync())
             {
-                var user = new User { UserName = "user1@example.com", Email = "user1@example.com" };
-                await userManager.CreateAsync(user, "user123");
-                await userManager.AddToRoleAsync(user, "Admin");
+                // Roles
+                foreach (IdentityRole role in Roles)
+                {
+                    if (!await roleManager.RoleExistsAsync(role.Name))
+                    {
+                        await roleManager.CreateAsync(role);
+                    }
+                }
+
+                await context.SaveChangesAsync();
+
+                // Create Users and sync with Roles
+                if (await userManager.FindByNameAsync(Users[0].UserName) == null)
+                {
+                    IdentityResult result = userManager.CreateAsync(Users[0], "admin111").Result;
+
+                    if (result.Succeeded)
+                    {
+                        await userManager.AddToRoleAsync(Users[0], Roles[0].Name);
+                    }
+
+                }
+
+                if (await userManager.FindByNameAsync(Users[1].UserName) == null)
+                {
+                    IdentityResult result = userManager.CreateAsync(Users[1], "user222").Result;
+
+                    if (result.Succeeded)
+                    {
+                        await userManager.AddToRoleAsync(Users[1], Roles[1].Name);
+                    }
+                }
+
+                if (await userManager.FindByNameAsync(Users[2].UserName) == null)
+                {
+                    IdentityResult result = userManager.CreateAsync(Users[2], "user333").Result;
+
+
+                    if (result.Succeeded)
+                    {
+                        await userManager.AddToRoleAsync(Users[2], Roles[1].Name);
+                    }
+                }
+
+                await context.SaveChangesAsync();
+
+                if (!context.Clients.Any())
+                {
+                    await context.Clients.AddRangeAsync(Clients);
+                }
+
+                if (!context.Products.Any())
+                {
+                    await context.Products.AddRangeAsync(Products);
+                }
+
+                if (!context.Orders.Any())
+                {
+                    await context.Orders.AddRangeAsync(Orders);
+                }               
+
+                await context.SaveChangesAsync();
             }
-
-            if (!context.Clients.Any()) await context.Clients.AddRangeAsync(Clients);
-
-            if (!context.Products.Any()) await context.Products.AddRangeAsync(Products);
-
-            if (!context.Orders.Any()) await context.Orders.AddRangeAsync(Orders);
-
-            await context.SaveChangesAsync();
-        }
+        
+    }
     }
 }

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace SalesStatistics.Controllers
 {
-    [Authorize(Roles = "Administrator")]
+    [Authorize]
     public class AdminController : Controller
     {
         public IActionResult Index()
