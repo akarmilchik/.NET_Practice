@@ -1,0 +1,32 @@
+﻿@model ProductsViewModel
+<h1>Orders</h1>
+<div style="height:400px;overflow-y:scroll">
+    <table class="table bg-light">
+        <thead class="thead-dark font-weight-bold">
+            <tr>
+                <th scope="col">№</th>
+                <th scope="col">Name</th>
+                <th scope="col">Cost</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Products.Any())
+            {
+                foreach (var product in Model.Products)
+                {
+                    <tr>
+                        <td>@product.Id</td>
+                        <td>@product.Name</td>
+                        <td>@product.Cost$</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="2">Has no products yet</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

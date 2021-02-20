@@ -8,10 +8,10 @@ namespace SalesStatistics.Core.Services
 {
     public interface IOrdersService
     {
-        Task<IEnumerable<Client>> GetClients();
+        Task<List<Order>> GetOrders();
         Task<Product> GetOrderById(int id);
         Task<PagedResult<Order>> GetOrders(OrderQuery query);
         IQueryable<Order> GetOrdersFilteredByProduct(int productId);
-        Task<IEnumerable<Order>> GetOrdersWithProducts();
+        Task<List<Order>> GetOrdersWithProducts();
     }
 }

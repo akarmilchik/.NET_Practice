@@ -24,12 +24,12 @@ namespace SalesStatistics.Core.Services
             this.context = context;
         }
 
-        public async Task<IEnumerable<Client>> GetClients()
+        public async Task<List<Order>> GetOrders()
         {
-            return await context.Clients.ToArrayAsync();
+            return await context.Orders.Include(o => o.Client).Include(o => o.Product).ToListAsync();
         }
 
-        public async Task<IEnumerable<Order>> GetOrdersWithProducts()
+        public async Task<List<Order>> GetOrdersWithProducts()
         {
             var categories = context.Orders.Include(o => o.Product);
 

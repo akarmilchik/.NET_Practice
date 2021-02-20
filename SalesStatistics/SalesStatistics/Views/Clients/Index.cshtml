@@ -1,0 +1,33 @@
+﻿@model ClientsViewModel
+<h1>Orders</h1>
+<div style="height:400px;overflow-y:scroll">
+    <table class="table bg-light">
+        <thead class="thead-dark font-weight-bold">
+            <tr>
+                <th scope="col">№</th>
+                <th scope="col">First name</th>
+                <th scope="col">Last name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Clients.Any())
+            {
+                foreach (var client in Model.Clients)
+                {
+                    <tr>
+                        <td>@client.Id</td>
+                        <td>@client.FirstName</td>
+                        <td>@client.LastName</td>
+
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="2">Has no clients yet</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

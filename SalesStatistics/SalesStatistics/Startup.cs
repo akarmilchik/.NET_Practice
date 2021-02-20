@@ -14,8 +14,6 @@ using SalesStatistics.DAL;
 using SalesStatistics.DAL.Models;
 using SalesStatistics.Mapper;
 using System;
-using System.IO;
-using System.Reflection;
 using System.Text.Json.Serialization;
 
 namespace SalesStatistics
@@ -29,7 +27,6 @@ namespace SalesStatistics
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
@@ -47,6 +44,7 @@ namespace SalesStatistics
 
             services.AddScoped<IProductsService, ProductsService>();
             services.AddScoped<IOrdersService, OrdersService>();
+            services.AddScoped<IClientsService, ClientsService>();
 
             services.AddDbContext<DataContext>(o =>
             {
@@ -95,13 +93,6 @@ namespace SalesStatistics
                 options.AccessDeniedPath = "/Identity/Account/AccessDenied";
                 options.SlidingExpiration = true;
             });
-            /*
-            services.AddSwaggerGen(c =>
-            {
-                var file = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var path = Path.Combine(AppContext.BaseDirectory, file);
-                c.IncludeXmlComments(path);
-            });*/
 
             services.AddAutoMapper(typeof(MappingProfile));
 
@@ -126,17 +117,14 @@ namespace SalesStatistics
             }
 
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
 
-            //app.UseSwagger();
+            app.UseStaticFiles();
 
             app.UseRouting();
 
             app.UseAuthentication();
 
             app.UseAuthorization();
-
-            //app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "SaleStatistics API v1"); });
 
             app.UseEndpoints(endpoints =>
             {

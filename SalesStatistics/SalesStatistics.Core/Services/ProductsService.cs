@@ -24,16 +24,9 @@ namespace SalesStatistics.Core.Services
             this.context = context;
         }
 
-        public async Task<IEnumerable<Client>> GetClients()
+        public async Task<List<Product>> GetProducts()
         {
-            return await context.Clients.ToArrayAsync();
-        }
-
-        public async Task<IEnumerable<Order>> GetOrdersWithProducts()
-        {
-            var categories = context.Orders.Include(o => o.Product);
-
-            return await categories.ToListAsync();
+            return await context.Products.ToListAsync();
         }
 
         public async Task<PagedResult<Product>> GetProducts(BaseQuery query)
