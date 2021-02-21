@@ -10,9 +10,9 @@ namespace SalesStatistics
 {
     public class DataSeeder
     {
-        private readonly DataContext context;
-        private readonly RoleManager<IdentityRole> roleManager;
-        private readonly UserManager<User> userManager;
+        private readonly DataContext _context;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly UserManager<User> _userManager;
 
 
         private static readonly List<User> Users = new List<User>
@@ -53,77 +53,77 @@ namespace SalesStatistics
         public DataSeeder(DataContext context, UserManager<User> userManager,
             RoleManager<IdentityRole> roleManager)
         {
-            this.context = context;
-            this.userManager = userManager;
-            this.roleManager = roleManager;
+            _context = context;
+            _userManager = userManager;
+            _roleManager = roleManager;
         }
 
         public async Task SeedDataAsync()
         {
-            if (await context.Database.CanConnectAsync())
+            if (await _context.Database.CanConnectAsync())
             {
                 // Roles
                 foreach (IdentityRole role in Roles)
                 {
-                    if (!await roleManager.RoleExistsAsync(role.Name))
+                    if (!await _roleManager.RoleExistsAsync(role.Name))
                     {
-                        await roleManager.CreateAsync(role);
+                        await _roleManager.CreateAsync(role);
                     }
                 }
 
-                await context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
 
                 // Create Users and sync with Roles
-                if (await userManager.FindByNameAsync(Users[0].UserName) == null)
+                if (await _userManager.FindByNameAsync(Users[0].UserName) == null)
                 {
-                    IdentityResult result = userManager.CreateAsync(Users[0], "admin111").Result;
+                    IdentityResult result = _userManager.CreateAsync(Users[0], "admin111").Result;
 
                     if (result.Succeeded)
                     {
-                        await userManager.AddToRoleAsync(Users[0], Roles[0].Name);
+                        await _userManager.AddToRoleAsync(Users[0], Roles[0].Name);
                     }
 
                 }
 
-                if (await userManager.FindByNameAsync(Users[1].UserName) == null)
+                if (await _userManager.FindByNameAsync(Users[1].UserName) == null)
                 {
-                    IdentityResult result = userManager.CreateAsync(Users[1], "user222").Result;
+                    IdentityResult result = _userManager.CreateAsync(Users[1], "user222").Result;
 
                     if (result.Succeeded)
                     {
-                        await userManager.AddToRoleAsync(Users[1], Roles[1].Name);
+                        await _userManager.AddToRoleAsync(Users[1], Roles[1].Name);
                     }
                 }
 
-                if (await userManager.FindByNameAsync(Users[2].UserName) == null)
+                if (await _userManager.FindByNameAsync(Users[2].UserName) == null)
                 {
-                    IdentityResult result = userManager.CreateAsync(Users[2], "user333").Result;
+                    IdentityResult result = _userManager.CreateAsync(Users[2], "user333").Result;
 
 
                     if (result.Succeeded)
                     {
-                        await userManager.AddToRoleAsync(Users[2], Roles[1].Name);
+                        await _userManager.AddToRoleAsync(Users[2], Roles[1].Name);
                     }
                 }
 
-                await context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
 
-                if (!context.Clients.Any())
+                if (!_context.Clients.Any())
                 {
-                    await context.Clients.AddRangeAsync(Clients);
+                    await _context.Clients.AddRangeAsync(Clients);
                 }
 
-                if (!context.Products.Any())
+                if (!_context.Products.Any())
                 {
-                    await context.Products.AddRangeAsync(Products);
+                    await _context.Products.AddRangeAsync(Products);
                 }
 
-                if (!context.Orders.Any())
+                if (!_context.Orders.Any())
                 {
-                    await context.Orders.AddRangeAsync(Orders);
+                    await _context.Orders.AddRangeAsync(Orders);
                 }               
 
-                await context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
             }
         
     }

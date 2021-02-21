@@ -10,14 +10,14 @@ using SalesStatistics.DAL;
 namespace SalesStatistics.DAL.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210219205215_Initial")]
+    [Migration("20210221095901_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.10")
+                .HasAnnotation("ProductVersion", "3.1.12")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -176,19 +176,23 @@ namespace SalesStatistics.DAL.Migrations
 
             modelBuilder.Entity("SalesStatistics.DAL.Models.Order", b =>
                 {
-                    b.Property<int>("ClientId")
-                        .HasColumnType("int");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ProductId")
+                    b.Property<int>("ClientId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Id")
+                    b.Property<int>("ProductId")
                         .HasColumnType("int");
 
-                    b.HasKey("ClientId", "ProductId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
 
                     b.HasIndex("ProductId");
 

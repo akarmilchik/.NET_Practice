@@ -21,7 +21,6 @@ namespace SalesStatistics.DAL
             modelBuilder.Entity<Client>().ToTable("Clients");
             modelBuilder.Entity<Product>().ToTable("Products");
             modelBuilder.Entity<Order>().ToTable("Orders");
-            modelBuilder.Entity<Order>().HasKey(o => new { o.ClientId, o.ProductId });
         }
     }
 }

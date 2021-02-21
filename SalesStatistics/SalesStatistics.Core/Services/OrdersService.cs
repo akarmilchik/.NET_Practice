@@ -61,5 +61,22 @@ namespace SalesStatistics.Core.Services
         {
             return await context.Products.FindAsync(id);
         }
+
+        public async Task<IEnumerable<Order>> GetOrdersQuery(OrderQuery query)
+        {
+            var queryable = context.Orders.AsQueryable();
+
+            if (query.Products != null)
+            {
+                queryable = queryable.Where(v => query.Products.Contains(v.ProductId));
+            }
+            if (query.Clients != null)
+            {
+                queryable = queryable.Where(v => query.Clients.Contains(v.ClientId));
+            }
+
+            return await queryable.ToListAsync();
+        }
+
     }
 }

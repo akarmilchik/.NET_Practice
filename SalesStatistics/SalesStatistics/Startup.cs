@@ -14,6 +14,8 @@ using SalesStatistics.DAL;
 using SalesStatistics.DAL.Models;
 using SalesStatistics.Mapper;
 using System;
+using System.IO;
+using System.Reflection;
 using System.Text.Json.Serialization;
 
 namespace SalesStatistics
@@ -94,6 +96,12 @@ namespace SalesStatistics
                 options.SlidingExpiration = true;
             });
 
+            services.AddSwaggerGen(c => {
+                var file = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var path = Path.Combine(AppContext.BaseDirectory, file);
+                c.IncludeXmlComments(path);
+            });
+
             services.AddAutoMapper(typeof(MappingProfile));
 
             services.Scan(scan => scan
@@ -120,11 +128,17 @@ namespace SalesStatistics
 
             app.UseStaticFiles();
 
+            app.UseSwagger();
+
             app.UseRouting();
 
             app.UseAuthentication();
 
             app.UseAuthorization();
+
+            app.UseSwaggerUI(c => {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "SalesStatistics API v1");
+            });
 
             app.UseEndpoints(endpoints =>
             {
