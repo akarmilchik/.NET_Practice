@@ -28,6 +28,14 @@ namespace SalesStatistics
             new IdentityRole { Name = "User" }
         };
 
+        private static readonly List<Country> Countries = new List<Country>
+        {
+            new Country { Name = "USA" },
+            new Country { Name = "Russua" },
+            new Country { Name = "Belarus" },
+            new Country { Name = "China" }
+        };
+
         private static readonly List<Client> Clients = new List<Client>
         {
             new Client { FirstName = "Alex", LastName = "Karm" },

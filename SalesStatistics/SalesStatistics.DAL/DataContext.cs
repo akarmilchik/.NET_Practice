@@ -11,6 +11,7 @@ namespace SalesStatistics.DAL
         }
 
         public DbSet<Client> Clients { get; set; }
+        public DbSet<Country> Countries { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Order> Orders { get; set; }
 
@@ -19,6 +20,7 @@ namespace SalesStatistics.DAL
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Client>().ToTable("Clients");
+            modelBuilder.Entity<Country>().ToTable("Countries");
             modelBuilder.Entity<Product>().ToTable("Products");
             modelBuilder.Entity<Order>().ToTable("Orders");
         }
