@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 
 namespace SalesStatistics.Controllers.Api
 {
-    [Route("api/v1/[controller]")]
     [ApiController]
+    [Route("api/v1/[controller]")]
     public class OrdersController : Controller
     {
         private readonly IOrdersService _ordersService;
@@ -20,6 +20,18 @@ namespace SalesStatistics.Controllers.Api
         {
             _ordersService = ordersService;
             _mapper = mapper;
+        }
+
+        //GET
+        [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<OrderResource>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetOrdersByClientId([FromQuery] OrderQuery query)
+        {
+            var pagedResult = await _ordersService.GetOrdersQuery(query);
+
+            HttpContext.Response.Headers.Add("x-total-count", pagedResult.TotalCount.ToString());
+
+            return Ok(_mapper.Map<IEnumerable<OrderResource>>(pagedResult.Items));
         }
 
         // GET
@@ -32,6 +44,16 @@ namespace SalesStatistics.Controllers.Api
             var result = _mapper.Map<IEnumerable<OrderResource>>(pagedResult);
 
             return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("autosuggest")]
+        [ProducesResponseType(typeof(IEnumerable<OrderResource>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetMatchedEvents(string q)
+        {
+            var matchedOrders = await _ordersService.GetMatchedOrders(q, 10);
+
+            return Ok(matchedOrders);
         }
     }
 }

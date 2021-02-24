@@ -6,6 +6,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Client\css\site.css" />
+    <None Remove="Client\js\site.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Client\css\site.css">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Client\js\site.js">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="9.5.1" />
     <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.7" />
@@ -21,7 +37,8 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.12" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.10">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -38,11 +55,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SalesStatistics.Core\SalesStatistics.Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Client\css\" />
-    <Folder Include="Client\js\" />
   </ItemGroup>
 
 </Project>

@@ -6,7 +6,7 @@ module.exports = {
   entry: {
     site: './js/site.js',
     validation: './js/validation.js',
-    event: './js/event.index.js',
+    event: './js/orders.index.js',
   },
   output: {
     filename: '[name].entry.js',

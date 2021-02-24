@@ -1,4 +1,5 @@
 ﻿@model OrdersViewModel
+@using SalesStatistics.DAL.Models; 
 @{
     ViewData["Title"] = "Orders";
  }
@@ -16,25 +17,8 @@
             </tr>
         </thead>
         <tbody>
-            @if (Model.Orders.Any())
-            {
-                foreach (var order in Model.Orders)
-                {
-                    <tr>
-                        <td>@order.Id</td>
-                        <td>@order.Client.FirstName @order.Client.LastName</td>
-                        <td>@order.Product.Name</td>
-                        <td>@order.Product.Cost$</td>
-                        <td>@order.Date.ToShortDateString()</td>
-                    </tr>
-                }
-            }
-            else
-            {
-                <tr>
-                    <td colspan="2">Has no orders yet</td>
-                </tr>
-            }
+            <div id="eventItems" class="row row-cols-2">
+            </div>
         </tbody>
     </table>
 </div>

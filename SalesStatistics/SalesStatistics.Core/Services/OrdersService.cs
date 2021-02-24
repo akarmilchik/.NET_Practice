@@ -62,9 +62,9 @@ namespace SalesStatistics.Core.Services
             return await context.Products.FindAsync(id);
         }
 
-        public async Task<IEnumerable<Order>> GetOrdersQuery(OrderQuery query)
+        public async Task<PagedResult<Order>> GetOrdersQuery(OrderQuery query)
         {
-            var queryable = context.Orders.AsQueryable();
+            var queryable = context.Orders.Include(o => o.Client).Include(o => o.Product).AsQueryable();
 
             if (query.Products != null)
             {
@@ -75,8 +75,37 @@ namespace SalesStatistics.Core.Services
                 queryable = queryable.Where(v => query.Clients.Contains(v.ClientId));
             }
 
-            return await queryable.ToListAsync();
+            if (query.DateFrom != null)
+            {
+                queryable = queryable.Where(e => e.Date >= query.DateFrom);
+            }
+
+            if (query.DateTo != null)
+            {
+                queryable = queryable.Where(e => e.Date <= query.DateTo);
+            }
+            var count = await queryable.CountAsync();
+
+            queryable = sortingProvider.ApplySorting(queryable, query);
+
+            queryable = queryable.ApplyPagination(query);
+
+            var items = await queryable.ToListAsync();
+
+            return new PagedResult<Order> { TotalCount = count, Items = items };
         }
 
+        public async Task<IEnumerable<string>> GetMatchedOrders(string q, int countOfRelevantResults)
+        {
+            var queryable = context.Orders.AsQueryable();
+
+            var matchedOrders = queryable
+                .Where(e => e.Product.Name.Contains(q.Trim().ToLower()))
+                .OrderBy(e => e.Product.Name)
+                .Select(e => e.Product.Name)
+                .Take(countOfRelevantResults);
+
+            return await matchedOrders.ToListAsync();
+        }
     }
 }

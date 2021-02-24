@@ -13,6 +13,7 @@ namespace SalesStatistics.Core.Services
         Task<PagedResult<Order>> GetOrders(OrderQuery query);
         IQueryable<Order> GetOrdersFilteredByProduct(int productId);
         Task<List<Order>> GetOrdersWithProducts();
-        Task<IEnumerable<Order>> GetOrdersQuery(OrderQuery query);
+        Task<PagedResult<Order>> GetOrdersQuery(OrderQuery query);
+        Task<IEnumerable<string>> GetMatchedOrders(string q, int countOfRelevantResults);
     }
 }

@@ -31,16 +31,20 @@ namespace SalesStatistics
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddDataAnnotationsLocalization(options => {
+                options.DataAnnotationLocalizerProvider = (type, factory) =>
+                factory.Create(null);
+            })
+            .AddViewLocalization();
+
+            services.AddLocalization(opts =>
+            {
+                opts.ResourcesPath = "Resources";
+            });
 
             services.AddMvc()
                 .AddFluentValidation(f => f.RegisterValidatorsFromAssemblyContaining<Startup>())
                 .AddXmlDataContractSerializerFormatters()
-                .AddMvcOptions(opts =>
-                {
-                    opts.FormatterMappings.SetMediaTypeMappingForFormat("xml",
-                    new MediaTypeHeaderValue("application/xml"));
-                })
                 .AddJsonOptions(opts => opts.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()))
                 .AddRazorRuntimeCompilation();
 
@@ -125,6 +129,15 @@ namespace SalesStatistics
             }
 
             app.UseHttpsRedirection();
+
+            var supportedLocales = new[] { "en-US", "ru-RU", "be-BY" };
+
+            var localizationOptions = new RequestLocalizationOptions().
+                           SetDefaultCulture(supportedLocales[0])
+                           .AddSupportedCultures(supportedLocales)
+                           .AddSupportedUICultures(supportedLocales);
+
+            app.UseRequestLocalization(localizationOptions);
 
             app.UseStaticFiles();
 
