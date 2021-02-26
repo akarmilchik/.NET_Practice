@@ -21310,99 +21310,74 @@ const filtersOrder = {
     clients: [],
     page: 1,
     pageSize: 4,
-    sortBy: "Date",
+    sortBy: "Clients",
     sortOrder: "Ascending",
     dateFrom: "",
-    dateTo: "",
-    searchString: ""
+    dateTo: ""
 };
 
-const filtersVenue = {
-    cities: []
+const filtersClient = {
+    countries: []
 }
 
-function createEventItem(item) {
+function createOrderItem(item) {
     return `
                     <tr>
-                        <td>${item.Id}</td>
-                        <td>${item.Client.FirstName} ${item.Client.LastName}</td>
-                        <td>${item.Product.Name}</td>
-                        <td>${item.Product.Cost}</td>
-                        <td>${item.Date.ToShortDateString()}</td>
+                        <td>${item.id}</td>
+                        <td>${item.client.firstName} ${item.client.lastName}</td>
+                        <td>${item.product.name}</td>
+                        <td>${item.product.cost}</td>
+                        <td>${item.date.ToShortDateString()}</td>
                     </tr>`;
 };
 
 function createClientItem(item) {
-    return `<option value="${item.id}">${item.name}</option>`
+    return `<option value="${item.firstName}">${item.lastName}</option>`
 };
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).ready(function () {
-    getProducts();
+    getOrders();
     getClients();
 
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()("#cat2").on("change", function () {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()("#products").on("change", function () {
         filtersOrder.products = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).val();
-        getProducts();
+        getOrders();
     });
 
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()("#category").on("change", function () {
-        filtersOrder.eventCategories = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).val();
-        getProducts();
-    });
-
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()("#venue").on("change", function () {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()("#clients").on("change", function () {
         filtersOrder.clients = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).val();
-        getProducts();
-    });
-
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()("#city").on("change", function () {
-        filtersVenue.cities = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).val();
-        filtersOrder.products = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).val();
-        filtersOrder.clients = [];
-        getClients();
-        getProducts();
+        getOrders();
     });
 
     jquery__WEBPACK_IMPORTED_MODULE_0___default()("#sortBy").on("change", function () {
         filtersOrder.sortBy = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).val();
-        getProducts();
+        getOrders();
     });
 
     jquery__WEBPACK_IMPORTED_MODULE_0___default()("#sortOrder").on("change", function () {
         filtersOrder.sortOrder = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).val();
-        getProducts();
+        getOrders();
     });
 
     jquery__WEBPACK_IMPORTED_MODULE_0___default()("#dateFrom").on("change", function () {
         filtersOrder.dateFrom = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).val();
-        getProducts();
+        getOrders();
     });
 
     jquery__WEBPACK_IMPORTED_MODULE_0___default()("#dateTo").on("change", function () {
         filtersOrder.dateTo = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).val();
-        getProducts();
+        getOrders();
     });
 
     jquery__WEBPACK_IMPORTED_MODULE_0___default()("#pageSize").on("change", function () {
         filtersOrder.pageSize = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).val();
-        getProducts();
-    });
-
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()("#search").on("click", function () {
-        filtersOrder.searchString = jquery__WEBPACK_IMPORTED_MODULE_0___default()("#autosuggest").val();
-        getProducts();
-    });
-
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#autosuggest').autoComplete({
-        resolverSettings: {
-            url: 'api/v1/orders/autosuggest',
-        },
+        getOrders();
     });
 });
 
 
-function getProducts() {
+function getOrders() {
 jquery__WEBPACK_IMPORTED_MODULE_0___default().ajax({
-    url: `api/v1/events`,
+    url: `api/v1/orders`,
     data: filtersOrder,
     traditional: true,
     success: function (data, status, xhr) {
@@ -21412,7 +21387,7 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default().ajax({
             return item;
         });
 
-        jquery__WEBPACK_IMPORTED_MODULE_0___default()("#productItems").empty().append(jquery__WEBPACK_IMPORTED_MODULE_0___default().map(data, createEventItem));
+        jquery__WEBPACK_IMPORTED_MODULE_0___default()("#ordersItems").empty().append(jquery__WEBPACK_IMPORTED_MODULE_0___default().map(data, createOrderItem));
         const count = xhr.getResponseHeader('x-total-count');
         addPaginationButtons(filtersOrder.page, count, filtersOrder.pageSize);
     }
@@ -21422,7 +21397,7 @@ jquery__WEBPACK_IMPORTED_MODULE_0___default().ajax({
 function getClients() {
     jquery__WEBPACK_IMPORTED_MODULE_0___default().ajax({
         url: "api/v1/clients",
-        data: filtersVenue,
+        data: filtersClient,
         traditional: true,
         success: function (data, status) {
             jquery__WEBPACK_IMPORTED_MODULE_0___default()("#client").empty().append(jquery__WEBPACK_IMPORTED_MODULE_0___default().map(data, createClientItem));
@@ -21451,7 +21426,7 @@ function addPaginationButtons(currentPage, totalCount, pageSize) {
     jquery__WEBPACK_IMPORTED_MODULE_0___default()(".pagination").addClass("justify-content-center");
     jquery__WEBPACK_IMPORTED_MODULE_0___default()(".page-item").on("click", function () {
         filtersOrder.page = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data("page");
-        getProducts();
+        getOrders();
     });
 }
 
@@ -21470,4 +21445,4 @@ function addInitialDate(num) {
 
 /******/ })()
 ;
-//# sourceMappingURL=event.entry.js.map
+//# sourceMappingURL=orders.entry.js.map

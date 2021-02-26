@@ -33,27 +33,5 @@ namespace SalesStatistics.Controllers.Api
 
             return Ok(_mapper.Map<IEnumerable<OrderResource>>(pagedResult.Items));
         }
-
-        // GET
-        [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<OrderResource>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetOrdersByQuery([FromQuery] OrderQuery query)
-        {
-            var pagedResult = await _ordersService.GetOrdersQuery(query);
-
-            var result = _mapper.Map<IEnumerable<OrderResource>>(pagedResult);
-
-            return Ok(result);
-        }
-
-        [HttpGet]
-        [Route("autosuggest")]
-        [ProducesResponseType(typeof(IEnumerable<OrderResource>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetMatchedEvents(string q)
-        {
-            var matchedOrders = await _ordersService.GetMatchedOrders(q, 10);
-
-            return Ok(matchedOrders);
-        }
     }
 }

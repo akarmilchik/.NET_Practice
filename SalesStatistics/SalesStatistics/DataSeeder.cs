@@ -38,10 +38,14 @@ namespace SalesStatistics
 
         private static readonly List<Client> Clients = new List<Client>
         {
-            new Client { FirstName = "Alex", LastName = "Karm" },
-            new Client { FirstName = "Donald", LastName = "Macdonald" },
-            new Client { FirstName = "Elvis", LastName = "Presley" },
-            new Client { FirstName = "Marty", LastName = "Kalkin" }
+            new Client { FirstName = "Alex", LastName = "Karm", Age = 24, Country = Countries[2] },
+            new Client { FirstName = "Donald", LastName = "Macdonald", Age = 38, Country = Countries[0] },
+            new Client { FirstName = "Elvis", LastName = "Presley", Age = 46, Country = Countries[1] },
+            new Client { FirstName = "Marty", LastName = "Kalkin", Age = 51, Country = Countries[3] },
+            new Client { FirstName = "Alina", LastName = "Barinova", Age = 22, Country = Countries[1] },
+            new Client { FirstName = "Scarlett", LastName = "Johansson", Age = 38, Country = Countries[0] },
+            new Client { FirstName = "Anastasiya", LastName = "Kamenskikh", Age = 51, Country = Countries[2] },
+            new Client { FirstName = "Sergey", LastName = "Rudolff", Age = 51, Country = Countries[3] }
         };
 
         private static readonly List<Product> Products = new List<Product>
@@ -49,13 +53,47 @@ namespace SalesStatistics
             new Product { Name = "Lavender Bath Salt", Cost = 12.42m },
             new Product { Name = "Snowboard Cold Weather Gloves", Cost = 18.69m },
             new Product { Name = "Nighthawk Wi-Fi Router, R6700 Wireless", Cost = 57.99m },
-            new Product { Name = "Samsung Galaxy Watch Active", Cost = 149.99m }
+            new Product { Name = "Samsung Galaxy Watch Active", Cost = 149.99m },
+            new Product { Name = "Fashion shoes el Camino", Cost = 299.99m },
+            new Product { Name = "Amazon Kit", Cost = 500.00m },
+            new Product { Name = "Lavender Bath Salt", Cost = 18.00m},
+            new Product { Name = "Samsung Galaxy Watch Active", Cost = 99.50m },
+            new Product { Name = "Programs kit", Cost = 112.99m },
+            new Product { Name = "Coca-Cola Zero 1l", Cost = 2.28m},
+            new Product { Name = "Green Apples", Cost = 1.30m },
+            new Product { Name = "Dogs eat 100g", Cost = 0.72m},
+            new Product { Name = "Solar Guitar", Cost = 76.45m},
+            new Product { Name = "East Sushi set", Cost = 45.10m},
+            new Product { Name = "Smart Microwave Oven", Cost = 320.00m},
+            new Product { Name = "Apera Instruments AI209 Waterproof pH Tester Kit", Cost = 77.50m },
+            new Product { Name = "Lamborgini Aventador Execlusive Pro 2", Cost = 4599999.99m },
+            new Product { Name = "Ecosmart Fleece Hooded Sweatshirt", Cost = 32.05m },
+            new Product { Name = "Stainless Steel Office Scissors", Cost = 11.50m }
         };
 
         private static readonly List<Order> Orders = new List<Order>
         {
-            new Order { Client = Clients[0], Product = Products[0], Date = new DateTime(2021, 01, 05) },
-            new Order { Client = Clients[2], Product = Products[2], Date = new DateTime(2020, 12, 14) }
+            new Order { Client = Clients[0], Product = Products[18], Date = new DateTime(2020, 02, 12) },
+            new Order { Client = Clients[1], Product = Products[17], Date = new DateTime(2020, 02, 18) },
+            new Order { Client = Clients[2], Product = Products[16], Date = new DateTime(2021, 03, 31) },
+            new Order { Client = Clients[3], Product = Products[15], Date = new DateTime(2020, 04, 17) },
+            new Order { Client = Clients[4], Product = Products[14], Date = new DateTime(2020, 04, 21) },
+            new Order { Client = Clients[5], Product = Products[13], Date = new DateTime(2020, 04, 23) },
+            new Order { Client = Clients[6], Product = Products[12], Date = new DateTime(2020, 04, 24) },
+            new Order { Client = Clients[7], Product = Products[11], Date = new DateTime(2020, 05, 08) },
+            new Order { Client = Clients[6], Product = Products[10], Date = new DateTime(2020, 05, 20) },
+            new Order { Client = Clients[5], Product = Products[9], Date = new DateTime(2020, 05, 21) },
+            new Order { Client = Clients[4], Product = Products[8], Date = new DateTime(2020, 06, 08) },
+            new Order { Client = Clients[3], Product = Products[7], Date = new DateTime(2020, 07, 02) },
+            new Order { Client = Clients[2], Product = Products[6], Date = new DateTime(2020, 07, 13) },
+            new Order { Client = Clients[1], Product = Products[5], Date = new DateTime(2020, 09, 03) },
+            new Order { Client = Clients[0], Product = Products[4], Date = new DateTime(2020, 11, 06) },
+            new Order { Client = Clients[1], Product = Products[3], Date = new DateTime(2020, 11, 11) },
+            new Order { Client = Clients[2], Product = Products[2], Date = new DateTime(2020, 11, 16) },
+            new Order { Client = Clients[3], Product = Products[1], Date = new DateTime(2020, 11, 26) },
+            new Order { Client = Clients[4], Product = Products[0], Date = new DateTime(2020, 12, 02) },
+            new Order { Client = Clients[5], Product = Products[5], Date = new DateTime(2020, 12, 11) },
+            new Order { Client = Clients[6], Product = Products[14], Date = new DateTime(2021, 01, 29) }
         };
 
         public DataSeeder(DataContext context, UserManager<User> userManager,

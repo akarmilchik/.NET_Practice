@@ -10,61 +10,74 @@ namespace SalesStatistics.Core.Services
 {
     public class OrdersService : IOrdersService
     {
-        private readonly DataContext context;
-        private readonly ISortingProvider<Order> sortingProvider;
+        private readonly DataContext _context;
+        private readonly ISortingProvider<Order> _sortingProvider;
 
         public OrdersService(DataContext context, ISortingProvider<Order> sortingProvider)
         {
-            this.context = context;
-            this.sortingProvider = sortingProvider;
+            _context = context;
+            _sortingProvider = sortingProvider;
         }
 
         public OrdersService(DataContext context)
         {
-            this.context = context;
+            _context = context;
+        }
+
+        public async Task AddOrderToDb(Order item)
+        {
+            _context.Database.EnsureCreated();
+
+            await _context.Orders.AddAsync(item);
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdOrderToDb(Order item)
+        {
+            _context.Database.EnsureCreated();
+
+            _context.Orders.Update(item);
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task RemoveEventFromDb(Order item)
+        {
+            _context.Database.EnsureCreated();
+
+            _context.Orders.Remove(item);
+
+            await _context.SaveChangesAsync();
         }
 
         public async Task<List<Order>> GetOrders()
         {
-            return await context.Orders.Include(o => o.Client).Include(o => o.Product).ToListAsync();
+            return await _context.Orders.Include(o => o.Client).Include(o => o.Product).ToListAsync();
         }
 
         public async Task<List<Order>> GetOrdersWithProducts()
         {
-            var categories = context.Orders.Include(o => o.Product);
+            var categories = _context.Orders.Include(o => o.Product);
 
             return await categories.ToListAsync();
         }
 
-        public async Task<PagedResult<Order>> GetOrders(OrderQuery query)
-        {
-            var queryable = context.Orders.AsQueryable();
-
-            var count = await queryable.CountAsync();
-
-            queryable = sortingProvider.ApplySorting(queryable, query);
-            queryable = queryable.ApplyPagination(query);
-
-            var items = await queryable.ToListAsync();
-
-            return new PagedResult<Order> { TotalCount = count, Items = items };
-        }
-
         public IQueryable<Order> GetOrdersFilteredByProduct(int productId)
         {
-            var products = context.Orders.Where(p => p.ProductId == productId);
+            var products = _context.Orders.Where(p => p.ProductId == productId);
 
             return products;
         }
 
         public async Task<Product> GetOrderById(int id)
         {
-            return await context.Products.FindAsync(id);
+            return await _context.Products.FindAsync(id);
         }
 
         public async Task<PagedResult<Order>> GetOrdersQuery(OrderQuery query)
         {
-            var queryable = context.Orders.Include(o => o.Client).Include(o => o.Product).AsQueryable();
+            var queryable = _context.Orders.Include(o => o.Client).Include(o => o.Product).AsQueryable();
 
             if (query.Products != null)
             {
@@ -86,26 +99,13 @@ namespace SalesStatistics.Core.Services
             }
             var count = await queryable.CountAsync();
 
-            queryable = sortingProvider.ApplySorting(queryable, query);
+            queryable = _sortingProvider.ApplySorting(queryable, query);
 
             queryable = queryable.ApplyPagination(query);
 
             var items = await queryable.ToListAsync();
 
             return new PagedResult<Order> { TotalCount = count, Items = items };
-        }
-
-        public async Task<IEnumerable<string>> GetMatchedOrders(string q, int countOfRelevantResults)
-        {
-            var queryable = context.Orders.AsQueryable();
-
-            var matchedOrders = queryable
-                .Where(e => e.Product.Name.Contains(q.Trim().ToLower()))
-                .OrderBy(e => e.Product.Name)
-                .Select(e => e.Product.Name)
-                .Take(countOfRelevantResults);
-
-            return await matchedOrders.ToListAsync();
         }
     }
 }

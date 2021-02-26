@@ -1,24 +1,86 @@
 ﻿@model OrdersViewModel
-@using SalesStatistics.DAL.Models; 
-@{
-    ViewData["Title"] = "Orders";
- }
+@using SalesStatistics.Core.Constants;
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
 
-<h1>Orders</h1>
-<div style="height:400px;overflow-y:scroll">
-    <table class="table bg-light">
-        <thead class="thead-dark font-weight-bold">
-            <tr>
-                <th scope="col">№</th>
-                <th scope="col">Client</th>
-                <th scope="col">Product</th>
-                <th scope="col">Cost</th>
-                <th scope="col">Date</th>
-            </tr>
-        </thead>
-        <tbody>
-            <div id="eventItems" class="row row-cols-2">
-            </div>
-        </tbody>
-    </table>
-</div>
+
+<h1>@localizer["Orders with API"]</h1>
+<li class="container-fluid">
+    <ul class="nav nav-pills">
+        <li class="nav-item" style="padding-right: 15px">
+            @localizer["Client"]
+            <select id="client" multiple class="selectpicker">
+                @foreach (var client in Model.Clients)
+                {
+                    <option value="@client.Id">@client.FirstName @client.LastName</option>
+                }
+            </select>
+        </li>
+        <li class="nav-item" style="padding-right: 15px">
+            @localizer["Product"]
+            <select id="product" multiple class="selectpicker">
+                @foreach (var product in Model.Products)
+                {
+                    <option value="@product.Id">@product.Name</option>
+                }
+            </select>
+        </li>
+    </ul>
+    <ul class="nav nav-pills">
+        <li class="nav-item" style="padding-right: 35px">
+            <label>@localizer["DateFrom"]</label>
+            @Html.TextBoxFor(Model => Model.DateFrom, new { type = "date", id = "dateFrom", @class = "form-control d-inline" })
+        </li>
+        <li class="nav-item" style="padding-right: 35px">
+            <label>@localizer["DateTo"]</label>
+            @Html.TextBoxFor(Model => Model.DateTo, new { type = "date", id = "dateTo", @class = "form-control d-inline" })
+        </li>
+        <li class="nav-item" style="padding-right: 33px">
+            <label>@localizer["SortBy"]</label>
+            <select id="sortBy" class="form-control d-inline" asp-items="Html.GetEnumSelectList<SortParams>()"></select>
+        </li>
+        <li class="nav-item">
+            <label>@localizer["SortOrder"]</label>
+            <select id="sortOrder" class="form-control d-inline" asp-items="Html.GetEnumSelectList<SortOrder>()"></select>
+        </li>
+    </ul>
+    <ul class="nav nav-pills">
+        <li class="nav-item" style="padding-right: 15px">
+            <label>@localizer["PageSize"]</label>
+            @Html.DropDownListFor(Model => Model.PageSize, new SelectList(PagesSizes.Sizes), new { id = "pageSize", @class = "form-control d-inline" })
+        </li>
+        <li class="nav-item" style="padding-top: 30px">
+            <a class="nav-item nav-link active bg-dark text-light" asp-action="CreateTicket" asp-controller="Tickets">
+                Create ticket
+            </a>
+        </li>
+    </ul>
+    <p></p>
+    <div style="height:400px;overflow-y:scroll">
+        <table class="table bg-light">
+            <thead class="thead-dark font-weight-bold">
+                <tr>
+                    <th scope="col">№</th>
+                    <th scope="col">Client</th>
+                    <th scope="col">Product</th>
+                    <th scope="col">Cost</th>
+                    <th scope="col">Date</th>
+                </tr>
+            </thead>
+            <tbody id="ordersItems">
+            </tbody>
+        </table>
+    </div>    
+    <p></p>
+    <div class="d-flex justify-content-center">
+        <nav aria-label="...">
+            <ul class="pagination">
+            </ul>
+        </nav>
+    </div>
+</li>
+
+
+@section Scripts
+{
+    <script src="dist/orders.entry.js" type="module" defer></script>
+}

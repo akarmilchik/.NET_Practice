@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Net.Http.Headers;
 using SalesStatistics.Core.Queries;
 using SalesStatistics.Core.Services;
 using SalesStatistics.DAL;
@@ -31,11 +31,9 @@ namespace SalesStatistics
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews().AddDataAnnotationsLocalization(options => {
-                options.DataAnnotationLocalizerProvider = (type, factory) =>
-                factory.Create(null);
-            })
-            .AddViewLocalization();
+            services.AddControllersWithViews()
+                .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
+                .AddDataAnnotationsLocalization();
 
             services.AddLocalization(opts =>
             {

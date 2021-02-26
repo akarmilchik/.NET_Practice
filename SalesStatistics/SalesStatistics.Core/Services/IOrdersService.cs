@@ -8,12 +8,13 @@ namespace SalesStatistics.Core.Services
 {
     public interface IOrdersService
     {
-        Task<List<Order>> GetOrders();
+        Task AddOrderToDb(Order item);
         Task<Product> GetOrderById(int id);
-        Task<PagedResult<Order>> GetOrders(OrderQuery query);
+        Task<List<Order>> GetOrders();
         IQueryable<Order> GetOrdersFilteredByProduct(int productId);
-        Task<List<Order>> GetOrdersWithProducts();
         Task<PagedResult<Order>> GetOrdersQuery(OrderQuery query);
-        Task<IEnumerable<string>> GetMatchedOrders(string q, int countOfRelevantResults);
+        Task<List<Order>> GetOrdersWithProducts();
+        Task RemoveEventFromDb(Order item);
+        Task UpdOrderToDb(Order item);
     }
 }

@@ -8,99 +8,74 @@ const filtersOrder = {
     clients: [],
     page: 1,
     pageSize: 4,
-    sortBy: "Date",
+    sortBy: "Clients",
     sortOrder: "Ascending",
     dateFrom: "",
-    dateTo: "",
-    searchString: ""
+    dateTo: ""
 };
 
-const filtersVenue = {
-    cities: []
+const filtersClient = {
+    countries: []
 }
 
-function createEventItem(item) {
+function createOrderItem(item) {
     return `
                     <tr>
-                        <td>${item.Id}</td>
-                        <td>${item.Client.FirstName} ${item.Client.LastName}</td>
-                        <td>${item.Product.Name}</td>
-                        <td>${item.Product.Cost}</td>
-                        <td>${item.Date.ToShortDateString()}</td>
+                        <td>${item.id}</td>
+                        <td>${item.client.firstName} ${item.client.lastName}</td>
+                        <td>${item.product.name}</td>
+                        <td>${item.product.cost}</td>
+                        <td>${item.date.ToShortDateString()}</td>
                     </tr>`;
 };
 
 function createClientItem(item) {
-    return `<option value="${item.id}">${item.name}</option>`
+    return `<option value="${item.firstName}">${item.lastName}</option>`
 };
 $(document).ready(function () {
-    getProducts();
+    getOrders();
     getClients();
 
-    $("#cat2").on("change", function () {
+    $("#products").on("change", function () {
         filtersOrder.products = $(this).val();
-        getProducts();
+        getOrders();
     });
 
-    $("#category").on("change", function () {
-        filtersOrder.eventCategories = $(this).val();
-        getProducts();
-    });
-
-    $("#venue").on("change", function () {
+    $("#clients").on("change", function () {
         filtersOrder.clients = $(this).val();
-        getProducts();
-    });
-
-    $("#city").on("change", function () {
-        filtersVenue.cities = $(this).val();
-        filtersOrder.products = $(this).val();
-        filtersOrder.clients = [];
-        getClients();
-        getProducts();
+        getOrders();
     });
 
     $("#sortBy").on("change", function () {
         filtersOrder.sortBy = $(this).val();
-        getProducts();
+        getOrders();
     });
 
     $("#sortOrder").on("change", function () {
         filtersOrder.sortOrder = $(this).val();
-        getProducts();
+        getOrders();
     });
 
     $("#dateFrom").on("change", function () {
         filtersOrder.dateFrom = $(this).val();
-        getProducts();
+        getOrders();
     });
 
     $("#dateTo").on("change", function () {
         filtersOrder.dateTo = $(this).val();
-        getProducts();
+        getOrders();
     });
 
     $("#pageSize").on("change", function () {
         filtersOrder.pageSize = $(this).val();
-        getProducts();
-    });
-
-    $("#search").on("click", function () {
-        filtersOrder.searchString = $("#autosuggest").val();
-        getProducts();
-    });
-
-    $('#autosuggest').autoComplete({
-        resolverSettings: {
-            url: 'api/v1/orders/autosuggest',
-        },
+        getOrders();
     });
 });
 
 
-function getProducts() {
+function getOrders() {
 $.ajax({
-    url: `api/v1/events`,
+    url: `api/v1/orders`,
     data: filtersOrder,
     traditional: true,
     success: function (data, status, xhr) {
@@ -110,7 +85,7 @@ $.ajax({
             return item;
         });
 
-        $("#productItems").empty().append($.map(data, createEventItem));
+        $("#ordersItems").empty().append($.map(data, createOrderItem));
         const count = xhr.getResponseHeader('x-total-count');
         addPaginationButtons(filtersOrder.page, count, filtersOrder.pageSize);
     }
@@ -120,7 +95,7 @@ $.ajax({
 function getClients() {
     $.ajax({
         url: "api/v1/clients",
-        data: filtersVenue,
+        data: filtersClient,
         traditional: true,
         success: function (data, status) {
             $("#client").empty().append($.map(data, createClientItem));
@@ -149,7 +124,7 @@ function addPaginationButtons(currentPage, totalCount, pageSize) {
     $(".pagination").addClass("justify-content-center");
     $(".page-item").on("click", function () {
         filtersOrder.page = $(this).data("page");
-        getProducts();
+        getOrders();
     });
 }
 
