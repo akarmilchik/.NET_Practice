@@ -117,7 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="My orders" xml:space="preserve">
-    <value>My orders</value>
+  <data name="createOrder" xml:space="preserve">
+    <value>Создать заказ</value>
+  </data>
+  <data name="ordersTitle" xml:space="preserve">
+    <value>Заказы</value>
   </data>
 </root>

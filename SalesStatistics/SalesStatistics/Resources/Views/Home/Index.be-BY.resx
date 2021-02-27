@@ -123,13 +123,13 @@
   <data name="EN" xml:space="preserve">
     <value>АНГЛ</value>
   </data>
+  <data name="ourSite" xml:space="preserve">
+    <value>На нашай старонцы вы зможаце праглядзець падрабязную статыстыку продажаў, у тым ліку прыгожае графічнае прадстаўленне. Вы можаце аналізаваць рынак і выкарыстоўваць гэтую інфармацыю абсалютна бескаштоўна.</value>
+  </data>
   <data name="RU" xml:space="preserve">
     <value>РУС</value>
   </data>
   <data name="Welcome" xml:space="preserve">
     <value>Прывітанне</value>
-  </data>
-  <data name="You come" xml:space="preserve">
-    <value>Вы патрапілі ў дадатак для онлайн-продажу і перапродажу білетаў на мерапрыемствы. Прыемнага карыстання.</value>
   </data>
 </root>

@@ -117,25 +117,31 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Events" xml:space="preserve">
-    <value>Мерапрыемствы</value>
+  <data name="BY" xml:space="preserve">
+    <value>БЕЛ</value>
+  </data>
+  <data name="Clients" xml:space="preserve">
+    <value>Кліенты</value>
+  </data>
+  <data name="EN" xml:space="preserve">
+    <value>АНГЛ</value>
   </data>
   <data name="Home" xml:space="preserve">
     <value>Хатняя</value>
   </data>
-  <data name="My orders" xml:space="preserve">
-    <value>Мае заказы</value>
-  </data>
   <data name="My tickets" xml:space="preserve">
     <value>Мае квіткі</value>
+  </data>
+  <data name="Orders" xml:space="preserve">
+    <value>Заказы</value>
   </data>
   <data name="Privacy" xml:space="preserve">
     <value>Прыватнасць</value>
   </data>
-  <data name="Tickets" xml:space="preserve">
-    <value>Квіткі</value>
+  <data name="Products" xml:space="preserve">
+    <value>Прадукты</value>
   </data>
-  <data name="User info" xml:space="preserve">
-    <value>Інфармацыя пра карыстальніка</value>
+  <data name="RU" xml:space="preserve">
+    <value>РУС</value>
   </data>
 </root>

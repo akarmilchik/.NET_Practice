@@ -8,29 +8,29 @@ const filtersOrder = {
     clients: [],
     page: 1,
     pageSize: 4,
-    sortBy: "Clients",
+    sortBy: "Client",
     sortOrder: "Ascending",
     dateFrom: "",
     dateTo: ""
 };
 
 const filtersClient = {
-    countries: []
+    clients: []
 }
 
 function createOrderItem(item) {
     return `
                     <tr>
                         <td>${item.id}</td>
-                        <td>${item.client.firstName} ${item.client.lastName}</td>
-                        <td>${item.product.name}</td>
-                        <td>${item.product.cost}</td>
-                        <td>${item.date.ToShortDateString()}</td>
+                        <td>${item.clientFirstName} ${item.clientLastName}</td>
+                        <td>${item.productName}</td>
+                        <td>${item.productCost}</td>
+                        <td>${item.date}</td>
                     </tr>`;
 };
 
 function createClientItem(item) {
-    return `<option value="${item.firstName}">${item.lastName}</option>`
+    return `<option value="${item.id}">${item.firstName} ${item.lastName}</option>`
 };
 $(document).ready(function () {
     getOrders();
@@ -98,8 +98,8 @@ function getClients() {
         data: filtersClient,
         traditional: true,
         success: function (data, status) {
-            $("#client").empty().append($.map(data, createClientItem));
-            $("#client").selectpicker("refresh");
+            $("#clients").empty().append($.map(data, createClientItem));
+            $("#clients").selectpicker("refresh");
         }
     });
 }

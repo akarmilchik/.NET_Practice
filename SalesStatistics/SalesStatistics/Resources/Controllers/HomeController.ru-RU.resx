@@ -120,10 +120,7 @@
   <data name="homepagetitle" xml:space="preserve">
     <value>Домашняя страница</value>
   </data>
-  <data name="Privacy" xml:space="preserve">
+  <data name="privacy" xml:space="preserve">
     <value>Политика конфиденциальности</value>
-  </data>
-  <data name="UserInfo" xml:space="preserve">
-    <value>Информация о пользователе</value>
   </data>
 </root>

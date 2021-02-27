@@ -117,37 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Privacy policy" xml:space="preserve">
+  <data name="privacy" xml:space="preserve">
     <value>Политика конфиденциальности</value>
   </data>
-  <data name="txt1" xml:space="preserve">
-    <value>Эта политика конфиденциальности была составлена для того, чтобы лучше обслуживать тех, кто обеспокоен тем, как их «Личная информация» (PII) используется в Интернете. PI - это информация, которая может использоваться сама по себе или вместе с другой информацией для идентификации, установления контакта или определения местонахождения отдельного человека или для идентификации человека в контексте. Пожалуйста, внимательно ознакомьтесь с нашей политикой конфиденциальности, чтобы получить четкое представление о том, как мы собираем, используем, защищаем или иным образом обрабатываем вашу Личную информацию в соответствии с нашим веб-сайтом.</value>
-  </data>
-  <data name="txt10" xml:space="preserve">
-    <value>Для защиты законных прав, собственности и безопасности наших Сервисов и пользователей.</value>
-  </data>
-  <data name="txt2" xml:space="preserve">
-    <value>Наша приверженность конфиденциальности пользователей:</value>
-  </data>
-  <data name="txt3" xml:space="preserve">
-    <value>Эта gолитика описывает, как Privacy.com защищает и управляет вашими личными данными, в том числе:</value>
-  </data>
-  <data name="txt4" xml:space="preserve">
-    <value>Какие данные мы собираем, когда вы регистрируетесь, используете или взаимодействуете с нашими приложениями, продуктами, услугами или веб-сайтами (совместно именуемые «Услуги»);</value>
-  </data>
-  <data name="txt5" xml:space="preserve">
-    <value>Как мы управляем данными с самого начала вашего взаимодействия;</value>
-  </data>
-  <data name="txt6" xml:space="preserve">
-    <value>Выбор, который у вас есть в отношении управления данными.</value>
-  </data>
-  <data name="txt7" xml:space="preserve">
-    <value>Мы ограничиваем использование ваших личных данных:</value>
-  </data>
-  <data name="txt8" xml:space="preserve">
-    <value>Для предоставления, поддержки и улучшения наших Услуг;</value>
-  </data>
-  <data name="txt9" xml:space="preserve">
-    <value>Чтобы общаться с вами о новых и существующих Услугах;</value>
+  <data name="usePage" xml:space="preserve">
+    <value>Используйте эту страницу, чтобы подробно описать политику конфиденциальности вашего сайта.</value>
   </data>
 </root>

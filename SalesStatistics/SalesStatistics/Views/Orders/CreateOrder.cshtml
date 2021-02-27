@@ -1,0 +1,31 @@
+﻿@model SalesStatistics.Models.OrderCreateEditModel
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h1>@localizer["Order"]</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CreateTicket">
+            @Html.HiddenFor(m => m.Id)
+            <div class="form-group">
+                <label asp-for="Client" class="control-label">@localizer["Client"]</label>
+                <select asp-for="@Model.Client.Id" class="form-control" asp-items="@ViewBag.Clients"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Product" class="control-label">@localizer["Product"]</label>
+                <select asp-for="@Model.Product.Id" class="form-control" asp-items="@ViewBag.Products"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Date" class="control-label">@localizer["Date"]</label>
+                <input asp-for="Date" class="form-control" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="@localizer["Save"]" class="btn btn-success" />
+                <input type="submit" value="@localizer["Back"]" class="btn btn-primary" asp-controller="Orders" asp-action="Index" asp-route-userName="@User.Identity.Name" />
+            </div>
+        </form>
+    </div>
+</div>
+

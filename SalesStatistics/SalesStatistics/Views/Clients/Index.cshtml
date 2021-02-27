@@ -1,33 +1,69 @@
 ﻿@model ClientsViewModel
-<h1>Orders</h1>
-<div style="height:400px;overflow-y:scroll">
-    <table class="table bg-light">
-        <thead class="thead-dark font-weight-bold">
-            <tr>
-                <th scope="col">№</th>
-                <th scope="col">First name</th>
-                <th scope="col">Last name</th>
-            </tr>
-        </thead>
-        <tbody>
-            @if (Model.Clients.Any())
-            {
-                foreach (var client in Model.Clients)
-                {
-                    <tr>
-                        <td>@client.Id</td>
-                        <td>@client.FirstName</td>
-                        <td>@client.LastName</td>
+@using SalesStatistics.Core.Constants;
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
 
-                    </tr>
+<h1>@localizer["Clients"]</h1>
+
+<li class="container-fluid">
+    <ul class="nav nav-pills">
+        <li class="nav-item" style="padding-right: 5px">
+            <label>@localizer["Country"]</label><br>
+            <select id="countries" multiple class="selectpicker">
+                @foreach (var country in Model.Countries)
+                {
+                    <option value="@country.Id">@country.Name</option>
                 }
-            }
-            else
-            {
+            </select>
+        </li>
+        <li class="nav-item" style="padding-right: 5px">
+            <label>@localizer["Age"]</label>
+            @Html.DropDownListFor(Model => Model.Ages, new SelectList(Ages.Nums), new { id = "ages", @class = "form-control d-inline" })
+        </li>
+        <li class="nav-item" style="padding-right: 5px">
+            <label>@localizer["PageSize"]</label>
+            @Html.DropDownListFor(Model => Model.PageSize, new SelectList(PagesSizes.Sizes), new { id = "pageSize", @class = "form-control d-inline" })
+        </li>
+        <li class="nav-item justify-content-end" style="padding-top: 30px">
+            <a class="nav-item nav-link active bg-dark text-light" asp-action="CreateClient" asp-controller="Clients">
+                @localizer["Create client"]
+            </a>
+        </li>
+    </ul>
+    <ul class="nav nav-pills">
+        <li class="nav-item" style="padding-right: 5px">
+            <label>@localizer["SortBy"]</label>
+            <select id="sortBy" class="form-control d-inline" asp-items="Html.GetEnumSelectList<ClientSortParams>()"></select>
+        </li>
+        <li class="nav-item">
+            <label>@localizer["SortOrder"]</label>
+            <select id="sortOrder" class="form-control d-inline" asp-items="Html.GetEnumSelectList<SortOrder>()"></select>
+        </li>
+    </ul>
+    <p></p>
+    <div>
+        <table class="table bg-light">
+            <thead class="thead-dark font-weight-bold">
                 <tr>
-                    <td colspan="2">Has no clients yet</td>
+                    <th scope="col">№</th>
+                    <th scope="col">@localizer["FullName"]</th>
+                    <th scope="col">@localizer["Age"]</th>
+                    <th scope="col">@localizer["Country"]</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-</div>
+            </thead>
+            <tbody id="clientsItems">
+            </tbody>
+        </table>
+    </div>
+    <p></p>
+    <div class="d-flex justify-content-center">
+        <nav aria-label="...">
+            <ul class="pagination">
+            </ul>
+        </nav>
+    </div>
+</li>
+
+@section Scripts
+{
+    <script src="dist/clients.entry.js" type="module" defer></script>
+}

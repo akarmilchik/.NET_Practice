@@ -2,6 +2,8 @@
 {
     public class ClientQuery : BaseQuery
     {
-        public int[] Clients { get; set; }
+        public int[] Countries { get; set; }
+
+        public string Ages { get; set; }
     }
 }

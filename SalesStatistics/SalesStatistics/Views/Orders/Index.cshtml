@@ -3,67 +3,65 @@
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
 
 
-<h1>@localizer["Orders with API"]</h1>
+<h1>@localizer["Orders"]</h1>
 <li class="container-fluid">
     <ul class="nav nav-pills">
-        <li class="nav-item" style="padding-right: 15px">
-            @localizer["Client"]
-            <select id="client" multiple class="selectpicker">
+        <li class="nav-item" style="padding-right: 5px">
+            <label>@localizer["Client"]</label><br>
+            <select id="clients" multiple class="selectpicker">
                 @foreach (var client in Model.Clients)
                 {
                     <option value="@client.Id">@client.FirstName @client.LastName</option>
                 }
             </select>
         </li>
-        <li class="nav-item" style="padding-right: 15px">
-            @localizer["Product"]
-            <select id="product" multiple class="selectpicker">
+        <li class="nav-item" style="padding-right: 5px">
+            <label>@localizer["Product"]</label><br>
+            <select id="products" multiple class="selectpicker">
                 @foreach (var product in Model.Products)
                 {
-                    <option value="@product.Id">@product.Name</option>
+                    <option value="@product.Id">@product.Name @product.Cost$</option>
                 }
             </select>
         </li>
+        <li class="nav-item" style="padding-right: 5px">
+            <label>@localizer["PageSize"]</label>
+            @Html.DropDownListFor(Model => Model.PageSize, new SelectList(PagesSizes.Sizes), new { id = "pageSize", @class = "form-control d-inline" })
+        </li>
+        <li class="nav-item justify-content-end" style="padding-top: 30px">
+            <a class="nav-item nav-link active bg-dark text-light" asp-action="CreateOrder" asp-controller="Orders">
+                @localizer["Create order"]
+            </a>
+        </li>
     </ul>
     <ul class="nav nav-pills">
-        <li class="nav-item" style="padding-right: 35px">
+        <li class="nav-item" style="padding-right: 5px">
             <label>@localizer["DateFrom"]</label>
             @Html.TextBoxFor(Model => Model.DateFrom, new { type = "date", id = "dateFrom", @class = "form-control d-inline" })
         </li>
-        <li class="nav-item" style="padding-right: 35px">
+        <li class="nav-item" style="padding-right: 5px">
             <label>@localizer["DateTo"]</label>
             @Html.TextBoxFor(Model => Model.DateTo, new { type = "date", id = "dateTo", @class = "form-control d-inline" })
         </li>
-        <li class="nav-item" style="padding-right: 33px">
+        <li class="nav-item" style="padding-right: 5px">
             <label>@localizer["SortBy"]</label>
-            <select id="sortBy" class="form-control d-inline" asp-items="Html.GetEnumSelectList<SortParams>()"></select>
+            <select id="sortBy" class="form-control d-inline" asp-items="Html.GetEnumSelectList<OrderSortParams>()"></select>
         </li>
         <li class="nav-item">
             <label>@localizer["SortOrder"]</label>
             <select id="sortOrder" class="form-control d-inline" asp-items="Html.GetEnumSelectList<SortOrder>()"></select>
         </li>
     </ul>
-    <ul class="nav nav-pills">
-        <li class="nav-item" style="padding-right: 15px">
-            <label>@localizer["PageSize"]</label>
-            @Html.DropDownListFor(Model => Model.PageSize, new SelectList(PagesSizes.Sizes), new { id = "pageSize", @class = "form-control d-inline" })
-        </li>
-        <li class="nav-item" style="padding-top: 30px">
-            <a class="nav-item nav-link active bg-dark text-light" asp-action="CreateTicket" asp-controller="Tickets">
-                Create ticket
-            </a>
-        </li>
-    </ul>
     <p></p>
-    <div style="height:400px;overflow-y:scroll">
+    <div>
         <table class="table bg-light">
             <thead class="thead-dark font-weight-bold">
                 <tr>
                     <th scope="col">№</th>
-                    <th scope="col">Client</th>
-                    <th scope="col">Product</th>
-                    <th scope="col">Cost</th>
-                    <th scope="col">Date</th>
+                    <th scope="col">@localizer["Client"]</th>
+                    <th scope="col">@localizer["Product"]</th>
+                    <th scope="col">@localizer["Cost"]</th>
+                    <th scope="col">@localizer["Date"]</th>
                 </tr>
             </thead>
             <tbody id="ordersItems">

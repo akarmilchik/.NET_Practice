@@ -111,6 +111,7 @@ namespace SalesStatistics
                 .AddClasses(c => c.AssignableTo(typeof(ISortingProvider<>)))
                 .AsImplementedInterfaces()
                 .WithScopedLifetime());
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

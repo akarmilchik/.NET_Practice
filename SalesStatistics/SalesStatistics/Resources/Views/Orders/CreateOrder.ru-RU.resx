@@ -117,13 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="My orders" xml:space="preserve">
-    <value>Мои заказы</value>
+  <data name="Back" xml:space="preserve">
+    <value>Назад</value>
   </data>
-  <data name="Privacy" xml:space="preserve">
-    <value>Privacy</value>
+  <data name="Client" xml:space="preserve">
+    <value>Клиент</value>
   </data>
-  <data name="User info" xml:space="preserve">
-    <value>User info</value>
+  <data name="Date" xml:space="preserve">
+    <value>Дата</value>
+  </data>
+  <data name="Order" xml:space="preserve">
+    <value>Заказ</value>
+  </data>
+  <data name="Product" xml:space="preserve">
+    <value>Продукт</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Сохранить</value>
   </data>
 </root>

@@ -50,25 +50,25 @@ namespace SalesStatistics
 
         private static readonly List<Product> Products = new List<Product>
         {
-            new Product { Name = "Lavender Bath Salt", Cost = 12.42m },
-            new Product { Name = "Snowboard Cold Weather Gloves", Cost = 18.69m },
-            new Product { Name = "Nighthawk Wi-Fi Router, R6700 Wireless", Cost = 57.99m },
-            new Product { Name = "Samsung Galaxy Watch Active", Cost = 149.99m },
-            new Product { Name = "Fashion shoes el Camino", Cost = 299.99m },
-            new Product { Name = "Amazon Kit", Cost = 500.00m },
-            new Product { Name = "Lavender Bath Salt", Cost = 18.00m},
-            new Product { Name = "Samsung Galaxy Watch Active", Cost = 99.50m },
-            new Product { Name = "Programs kit", Cost = 112.99m },
-            new Product { Name = "Coca-Cola Zero 1l", Cost = 2.28m},
-            new Product { Name = "Green Apples", Cost = 1.30m },
-            new Product { Name = "Dogs eat 100g", Cost = 0.72m},
-            new Product { Name = "Solar Guitar", Cost = 76.45m},
-            new Product { Name = "East Sushi set", Cost = 45.10m},
-            new Product { Name = "Smart Microwave Oven", Cost = 320.00m},
-            new Product { Name = "Apera Instruments AI209 Waterproof pH Tester Kit", Cost = 77.50m },
-            new Product { Name = "Lamborgini Aventador Execlusive Pro 2", Cost = 4599999.99m },
-            new Product { Name = "Ecosmart Fleece Hooded Sweatshirt", Cost = 32.05m },
-            new Product { Name = "Stainless Steel Office Scissors", Cost = 11.50m }
+            new Product { Name = "Lavender Bath Salt", Cost = 12.42m, Weight = 120 },
+            new Product { Name = "Snowboard Cold Weather Gloves", Cost = 18.69m, Weight = 50 },
+            new Product { Name = "Nighthawk Wi-Fi Router, R6700 Wireless", Cost = 57.99m, Weight = 350 },
+            new Product { Name = "Samsung Galaxy Watch Active", Cost = 149.99m, Weight = 45 },
+            new Product { Name = "Fashion shoes el Camino", Cost = 299.99m, Weight = 300 },
+            new Product { Name = "Amazon Kit", Cost = 500.00m, Weight = 450 },
+            new Product { Name = "Lavender Bath Salt", Cost = 18.00m, Weight = 120 },
+            new Product { Name = "Samsung Galaxy Watch Active", Cost = 99.50m, Weight = 45 },
+            new Product { Name = "Programs kit", Cost = 112.99m, Weight = 560 },
+            new Product { Name = "Coca-Cola Zero 1l", Cost = 2.28m, Weight = 1000 },
+            new Product { Name = "Green Apples", Cost = 1.30m, Weight = 300 },
+            new Product { Name = "Dogs eat 100g", Cost = 0.72m, Weight = 100 },
+            new Product { Name = "Solar Guitar", Cost = 76.45m, Weight = 2600 },
+            new Product { Name = "East Sushi set", Cost = 45.10m, Weight = 700 },
+            new Product { Name = "Smart Microwave Oven", Cost = 320.00m, Weight = 6500 },
+            new Product { Name = "Apera Instruments AI209 Waterproof pH Tester Kit", Cost = 77.50m, Weight = 350 },
+            new Product { Name = "Lamborgini Aventador Execlusive Pro 2", Cost = 4599999.99m, Weight = 1300000 },
+            new Product { Name = "Ecosmart Fleece Hooded Sweatshirt", Cost = 32.05m, Weight = 620 },
+            new Product { Name = "Stainless Steel Office Scissors", Cost = 11.50m, Weight = 180 }
         };
 
         private static readonly List<Order> Orders = new List<Order>

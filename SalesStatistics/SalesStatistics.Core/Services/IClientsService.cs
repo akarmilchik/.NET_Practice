@@ -9,6 +9,7 @@ namespace SalesStatistics.Core.Services
     {
         Task<Client> GetClientById(int id);
         Task<List<Client>> GetClients();
-        Task<PagedResult<Client>> GetOrders(ClientQuery query);
+        Task<IEnumerable<Client>> GetClientsQuery(ClientQuery query);
+        Task<IEnumerable<Country>> GetCountries();
     }
 }

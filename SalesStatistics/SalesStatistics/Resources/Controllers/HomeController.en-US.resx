@@ -120,10 +120,7 @@
   <data name="homepagetitle" xml:space="preserve">
     <value>Home page</value>
   </data>
-  <data name="Privacy" xml:space="preserve">
+  <data name="privacy" xml:space="preserve">
     <value>Privacy</value>
-  </data>
-  <data name="UserInfo" xml:space="preserve">
-    <value>User info</value>
   </data>
 </root>

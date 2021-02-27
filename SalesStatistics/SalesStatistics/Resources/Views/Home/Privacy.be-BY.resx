@@ -117,37 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Privacy policy" xml:space="preserve">
+  <data name="privacy" xml:space="preserve">
     <value>Палітыка прыватнасці</value>
   </data>
-  <data name="txt1" xml:space="preserve">
-    <value>Гэтая палітыка прыватнасці была складзена для таго, каб лепш абслугоўваць тых, хто занепакоены тым, як у Інтэрнэце выкарыстоўваецца іх "Асабістая інфармацыя". PI - гэта інфармацыя, якая можа выкарыстоўвацца самастойна альбо з іншай інфармацыяй для ідэнтыфікацыі, кантактавання альбо вызначэння месцазнаходжання аднаго чалавека альбо для ідэнтыфікацыі чалавека ў кантэксце. Калі ласка, уважліва прачытайце нашу палітыку прыватнасці, каб атрымаць дакладнае ўяўленне пра тое, як мы збіраем, выкарыстоўваем, абараняем вашу інфармацыю, якая дазваляе ідэнтыфікаваць вашу асобу, у адпаведнасці з нашым веб-сайтам.</value>
-  </data>
-  <data name="txt10" xml:space="preserve">
-    <value>Для абароны законных правоў, уласнасці і бяспекі нашых Паслуг і карыстальнікаў.</value>
-  </data>
-  <data name="txt2" xml:space="preserve">
-    <value>Наша прыхільнасць прыватнасці карыстальнікаў:</value>
-  </data>
-  <data name="txt3" xml:space="preserve">
-    <value>Гэтая палітыка апісвае, як Privacy.com абараняе і кіруе вашымі асабістымі дадзенымі, у тым ліку:</value>
-  </data>
-  <data name="txt4" xml:space="preserve">
-    <value>Якія дадзеныя мы збіраем, калі вы падпісваецеся, выкарыстоўваеце альбо ўзаемадзейнічаеце з любымі з нашых прыкладанняў, прадуктаў, паслуг ці вэб-сайтаў (у сукупнасці "Паслугі");</value>
-  </data>
-  <data name="txt5" xml:space="preserve">
-    <value>Як мы кіруем дадзенымі з самага пачатку вашага ўзаемадзеяння;</value>
-  </data>
-  <data name="txt6" xml:space="preserve">
-    <value>У вас ёсць выбар адносна кіравання дадзенымі.</value>
-  </data>
-  <data name="txt7" xml:space="preserve">
-    <value>Мы абмяжоўваем выкарыстанне вашых асабістых дадзеных:</value>
-  </data>
-  <data name="txt8" xml:space="preserve">
-    <value>Дзеля забеспячэння, падтрымання і ўдасканалення нашых Паслуг;</value>
-  </data>
-  <data name="txt9" xml:space="preserve">
-    <value>Мець зносіны з вамі пра новыя і існуючыя Паслугі;</value>
+  <data name="usePage" xml:space="preserve">
+    <value>Выкарыстоўвайце гэтую старонку для падрабязнай інфармацыі аб палітыцы прыватнасці вашага сайта.</value>
   </data>
 </root>

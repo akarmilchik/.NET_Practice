@@ -1,65 +1,73 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - SalesStatistics</title>
-    <link rel="stylesheet" href="~/css/site.css" />
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-</head>
-<body id="gradient">
-    <header>
-        <nav id="gradient" class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light font-weight-bold text-dark bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                    <img src="~/img/icons/sales-dark.svg" width="40" height="40" class="d-inline-block align-top" alt="" loading="lazy"> SalesStatistics
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <partial name="_LoginPartial" />
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">
-                                <img src="~/img/icons/home-dark.svg" width="20" height="20" class="d-inline-block align-top" alt="" loading="lazy"> Home
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Products" asp-action="Index" asp-route-userName="@User.Identity.Name">
-                                <img src="~/img/icons/box-dark.svg" width="20" height="20" class="d-inline-block align-top" alt="" loading="lazy"> Products
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Clients" asp-action="Index">
-                                <img src="~/img/icons/customer.svg" width="20" height="20" class="d-inline-block align-top" alt="" loading="lazy"> Clients
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Orders" asp-action="Index">
-                                <img src="~/img/icons/orders-dark.svg" width="20" height="20" class="d-inline-block align-top" alt="" loading="lazy"> Orders
-                            </a>
-                        </li>
-                    </ul>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+        <title>@ViewData["Title"] - SalesStatistics</title>
+        <script src="~/dist/site.entry.js" type="module" defer></script>
+        <link rel="stylesheet" href="~/dist/site.css" />
+    </head>
+    <body id="gradient">
+        <header>
+            <nav id="gradient" class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light font-weight-bold text-dark bg-white border-bottom box-shadow mb-3">
+                <div class="container">
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                        <img src="~/img/icons/sales-dark.svg" width="40" height="40" class="d-inline-block align-top" alt="" loading="lazy"> SalesStatistics
+                    </a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                        <partial name="_LoginPartial" />
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">
+                                    <img src="~/img/icons/home-dark.svg" width="20" height="20" class="d-inline-block align-top" alt="" loading="lazy"> @localizer["Home"]
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Products" asp-action="Index">
+                                    <img src="~/img/icons/box-dark.svg" width="20" height="20" class="d-inline-block align-top" alt="" loading="lazy"> @localizer["Products"]
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Clients" asp-action="Index">
+                                    <img src="~/img/icons/customer.svg" width="20" height="20" class="d-inline-block align-top" alt="" loading="lazy"> @localizer["Clients"]
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Orders" asp-action="Index">
+                                    <img src="~/img/icons/orders-dark.svg" width="20" height="20" class="d-inline-block align-top" alt="" loading="lazy"> @localizer["Orders"]
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <div class="container">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
+        <footer id="gradient" class="font-weight-bold border-top footer text-muted">
+            <div class="container text-dark">
+                <div class="row">
+                    <div class="col-sm">
+                        
+                        &copy; 2021 - SalesStatistics - <a class="text-dark" asp-area="" asp-controller="Home" asp-action="Privacy"> @localizer["Privacy"]</a>
+                        
+                        <div class="btn-group" role="group">
+                            @Html.ActionLink(localizer["EN"].Value, "SetLanguage", "Language", new { locale = "en-US", @returnUrl = @Context.Request.Path.Value.ToString() }, new { @class = "btn btn-link text-dark", @type = "button" })
+                            @Html.ActionLink(localizer["RU"].Value, "SetLanguage", "Language", new { locale = "ru-RU", @returnUrl = @Context.Request.Path.Value.ToString() }, new { @class = "btn btn-link text-dark", @type = "button" })
+                            @Html.ActionLink(localizer["BY"].Value, "SetLanguage", "Language", new { locale = "be-BY", @returnUrl = @Context.Request.Path.Value.ToString() }, new { @class = "btn btn-link text-dark", @type = "button" })
+                        </div>
+                    </div>
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer id="gradient" class="font-weight-bold border-top footer text-muted">
-        <div class="container text-dark">
-           &copy; 2021 - SalesStatistics - <a asp-area="" asp-controller="Home" asp-action="Privacy"> Privacy</a>
-        </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @RenderSection("Scripts", required: false)
-</body>
+        </footer>
+        @RenderSection("Scripts", required: false)
+    </body>
 </html>

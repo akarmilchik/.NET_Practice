@@ -117,7 +117,37 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="My orders" xml:space="preserve">
-    <value>Мае загады</value>
+  <data name="Client" xml:space="preserve">
+    <value>Клиент</value>
+  </data>
+  <data name="Cost" xml:space="preserve">
+    <value>Цена</value>
+  </data>
+  <data name="Create order" xml:space="preserve">
+    <value>Создать заказ</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Дата</value>
+  </data>
+  <data name="DateFrom" xml:space="preserve">
+    <value>Дата с</value>
+  </data>
+  <data name="DateTo" xml:space="preserve">
+    <value>Дата по</value>
+  </data>
+  <data name="Orders" xml:space="preserve">
+    <value>Заказы</value>
+  </data>
+  <data name="PageSize" xml:space="preserve">
+    <value>Размер страницы</value>
+  </data>
+  <data name="Product" xml:space="preserve">
+    <value>Продукт</value>
+  </data>
+  <data name="SortBy" xml:space="preserve">
+    <value>Сортировать по</value>
+  </data>
+  <data name="SortOrder" xml:space="preserve">
+    <value>Порядок сортировки</value>
   </data>
 </root>

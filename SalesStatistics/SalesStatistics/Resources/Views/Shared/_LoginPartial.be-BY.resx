@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Admin panel" xml:space="preserve">
+    <value>Панэль адміністратара</value>
+  </data>
   <data name="Hello," xml:space="preserve">
     <value>Прывітанне,</value>
   </data>
@@ -126,13 +129,7 @@
   <data name="Logout" xml:space="preserve">
     <value>Выйсцi</value>
   </data>
-  <data name="My orders" xml:space="preserve">
-    <value>Мае заказы</value>
-  </data>
-  <data name="My tickets" xml:space="preserve">
-    <value>Мае квіткі</value>
-  </data>
-  <data name="User info" xml:space="preserve">
-    <value>Інфармацыя пра карыстальніка</value>
+  <data name="Register" xml:space="preserve">
+    <value>Зарэгістравацца</value>
   </data>
 </root>

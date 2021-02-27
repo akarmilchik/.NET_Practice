@@ -18,11 +18,9 @@ namespace SalesStatistics.Controllers
         {
             ViewData["Title"] = "Clients";
 
-            var clients = await _clientsService.GetClients();
-
             var model = new ClientsViewModel
             {
-                Clients = clients
+                Countries = await _clientsService.GetCountries()
             };
 
             return View(model);

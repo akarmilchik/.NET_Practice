@@ -1,32 +1,30 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Localization;
 using SalesStatistics.Models;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace SalesStatistics.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IStringLocalizer<HomeController> _localizer;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IStringLocalizer<HomeController> localizer)
         {
-            _logger = logger;
+            _localizer = localizer;
         }
 
         public IActionResult Index()
         {
+            ViewData["Title"] = _localizer["homepagetitle"];
             return View();
         }
 
         [Authorize]
         public IActionResult Privacy()
         {
+            ViewData["Title"] = _localizer["privacy"];
             return View();
         }
 
