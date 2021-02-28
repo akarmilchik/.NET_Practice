@@ -2,6 +2,8 @@
 import 'bootstrap';
 import 'bootstrap-select';
 import 'bootstrap-autocomplete';
+import('http://code.highcharts.com/highcharts.js')
+import('http://code.highcharts.com/modules/exporting.js')
 
 const filtersOrder = {
     products: [],
@@ -134,6 +136,62 @@ function addInitialDate(num) {
         num = '0' + num;
     }
     return num;
+}
+
+$(document).ready(function () {
+    $.ajax({
+        url: 'api/v1/orders',
+        dataType: "json",
+        type: "GET",
+        contentType: 'application/json; charset=utf-8',
+        async: false,
+        processData: false,
+        cache: false,
+        delay: 15,
+        success: function (data) {
+            // alert(data);
+            var series = new Array();
+            for (var i in data) {
+                var serie = new Array(data[i].Value, data[i].Item);
+                series.push(serie);
+            }
+            DrawPieChart(series);
+        },
+        error: function (xhr) {
+            alert('error');
+        }
+    });
+});
+function DrawPieChart(series) {
+    $('#chart_div').highcharts({
+
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: 1, //null,
+            plotShadow: false
+        },
+        title: {
+            text: ' Vehicle Summary'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: false
+                },
+                showInLegend: true
+            }
+        },
+        series: [{
+            type: 'pie',
+            name: 'Task Status',
+            data: series
+        }]
+    });
 }
 
 

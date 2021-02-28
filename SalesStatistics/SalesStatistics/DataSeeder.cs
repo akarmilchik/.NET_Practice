@@ -66,7 +66,7 @@ namespace SalesStatistics
             new Product { Name = "East Sushi set", Cost = 45.10m, Weight = 700 },
             new Product { Name = "Smart Microwave Oven", Cost = 320.00m, Weight = 6500 },
             new Product { Name = "Apera Instruments AI209 Waterproof pH Tester Kit", Cost = 77.50m, Weight = 350 },
-            new Product { Name = "Lamborgini Aventador Execlusive Pro 2", Cost = 4599999.99m, Weight = 1300000 },
+            new Product { Name = "Lamborgini Aventador Kids Toy", Cost = 45m, Weight = 130 },
             new Product { Name = "Ecosmart Fleece Hooded Sweatshirt", Cost = 32.05m, Weight = 620 },
             new Product { Name = "Stainless Steel Office Scissors", Cost = 11.50m, Weight = 180 }
         };
@@ -93,7 +93,28 @@ namespace SalesStatistics
             new Order { Client = Clients[3], Product = Products[1], Date = new DateTime(2020, 11, 26) },
             new Order { Client = Clients[4], Product = Products[0], Date = new DateTime(2020, 12, 02) },
             new Order { Client = Clients[5], Product = Products[5], Date = new DateTime(2020, 12, 11) },
-            new Order { Client = Clients[6], Product = Products[14], Date = new DateTime(2021, 01, 29) }
+            new Order { Client = Clients[6], Product = Products[14], Date = new DateTime(2021, 01, 29) },
+            new Order { Client = Clients[6], Product = Products[18], Date = new DateTime(2020, 02, 12) },
+            new Order { Client = Clients[5], Product = Products[17], Date = new DateTime(2020, 02, 18) },
+            new Order { Client = Clients[4], Product = Products[16], Date = new DateTime(2021, 03, 31) },
+            new Order { Client = Clients[3], Product = Products[15], Date = new DateTime(2020, 04, 17) },
+            new Order { Client = Clients[2], Product = Products[14], Date = new DateTime(2020, 04, 21) },
+            new Order { Client = Clients[1], Product = Products[13], Date = new DateTime(2020, 07, 23) },
+            new Order { Client = Clients[0], Product = Products[12], Date = new DateTime(2020, 04, 24) },
+            new Order { Client = Clients[7], Product = Products[11], Date = new DateTime(2020, 05, 08) },
+            new Order { Client = Clients[1], Product = Products[10], Date = new DateTime(2020, 09, 20) },
+            new Order { Client = Clients[3], Product = Products[9], Date = new DateTime(2020, 05, 21) },
+            new Order { Client = Clients[4], Product = Products[12], Date = new DateTime(2020, 06, 08) },
+            new Order { Client = Clients[5], Product = Products[7], Date = new DateTime(2020, 07, 02) },
+            new Order { Client = Clients[6], Product = Products[6], Date = new DateTime(2020, 07, 13) },
+            new Order { Client = Clients[7], Product = Products[5], Date = new DateTime(2020, 09, 03) },
+            new Order { Client = Clients[6], Product = Products[16], Date = new DateTime(2020, 11, 06) },
+            new Order { Client = Clients[5], Product = Products[3], Date = new DateTime(2020, 11, 11) },
+            new Order { Client = Clients[4], Product = Products[2], Date = new DateTime(2020, 03, 16) },
+            new Order { Client = Clients[3], Product = Products[9], Date = new DateTime(2020, 11, 26) },
+            new Order { Client = Clients[2], Product = Products[0], Date = new DateTime(2020, 12, 02) },
+            new Order { Client = Clients[1], Product = Products[5], Date = new DateTime(2020, 05, 11) },
+            new Order { Client = Clients[0], Product = Products[14], Date = new DateTime(2021, 01, 29) }
         };
 
         public DataSeeder(DataContext context, UserManager<User> userManager,

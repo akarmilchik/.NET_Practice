@@ -8,9 +8,10 @@ namespace SalesStatistics.Core.Services
 {
     public interface IProductsService
     {
-        Task<Product> GetProductById(int id);
         Task<List<Product>> GetProducts();
-        Task<PagedResult<Product>> GetProducts(BaseQuery query);
+        Task<PagedResult<Product>> GetProductsQuery(ProductQuery query);
         IQueryable<Product> GetProductsFilteredByPrice(decimal cost);
+        Task<Product> GetProductById(int id);
+
     }
 }

@@ -81,15 +81,15 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./js/orders.index.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./js/products.index.js");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./js/orders.index.js":
-/*!****************************!*\
-  !*** ./js/orders.index.js ***!
-  \****************************/
+/***/ "./js/products.index.js":
+/*!******************************!*\
+  !*** ./js/products.index.js ***!
+  \******************************/
 /*! no exports provided */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -107,109 +107,74 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-Promise.resolve().then(function webpackMissingModule() { var e = new Error("Cannot find module 'http://code.highcharts.com/highcharts.js'"); e.code = 'MODULE_NOT_FOUND'; throw e; })
-Promise.resolve().then(function webpackMissingModule() { var e = new Error("Cannot find module 'http://code.highcharts.com/modules/exporting.js'"); e.code = 'MODULE_NOT_FOUND'; throw e; })
 
-const filtersOrder = {
-    products: [],
-    clients: [],
+const filtersProduct = {
+    weights: "0-1000",
+    costs: "0-500",
     page: 1,
     pageSize: 4,
-    sortBy: "Client",
-    sortOrder: "Ascending",
-    dateFrom: "",
-    dateTo: ""
+    sortBy: "Cost",
+    sortOrder: "Ascending"
 };
 
-const filtersClient = {
-    clients: []
-}
-
-function createOrderItem(item) {
+function createProductItem(item) {
     return `
                     <tr>
                         <td>${item.id}</td>
-                        <td>${item.clientFirstName} ${item.clientLastName}</td>
-                        <td>${item.productName}</td>
-                        <td>${item.productCost}</td>
-                        <td>${item.date}</td>
+                        <td>${item.name}</td>
+                        <td>${item.weight}</td>
+                        <td>${item.cost}</td>
                     </tr>`;
 };
 
-function createClientItem(item) {
-    return `<option value="${item.id}">${item.firstName} ${item.lastName}</option>`
-};
 jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).ready(function () {
-    getOrders();
-    getClients();
+    getProducts();
 
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()("#products").on("change", function () {
-        filtersOrder.products = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).val();
-        getOrders();
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()("#weights").on("change", function () {
+        filtersProduct.weights = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).val();
+        getProducts();
     });
 
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()("#clients").on("change", function () {
-        filtersOrder.clients = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).val();
-        getOrders();
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()("#costs").on("change", function () {
+        filtersProduct.costs = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).val();
+        getProducts();
     });
 
     jquery__WEBPACK_IMPORTED_MODULE_0___default()("#sortBy").on("change", function () {
-        filtersOrder.sortBy = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).val();
-        getOrders();
+        filtersProduct.sortBy = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).val();
+        getProducts();
     });
 
     jquery__WEBPACK_IMPORTED_MODULE_0___default()("#sortOrder").on("change", function () {
-        filtersOrder.sortOrder = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).val();
-        getOrders();
-    });
-
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()("#dateFrom").on("change", function () {
-        filtersOrder.dateFrom = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).val();
-        getOrders();
-    });
-
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()("#dateTo").on("change", function () {
-        filtersOrder.dateTo = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).val();
-        getOrders();
+        filtersProduct.sortOrder = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).val();
+        getProducts();
     });
 
     jquery__WEBPACK_IMPORTED_MODULE_0___default()("#pageSize").on("change", function () {
-        filtersOrder.pageSize = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).val();
-        getOrders();
+        filtersProduct.pageSize = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).val();
+        getProducts();
     });
 });
 
 
-function getOrders() {
-jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
-    url: `api/v1/orders`,
-    data: filtersOrder,
-    traditional: true,
-    success: function (data, status, xhr) {
-        data = data.map(item => {
-            const date = new Date(item.date);
-            item.date = `${addInitialDate(date.getDate())}.${addInitialDate(date.getMonth() + 1)}.${date.getFullYear()}`;
-            return item;
-        });
-
-        jquery__WEBPACK_IMPORTED_MODULE_0___default()("#ordersItems").empty().append(jquery__WEBPACK_IMPORTED_MODULE_0___default.a.map(data, createOrderItem));
-        const count = xhr.getResponseHeader('x-total-count');
-        addPaginationButtons(filtersOrder.page, count, filtersOrder.pageSize);
-    }
-});
-};
-
-function getClients() {
+function getProducts() {
     jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
-        url: "api/v1/clients",
-        data: filtersClient,
+        url: `api/v1/products`,
+        data: filtersProduct,
         traditional: true,
-        success: function (data, status) {
-            jquery__WEBPACK_IMPORTED_MODULE_0___default()("#clients").empty().append(jquery__WEBPACK_IMPORTED_MODULE_0___default.a.map(data, createClientItem));
-            jquery__WEBPACK_IMPORTED_MODULE_0___default()("#clients").selectpicker("refresh");
+        success: function (data, status, xhr) {
+            data = data.map(item => {
+                const date = new Date(item.date);
+                item.date = `${addInitialDate(date.getDate())}.${addInitialDate(date.getMonth() + 1)}.${date.getFullYear()}`;
+                return item;
+            });
+
+            jquery__WEBPACK_IMPORTED_MODULE_0___default()("#productsItems").empty().append(jquery__WEBPACK_IMPORTED_MODULE_0___default.a.map(data, createProductItem));
+            const count = xhr.getResponseHeader('x-total-count');
+            addPaginationButtons(filtersProduct.page, count, filtersProduct.pageSize);
         }
     });
-}
+};
 
 function addPaginationButtons(currentPage, totalCount, pageSize) {
     const pageCount = Math.ceil(totalCount / pageSize);
@@ -230,73 +195,16 @@ function addPaginationButtons(currentPage, totalCount, pageSize) {
     jquery__WEBPACK_IMPORTED_MODULE_0___default()(".pagination").empty().append(buttons);
     jquery__WEBPACK_IMPORTED_MODULE_0___default()(".pagination").addClass("justify-content-center");
     jquery__WEBPACK_IMPORTED_MODULE_0___default()(".page-item").on("click", function () {
-        filtersOrder.page = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data("page");
-        getOrders();
+        filtersProduct.page = jquery__WEBPACK_IMPORTED_MODULE_0___default()(this).data("page");
+        getProducts();
     });
 }
 
 function addInitialDate(num) {
-    if (num < 10)
-    {
+    if (num < 10) {
         num = '0' + num;
     }
     return num;
-}
-
-jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).ready(function () {
-    jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
-        url: 'api/v1/orders',
-        dataType: "json",
-        type: "GET",
-        contentType: 'application/json; charset=utf-8',
-        async: false,
-        processData: false,
-        cache: false,
-        delay: 15,
-        success: function (data) {
-            // alert(data);
-            var series = new Array();
-            for (var i in data) {
-                var serie = new Array(data[i].Value, data[i].Item);
-                series.push(serie);
-            }
-            DrawPieChart(series);
-        },
-        error: function (xhr) {
-            alert('error');
-        }
-    });
-});
-function DrawPieChart(series) {
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#chart_div').highcharts({
-
-        chart: {
-            plotBackgroundColor: null,
-            plotBorderWidth: 1, //null,
-            plotShadow: false
-        },
-        title: {
-            text: ' Vehicle Summary'
-        },
-        tooltip: {
-            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-        },
-        plotOptions: {
-            pie: {
-                allowPointSelect: true,
-                cursor: 'pointer',
-                dataLabels: {
-                    enabled: false
-                },
-                showInLegend: true
-            }
-        },
-        series: [{
-            type: 'pie',
-            name: 'Task Status',
-            data: series
-        }]
-    });
 }
 
 
@@ -21543,4 +21451,4 @@ module.exports = g;
 /***/ })
 
 /******/ });
-//# sourceMappingURL=orders.entry.js.map
+//# sourceMappingURL=products.entry.js.map

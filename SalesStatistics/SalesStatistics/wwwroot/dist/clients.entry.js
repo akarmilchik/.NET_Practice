@@ -110,7 +110,7 @@ __webpack_require__.r(__webpack_exports__);
 
 const filtersClient = {
     countries: [],
-    ages: "20-30",
+    ages: "20-60",
     page: 1,
     pageSize: 4,
     sortBy: "Country",
@@ -21440,9 +21440,9 @@ Popper.Defaults = Defaults;
 /***/ }),
 
 /***/ "./node_modules/webpack/buildin/global.js":
-/*!***********************************!*\
-  !*** (webpack)/buildin/global.js ***!
-  \***********************************/
+/*!************************************************!*\
+  !*** ./node_modules/webpack/buildin/global.js ***!
+  \************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 

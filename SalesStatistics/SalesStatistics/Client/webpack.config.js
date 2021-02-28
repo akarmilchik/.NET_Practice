@@ -8,6 +8,7 @@ module.exports = {
     validation: './js/validation.js',
     orders: './js/orders.index.js',
     clients: './js/clients.index.js',
+    products: './js/products.index.js'
   },
   output: {
     filename: '[name].entry.js',

@@ -1,6 +1,6 @@
-﻿using System;
-using SalesStatistics.Core.Constants;
+﻿using SalesStatistics.Core.Constants;
 using SalesStatistics.DAL.Models;
+using System;
 using System.Collections.Generic;
 
 namespace SalesStatistics.Models
@@ -10,6 +10,7 @@ namespace SalesStatistics.Models
         public IEnumerable<Order> Orders { get; set; }
         public IEnumerable<Product> Products { get; set; }
         public IEnumerable<Client> Clients { get; set; }
+        public object[][] ChartOrders { get; set; }
         public DateTime? DateFrom { get; set; }
         public DateTime? DateTo { get; set; }
         public OrderSortParams SortBy { get; set; }

@@ -1,5 +1,7 @@
 ﻿// JS Dependencies
 import 'jquery';
+import('http://code.highcharts.com/highcharts.js')
+import('http://code.highcharts.com/modules/exporting.js')
 
 // CSS Dependencies
 import 'bootstrap/dist/css/bootstrap.css';

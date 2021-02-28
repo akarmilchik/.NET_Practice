@@ -1,32 +1,64 @@
 ﻿@model ProductsViewModel
-<h1>Orders</h1>
-<div style="height:400px;overflow-y:scroll">
-    <table class="table bg-light">
-        <thead class="thead-dark font-weight-bold">
-            <tr>
-                <th scope="col">№</th>
-                <th scope="col">Name</th>
-                <th scope="col">Cost</th>
-            </tr>
-        </thead>
-        <tbody>
-            @if (Model.Products.Any())
-            {
-                foreach (var product in Model.Products)
-                {
-                    <tr>
-                        <td>@product.Id</td>
-                        <td>@product.Name</td>
-                        <td>@product.Cost$</td>
-                    </tr>
-                }
-            }
-            else
-            {
+@using SalesStatistics.Core.Constants;
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+
+<h1>@localizer["Products"]</h1>
+
+<li class="container-fluid">
+    <ul class="nav nav-pills">
+        <li class="nav-item" style="padding-right: 5px">
+            <label>@localizer["Weight"]</label>
+            @Html.DropDownListFor(Model => Model.Weights, new SelectList(CollectionsParams.Weights), new { id = "weights", @class = "form-control d-inline" })
+        </li>
+        <li class="nav-item" style="padding-right: 5px">
+            <label>@localizer["Cost"]</label>
+            @Html.DropDownListFor(Model => Model.Costs, new SelectList(CollectionsParams.Costs), new { id = "costs", @class = "form-control d-inline" })
+        </li>
+        <li class="nav-item" style="padding-right: 5px">
+            <label>@localizer["PageSize"]</label>
+            @Html.DropDownListFor(Model => Model.PageSize, new SelectList(CollectionsParams.PageSizes), new { id = "pageSize", @class = "form-control d-inline" })
+        </li>
+        <li class="nav-item justify-content-end" style="padding-top: 30px">
+            <a class="nav-item nav-link active bg-dark text-light" asp-action="CreateClient" asp-controller="Clients">
+                @localizer["Create product"]
+            </a>
+        </li>
+    </ul>
+    <ul class="nav nav-pills">
+        <li class="nav-item" style="padding-right: 5px">
+            <label>@localizer["SortBy"]</label>
+            <select id="sortBy" class="form-control d-inline" asp-items="Html.GetEnumSelectList<ProductSortParams>()"></select>
+        </li>
+        <li class="nav-item">
+            <label>@localizer["SortOrder"]</label>
+            <select id="sortOrder" class="form-control d-inline" asp-items="Html.GetEnumSelectList<SortOrder>()"></select>
+        </li>
+    </ul>
+    <p></p>
+    <div>
+        <table class="table bg-light">
+            <thead class="thead-dark font-weight-bold">
                 <tr>
-                    <td colspan="2">Has no products yet</td>
+                    <th scope="col">№</th>
+                    <th scope="col">@localizer["Name"]</th>
+                    <th scope="col">@localizer["Weight"]</th>
+                    <th scope="col">@localizer["Cost"]</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-</div>
+            </thead>
+            <tbody id="productsItems">
+            </tbody>
+        </table>
+    </div>
+    <p></p>
+    <div class="d-flex justify-content-center">
+        <nav aria-label="...">
+            <ul class="pagination">
+            </ul>
+        </nav>
+    </div>
+</li>
+
+@section Scripts
+{
+    <script src="dist/products.entry.js" type="module" defer></script>
+}

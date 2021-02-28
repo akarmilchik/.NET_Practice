@@ -3,67 +3,59 @@ import 'bootstrap';
 import 'bootstrap-select';
 import 'bootstrap-autocomplete';
 
-const filtersClient = {
-    countries: [],
-    ages: "20-60",
+const filtersProduct = {
+    weights: "0-1000",
+    costs: "0-500",
     page: 1,
     pageSize: 4,
-    sortBy: "Country",
+    sortBy: "Cost",
     sortOrder: "Ascending"
 };
 
-const filtersCountry = {
-    countries: []
-}
-
-function createClientItem(item) {
+function createProductItem(item) {
     return `
                     <tr>
                         <td>${item.id}</td>
-                        <td>${item.firstName} ${item.lastName}</td>
-                        <td>${item.age}</td>
-                        <td>${item.countryName}</td>
+                        <td>${item.name}</td>
+                        <td>${item.weight}</td>
+                        <td>${item.cost}</td>
                     </tr>`;
 };
 
-function createCountryItem(item) {
-    return `<option value="${item.id}">${item.name}</option>`
-};
 $(document).ready(function () {
-    getClients();
-    getCountries();
+    getProducts();
 
-    $("#ages").on("change", function () {
-        filtersClient.ages = $(this).val();
-        getClients();
+    $("#weights").on("change", function () {
+        filtersProduct.weights = $(this).val();
+        getProducts();
     });
 
-    $("#countries").on("change", function () {
-        filtersClient.countries = $(this).val();
-        getClients();
+    $("#costs").on("change", function () {
+        filtersProduct.costs = $(this).val();
+        getProducts();
     });
 
     $("#sortBy").on("change", function () {
-        filtersClient.sortBy = $(this).val();
-        getClients();
+        filtersProduct.sortBy = $(this).val();
+        getProducts();
     });
 
     $("#sortOrder").on("change", function () {
-        filtersClient.sortOrder = $(this).val();
-        getClients();
+        filtersProduct.sortOrder = $(this).val();
+        getProducts();
     });
 
     $("#pageSize").on("change", function () {
-        filtersClient.pageSize = $(this).val();
-        getClients();
+        filtersProduct.pageSize = $(this).val();
+        getProducts();
     });
 });
 
 
-function getClients() {
+function getProducts() {
     $.ajax({
-        url: `api/v1/clients`,
-        data: filtersClient,
+        url: `api/v1/products`,
+        data: filtersProduct,
         traditional: true,
         success: function (data, status, xhr) {
             data = data.map(item => {
@@ -72,24 +64,12 @@ function getClients() {
                 return item;
             });
 
-            $("#clientsItems").empty().append($.map(data, createClientItem));
+            $("#productsItems").empty().append($.map(data, createProductItem));
             const count = xhr.getResponseHeader('x-total-count');
-            addPaginationButtons(filtersClient.page, count, filtersClient.pageSize);
+            addPaginationButtons(filtersProduct.page, count, filtersProduct.pageSize);
         }
     });
 };
-
-function getCountries() {
-    $.ajax({
-        url: "api/v1/clients/countries",
-        data: filtersCountry,
-        traditional: true,
-        success: function (data, status) {
-            $("#countries").empty().append($.map(data, createCountryItem));
-            $("#countries").selectpicker("refresh");
-        }
-    });
-}
 
 function addPaginationButtons(currentPage, totalCount, pageSize) {
     const pageCount = Math.ceil(totalCount / pageSize);
@@ -110,8 +90,8 @@ function addPaginationButtons(currentPage, totalCount, pageSize) {
     $(".pagination").empty().append(buttons);
     $(".pagination").addClass("justify-content-center");
     $(".page-item").on("click", function () {
-        filtersClient.page = $(this).data("page");
-        getClients();
+        filtersProduct.page = $(this).data("page");
+        getProducts();
     });
 }
 

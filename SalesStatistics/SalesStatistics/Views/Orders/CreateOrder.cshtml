@@ -11,11 +11,12 @@
             @Html.HiddenFor(m => m.Id)
             <div class="form-group">
                 <label asp-for="Client" class="control-label">@localizer["Client"]</label>
-                <select asp-for="@Model.Client.Id" class="form-control" asp-items="@ViewBag.Clients"></select>
+                <select asp-for="@Model.Client.Id" class="form-control" asp-items="@Model.Clients"></select>
+                
             </div>
             <div class="form-group">
                 <label asp-for="Product" class="control-label">@localizer["Product"]</label>
-                <select asp-for="@Model.Product.Id" class="form-control" asp-items="@ViewBag.Products"></select>
+                <select asp-for="@Model.Product.Id" class="form-control" asp-items="@Model.Products"></select>
             </div>
             <div class="form-group">
                 <label asp-for="Date" class="control-label">@localizer["Date"]</label>

@@ -17,11 +17,11 @@
         </li>
         <li class="nav-item" style="padding-right: 5px">
             <label>@localizer["Age"]</label>
-            @Html.DropDownListFor(Model => Model.Ages, new SelectList(Ages.Nums), new { id = "ages", @class = "form-control d-inline" })
+            @Html.DropDownListFor(Model => Model.Ages, new SelectList(CollectionsParams.Ages), new { id = "ages", @class = "form-control d-inline" })
         </li>
         <li class="nav-item" style="padding-right: 5px">
             <label>@localizer["PageSize"]</label>
-            @Html.DropDownListFor(Model => Model.PageSize, new SelectList(PagesSizes.Sizes), new { id = "pageSize", @class = "form-control d-inline" })
+            @Html.DropDownListFor(Model => Model.PageSize, new SelectList(CollectionsParams.PageSizes), new { id = "pageSize", @class = "form-control d-inline" })
         </li>
         <li class="nav-item justify-content-end" style="padding-top: 30px">
             <a class="nav-item nav-link active bg-dark text-light" asp-action="CreateClient" asp-controller="Clients">
