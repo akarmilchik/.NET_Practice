@@ -116,8 +116,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _css_site_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../css/site.css */ "./css/site.css");
 ﻿// JS Dependencies
 
-Promise.resolve().then(function webpackMissingModule() { var e = new Error("Cannot find module 'http://code.highcharts.com/highcharts.js'"); e.code = 'MODULE_NOT_FOUND'; throw e; })
-Promise.resolve().then(function webpackMissingModule() { var e = new Error("Cannot find module 'http://code.highcharts.com/modules/exporting.js'"); e.code = 'MODULE_NOT_FOUND'; throw e; })
 
 // CSS Dependencies
 

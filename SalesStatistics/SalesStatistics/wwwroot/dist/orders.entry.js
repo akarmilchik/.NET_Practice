@@ -107,8 +107,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-Promise.resolve().then(function webpackMissingModule() { var e = new Error("Cannot find module 'http://code.highcharts.com/highcharts.js'"); e.code = 'MODULE_NOT_FOUND'; throw e; })
-Promise.resolve().then(function webpackMissingModule() { var e = new Error("Cannot find module 'http://code.highcharts.com/modules/exporting.js'"); e.code = 'MODULE_NOT_FOUND'; throw e; })
 
 const filtersOrder = {
     products: [],
@@ -242,64 +240,6 @@ function addInitialDate(num) {
     }
     return num;
 }
-
-jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).ready(function () {
-    jquery__WEBPACK_IMPORTED_MODULE_0___default.a.ajax({
-        url: 'api/v1/orders',
-        dataType: "json",
-        type: "GET",
-        contentType: 'application/json; charset=utf-8',
-        async: false,
-        processData: false,
-        cache: false,
-        delay: 15,
-        success: function (data) {
-            // alert(data);
-            var series = new Array();
-            for (var i in data) {
-                var serie = new Array(data[i].Value, data[i].Item);
-                series.push(serie);
-            }
-            DrawPieChart(series);
-        },
-        error: function (xhr) {
-            alert('error');
-        }
-    });
-});
-function DrawPieChart(series) {
-    jquery__WEBPACK_IMPORTED_MODULE_0___default()('#chart_div').highcharts({
-
-        chart: {
-            plotBackgroundColor: null,
-            plotBorderWidth: 1, //null,
-            plotShadow: false
-        },
-        title: {
-            text: ' Vehicle Summary'
-        },
-        tooltip: {
-            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-        },
-        plotOptions: {
-            pie: {
-                allowPointSelect: true,
-                cursor: 'pointer',
-                dataLabels: {
-                    enabled: false
-                },
-                showInLegend: true
-            }
-        },
-        series: [{
-            type: 'pie',
-            name: 'Task Status',
-            data: series
-        }]
-    });
-}
-
-
 
 
 

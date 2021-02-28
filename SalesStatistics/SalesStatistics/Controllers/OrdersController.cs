@@ -5,6 +5,7 @@ using Microsoft.Extensions.Localization;
 using SalesStatistics.Core.Services;
 using SalesStatistics.DAL.Models;
 using SalesStatistics.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -32,14 +33,16 @@ namespace SalesStatistics.Controllers
             ViewData["Title"] = _localizer["ordersTitle"];
 
             var orders = await _ordersService.GetOrders();
-
-            var chartOrders = orders.Select(x => new object[] { x.Product.Name, x.Product.Cost }).ToArray();
-
+            orders = orders.GroupBy(o => o.Product.Name).Select(g => g.First()).ToList();
+ 
             var model = new OrdersViewModel
             {
                 Clients = await _clientsService.GetClients(),
                 Products = await _productsService.GetProducts(),
-                ChartOrders = chartOrders
+                ChartModel = new ChartViewModel { 
+                    Lables = orders.Select(o => o.Product.Name).Distinct(),
+                    Values = orders.Select(o => Convert.ToInt32(o.Product.Cost))
+                }
             };
 
             return View(model);
