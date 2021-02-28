@@ -14,7 +14,5 @@ namespace SalesStatistics.Core.Services
         IQueryable<Order> GetOrdersFilteredByProduct(int productId);
         Task<PagedResult<Order>> GetOrdersQuery(OrderQuery query);
         Task<List<Order>> GetOrdersWithProducts();
-        Task RemoveEventFromDb(Order item);
-        Task UpdOrderToDb(Order item);
     }
 }

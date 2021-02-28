@@ -5,20 +5,18 @@
 <canvas id="myChart" width="400" height="300" class="d-flex justify-content-center"></canvas>
 
 <script>
-
         var lables = @Html.Raw(Json.Serialize(Model.Lables));
         var values = @Html.Raw(Json.Serialize(Model.Values));
 
-
         var ctx = document.getElementById('myChart').getContext('2d');
     var chart = new Chart(ctx, {
-        type: 'line',
+        type: 'bar',
         data: {
             labels: lables,
             datasets: [{
-                label: 'Product cost',
-                backgroundColor: 'rgb(0, 64, 277)',
-                borderColor: 'rgb(0, 64, 277)',
+                label: 'Products cost',
+                backgroundColor: 'rgb(161, 0, 62)',
+                borderColor: 'rgb(161, 0, 62)',
                 data: values
             }]
         },

@@ -6,6 +6,5 @@ namespace SalesStatistics.Models
     {
         public IEnumerable<string> Lables { get; set; }
         public IEnumerable<int> Values { get; set; }
-
     }
 }

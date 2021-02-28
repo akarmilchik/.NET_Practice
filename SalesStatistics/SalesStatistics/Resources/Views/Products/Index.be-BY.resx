@@ -117,19 +117,43 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Admin panel" xml:space="preserve">
-    <value>Панэль адміністратара</value>
+  <data name="Cost" xml:space="preserve">
+    <value>Цана</value>
   </data>
-  <data name="Hello" xml:space="preserve">
-    <value>Прывітанне</value>
+  <data name="Create order" xml:space="preserve">
+    <value>Стварыць прадукт</value>
   </data>
-  <data name="Login" xml:space="preserve">
-    <value>Увайсцi</value>
+  <data name="Date" xml:space="preserve">
+    <value>Дата</value>
   </data>
-  <data name="Logout" xml:space="preserve">
-    <value>Выйсцi</value>
+  <data name="DateFrom" xml:space="preserve">
+    <value>Дата з</value>
   </data>
-  <data name="Register" xml:space="preserve">
-    <value>Зарэгістравацца</value>
+  <data name="DateTo" xml:space="preserve">
+    <value>Дата па</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Назва</value>
+  </data>
+  <data name="Orders" xml:space="preserve">
+    <value>Заказы</value>
+  </data>
+  <data name="PageSize" xml:space="preserve">
+    <value>Памер старонкі</value>
+  </data>
+  <data name="Product" xml:space="preserve">
+    <value>Прадукт</value>
+  </data>
+  <data name="Products" xml:space="preserve">
+    <value>Прадукты</value>
+  </data>
+  <data name="SortBy" xml:space="preserve">
+    <value>Сартаваць па</value>
+  </data>
+  <data name="SortOrder" xml:space="preserve">
+    <value>Парадак сартавання</value>
+  </data>
+  <data name="Weight" xml:space="preserve">
+    <value>Вага</value>
   </data>
 </root>

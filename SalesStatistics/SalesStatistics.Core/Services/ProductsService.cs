@@ -10,28 +10,28 @@ namespace SalesStatistics.Core.Services
 {
     public class ProductsService : IProductsService
     {
-        private readonly DataContext context;
-        private readonly ISortingProvider<Product> sortingProvider;
+        private readonly DataContext _context;
+        private readonly ISortingProvider<Product> _sortingProvider;
 
         public ProductsService(DataContext context, ISortingProvider<Product> sortingProvider)
         {
-            this.context = context;
-            this.sortingProvider = sortingProvider;
+            _context = context;
+            this._sortingProvider = sortingProvider;
         }
 
         public ProductsService(DataContext context)
         {
-            this.context = context;
+            this._context = context;
         }
 
         public async Task<List<Product>> GetProducts()
         {
-            return await context.Products.ToListAsync();
+            return await _context.Products.ToListAsync();
         }
 
         public async Task<PagedResult<Product>> GetProductsQuery(ProductQuery query)
         {
-            var queryable = context.Products.AsQueryable();
+            var queryable = _context.Products.AsQueryable();
 
             if (query.Weights != "")
             {
@@ -52,10 +52,9 @@ namespace SalesStatistics.Core.Services
                 }
             }
 
-
             var count = await queryable.CountAsync();
 
-            queryable = sortingProvider.ApplySorting(queryable, query);
+            queryable = _sortingProvider.ApplySorting(queryable, query);
 
             queryable = queryable.ApplyPagination(query);
 
@@ -66,14 +65,14 @@ namespace SalesStatistics.Core.Services
 
         public IQueryable<Product> GetProductsFilteredByPrice(decimal cost)
         {
-            var products = context.Products.Where(p => p.Cost > cost);
+            var products = _context.Products.Where(p => p.Cost > cost);
 
             return products;
         }
 
         public async Task<Product> GetProductById(int id)
         {
-            return await context.Products.FindAsync(id);
+            return await _context.Products.FindAsync(id);
         }
 
         private List<int> FormatParameter(string parameter)

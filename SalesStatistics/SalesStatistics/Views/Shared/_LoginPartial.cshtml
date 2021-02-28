@@ -1,6 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using SalesStatistics.DAL.Models
-@using System.Security.Claims;
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
@@ -16,16 +15,6 @@
                 <button type="submit" class="nav-link btn btn-link">@localizer["Logout"]</button>
             </form>
         </li>
-    </ul>
-    <ul class="navbar-nav flex-grow-1">
-        @if (SignInManager.Context.User.IsInRole("Administrator"))
-        {
-            <li class="nav-item">
-                <a class="nav-link" asp-area="Identity" asp-controller="Admin" asp-action="Index">
-                    <img src="~/img/icons/settings-light.svg" width="20" height="20" class="d-inline-block align-top" alt="" loading="lazy">@localizer["Admin panel"]
-                </a>
-            </li>
-        }
     </ul>
 }
 else

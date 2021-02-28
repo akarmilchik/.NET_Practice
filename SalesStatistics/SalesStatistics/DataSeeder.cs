@@ -129,7 +129,6 @@ namespace SalesStatistics
         {
             if (await _context.Database.CanConnectAsync())
             {
-                // Roles
                 foreach (IdentityRole role in Roles)
                 {
                     if (!await _roleManager.RoleExistsAsync(role.Name))
@@ -140,7 +139,6 @@ namespace SalesStatistics
 
                 await _context.SaveChangesAsync();
 
-                // Create Users and sync with Roles
                 if (await _userManager.FindByNameAsync(Users[0].UserName) == null)
                 {
                     IdentityResult result = _userManager.CreateAsync(Users[0], "admin111").Result;
@@ -192,7 +190,6 @@ namespace SalesStatistics
 
                 await _context.SaveChangesAsync();
             }
-        
-    }
+        }
     }
 }

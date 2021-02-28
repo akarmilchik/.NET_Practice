@@ -109,7 +109,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const filtersProduct = {
-    weights: "0-1000",
+    weights: "0-10000",
     costs: "0-500",
     page: 1,
     pageSize: 4,

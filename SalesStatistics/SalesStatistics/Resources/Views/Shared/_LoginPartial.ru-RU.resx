@@ -120,8 +120,8 @@
   <data name="Admin panel" xml:space="preserve">
     <value>Панель администратора</value>
   </data>
-  <data name="Hello," xml:space="preserve">
-    <value>Привет,</value>
+  <data name="Hello" xml:space="preserve">
+    <value>Привет</value>
   </data>
   <data name="Login" xml:space="preserve">
     <value>Войти</value>

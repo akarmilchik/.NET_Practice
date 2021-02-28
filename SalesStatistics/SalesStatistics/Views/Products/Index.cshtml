@@ -56,6 +56,10 @@
             </ul>
         </nav>
     </div>
+    <div id="chart_div" class="d-flex justify-content-center">
+        @Html.Partial("ProductsChart", Model.ChartModel)
+    </div>
+    <p> </p>
 </li>
 
 @section Scripts

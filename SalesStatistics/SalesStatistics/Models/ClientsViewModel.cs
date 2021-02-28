@@ -8,6 +8,7 @@ namespace SalesStatistics.Models
     {
         public ICollection<Client> Clients { get; set; }
         public IEnumerable<Country> Countries { get; set; }
+        public ChartViewModel ChartModel { get; set; }
         public string Ages { get; set; }
         public ClientSortParams SortBy { get; set; }
         public SortOrder SortOrder { get; set; }

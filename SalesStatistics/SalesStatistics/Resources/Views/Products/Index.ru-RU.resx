@@ -117,10 +117,43 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Login" xml:space="preserve">
-    <value>Login</value>
+  <data name="Cost" xml:space="preserve">
+    <value>Цена</value>
   </data>
-  <data name="Wrong password" xml:space="preserve">
-    <value>Wrong password</value>
+  <data name="Create product" xml:space="preserve">
+    <value>Создать продукт</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Дата</value>
+  </data>
+  <data name="DateFrom" xml:space="preserve">
+    <value>Дата с</value>
+  </data>
+  <data name="DateTo" xml:space="preserve">
+    <value>Дата по</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Название</value>
+  </data>
+  <data name="Orders" xml:space="preserve">
+    <value>Заказы</value>
+  </data>
+  <data name="PageSize" xml:space="preserve">
+    <value>Размер страницы</value>
+  </data>
+  <data name="Product" xml:space="preserve">
+    <value>Продукт</value>
+  </data>
+  <data name="Products" xml:space="preserve">
+    <value>Продукты</value>
+  </data>
+  <data name="SortBy" xml:space="preserve">
+    <value>Сортировать по</value>
+  </data>
+  <data name="SortOrder" xml:space="preserve">
+    <value>Порядок сортировки</value>
+  </data>
+  <data name="Weight" xml:space="preserve">
+    <value>Вес</value>
   </data>
 </root>

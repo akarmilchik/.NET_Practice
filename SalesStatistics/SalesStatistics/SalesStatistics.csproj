@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Identity\StoreClaimsPrincipalFactory.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Client\css\site.css" />
     <None Remove="Client\js\site.js" />
   </ItemGroup>
@@ -60,6 +64,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Identity\" />
     <Folder Include="wwwroot\dist\" />
   </ItemGroup>
 

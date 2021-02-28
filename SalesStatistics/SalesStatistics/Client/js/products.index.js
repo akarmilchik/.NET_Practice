@@ -4,7 +4,7 @@ import 'bootstrap-select';
 import 'bootstrap-autocomplete';
 
 const filtersProduct = {
-    weights: "0-1000",
+    weights: "0-10000",
     costs: "0-500",
     page: 1,
     pageSize: 4,

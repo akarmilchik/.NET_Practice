@@ -48,7 +48,7 @@ namespace SalesStatistics.Controllers
             return View(model);
         }
 
-        [Authorize]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> CreateOrder()
         {
             ViewData["Title"] = _localizer["createOrder"];
@@ -56,31 +56,22 @@ namespace SalesStatistics.Controllers
             var clients = await _clientsService.GetClients();
             var products = await _productsService.GetProducts();
 
-            var model = new OrderCreateEditModel
-            {
-                Clients = new SelectList(clients, "Id", "FirstName LastName"),
-                Products = new SelectList(products, "Id", "Name"),
-            };
+            ViewBag.Clients = new SelectList(clients, "Id", "LastName"); 
+            ViewBag.Products = new SelectList(products, "Id", "Name"); 
 
-            return View(model);
+            return View("CreateOrder");
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> CreateOrder(OrderCreateEditModel model)
         {
-            var client = await _clientsService.GetClientById(model.Client.Id);
-            var product = await _productsService.GetProductById(model.Product.Id);
-
-            model.Client = client;
-            model.Product = product;
-
             Order order = new Order() 
             {
                 ClientId = model.Client.Id, 
-                Client = model.Client, 
+                Client = await _clientsService.GetClientById(model.Client.Id),
                 ProductId = model.Product.Id, 
-                Product = model.Product, 
+                Product = await _productsService.GetProductById(model.Product.Id),
                 Date = model.Date
             };
 

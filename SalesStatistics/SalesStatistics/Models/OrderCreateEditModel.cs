@@ -10,7 +10,5 @@ namespace SalesStatistics.Models
         public DateTime Date { get; set; }
         public Client Client { get; set; }
         public Product Product { get; set; }
-        public SelectList Clients { get; set; }
-        public SelectList Products { get; set; }
     }
 }

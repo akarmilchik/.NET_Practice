@@ -33,24 +33,6 @@ namespace SalesStatistics.Core.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdOrderToDb(Order item)
-        {
-            _context.Database.EnsureCreated();
-
-            _context.Orders.Update(item);
-
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task RemoveEventFromDb(Order item)
-        {
-            _context.Database.EnsureCreated();
-
-            _context.Orders.Remove(item);
-
-            await _context.SaveChangesAsync();
-        }
-
         public async Task<List<Order>> GetOrders()
         {
             return await _context.Orders.Include(o => o.Client).Include(o => o.Product).ToListAsync();
